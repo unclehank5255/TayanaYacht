@@ -124,6 +124,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Contact\Contact.cs" />
+    <Compile Include="Models\Contact\ContactMessage.cs" />
+    <Compile Include="Models\Contact\PrivacyVersion.cs" />
+    <Compile Include="Models\Dealer\Dealer.cs" />
+    <Compile Include="Models\Dealer\DealerPage.cs" />
+    <Compile Include="Models\News\News.cs" />
+    <Compile Include="Models\News\NewsDetailImage.cs" />
+    <Compile Include="Models\News\NewsFile.cs" />
+    <Compile Include="Models\News\NewsPage.cs" />
+    <Compile Include="Models\Yacht\Yacht.cs" />
+    <Compile Include="Models\Yacht\YachtFile.cs" />
+    <Compile Include="Models\Yacht\YachtPicture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,7 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
