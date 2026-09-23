@@ -25,6 +25,30 @@ namespace TayanaYacht.Models
         public virtual DbSet<Contact.PrivacyVersion> PrivacyVersions { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
+            // 刪除 Yacht 時，不刪除歷史聯絡訊息
+            modelBuilder.Entity<Contact.ContactMessage>()
+                .HasRequired(message => message.Yacht)
+                .WithMany(yacht => yacht.ContactMessages)
+                .HasForeignKey(message => message.YachtId)
+                .WillCascadeOnDelete(false);
+
+            // 刪除 PrivacyVersion 時，不刪除歷史聯絡訊息
+            modelBuilder.Entity<Contact.ContactMessage>()
+                .HasRequired(message => message.PrivacyVersion)
+                .WithMany(version => version.ContactMessages)
+                .HasForeignKey(message => message.PrivacyVersionId)
+                .WillCascadeOnDelete(false);
+
+            // 刪除 PrivacyVersion 時，不刪除 Contact 頁面設定
+            modelBuilder.Entity<Contact.Contact>()
+                .HasRequired(contact => contact.PrivacyVersion)
+                .WithMany(version => version.Contacts)
+                .HasForeignKey(contact => contact.PrivacyVersionId)
+                .WillCascadeOnDelete(false);
+
+            // 執行 EF 原本的 Model 建立流程
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
