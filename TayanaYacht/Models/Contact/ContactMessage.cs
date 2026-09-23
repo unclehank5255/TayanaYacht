@@ -37,8 +37,14 @@ namespace TayanaYacht.Models.Contact
 
         [Display(Name = "游艇編號")]
         [Required(ErrorMessage = "請選擇遊艇")]
-        public int? YachtId { get; set; } // 因為下拉選單所以給null
-        // Migiration預期YachtId = c.Int(nullable: false)
+        public int YachtId { get; set; } // viewModel 設計可null下拉選單這邊不改變資料庫
+                                          
+
+        [Display(Name = "游艇名稱快照")]
+        [Required]
+        [StringLength(100)]
+        public string YachtNameSnapshot { get; set; } // 用來存當時的YachtName，因為YachtName可能會改變
+
 
         [Required(ErrorMessage = "評論是必填項")]
         [Display(Name = "評論")]
