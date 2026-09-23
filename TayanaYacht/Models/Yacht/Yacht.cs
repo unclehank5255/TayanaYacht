@@ -57,6 +57,9 @@ namespace TayanaYacht.Models.Yacht
         [Display(Name = "顯示順序")]
         public int DisplayOrder { get; set; }
 
+        [Display(Name = "下架時間")]
+        public DateTime? DeletedAt { get; set; }
+
         [Display(Name = "是否為最新")]
         public bool IsLatest { get; set; }
 
