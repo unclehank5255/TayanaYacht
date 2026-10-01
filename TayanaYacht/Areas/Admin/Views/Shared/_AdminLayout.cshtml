@@ -183,7 +183,7 @@
                     <!--end::Notifications Dropdown Menu-->
                     <!--begin::Language Menu-->
                     <!-- Markup only: swapping the locale is the application's job. The docs
-                Recipes page shows how to wire this to a real locale switch. -->
+                    Recipes page shows how to wire this to a real locale switch. -->
                     <li class="nav-item dropdown">
                         <a class="nav-link"
                            href="#"
@@ -388,10 +388,17 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li class="nav-item">
-                            <a href="./starter.html" class="nav-link">
+                            <a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="nav-link">
                                 <i class="nav-icon bi bi-file-earmark"></i>
-                                <p>Starter Page</p>
+                                <p>Home 管理</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Yachts", new { area = "Admin" })" class="nav-link">
+                                <i class="nav-icon bi bi-file-earmark"></i>
+                                <p>Yachts 管理</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -1001,6 +1008,7 @@
         <!--end::Footer-->
 
     </div>
+    @RenderSection("Scripts", required: false)
     @Scripts.Render("~/bundles/adminlte-js")
 
 </body>
