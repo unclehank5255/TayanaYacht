@@ -65,6 +65,9 @@ namespace TayanaYacht.Models.Contact
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)] // 告訴 EF 時間統一由資料庫產生
         public DateTime SubmittedAt { get; set; }
 
+        [Display(Name = "處理時間")]
+
+        public DateTime? HandledAt { get; set; }
         //Navigation property
         [ForeignKey("YachtId")]
         public virtual Yacht.Yacht Yacht { get; set; }

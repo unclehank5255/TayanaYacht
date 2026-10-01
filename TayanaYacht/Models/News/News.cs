@@ -47,6 +47,9 @@ namespace TayanaYacht.Models.News
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)] // 告訴 EF 時間統一由資料庫產生
         public DateTime PublishDate { get; set; }
 
+        [Display(Name = "更新時間")]
+        public DateTime UpdatedAt { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "刪除日期")]

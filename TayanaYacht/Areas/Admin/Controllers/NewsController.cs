@@ -75,6 +75,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         }
 
         // POST: News/Edit/5
+        //news.UpdatedAt = DateTime.Now;
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
