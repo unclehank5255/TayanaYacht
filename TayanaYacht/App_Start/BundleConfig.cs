@@ -28,7 +28,8 @@ namespace TayanaYacht
                  "~/Content/adminlte/css/adminlte.css"));
 
             bundles.Add(new Bundle("~/bundles/adminlte-js").Include(
-                "~/Content/adminlte/js/adminlte.js"));
+                    "~/Scripts/bootstrap.bundle.min.js",
+                    "~/Content/adminlte/js/adminlte.js"));
         }
     }
 }
