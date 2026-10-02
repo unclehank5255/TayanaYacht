@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.5.2\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.2\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,10 +46,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -120,13 +129,51 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactMessagesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DealersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\YachtsController.cs" />
+    <Compile Include="Controllers\ContactMessagesController.cs" />
+    <Compile Include="Controllers\ContactsController.cs" />
+    <Compile Include="Controllers\DealersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\YachtsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202609230829551_InitialCreate.cs" />
+    <Compile Include="Migrations\202609230829551_InitialCreate.Designer.cs">
+      <DependentUpon>202609230829551_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.cs" />
+    <Compile Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.Designer.cs">
+      <DependentUpon>202610010715106_AddUpdatedAtAndHandledAt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Contact\Contact.cs" />
+    <Compile Include="Models\Contact\ContactMessage.cs" />
+    <Compile Include="Models\Contact\PrivacyVersion.cs" />
+    <Compile Include="Models\Dealer\Dealer.cs" />
+    <Compile Include="Models\Dealer\DealerPage.cs" />
+    <Compile Include="Models\News\News.cs" />
+    <Compile Include="Models\News\NewsDetailImage.cs" />
+    <Compile Include="Models\News\NewsFile.cs" />
+    <Compile Include="Models\News\NewsPage.cs" />
+    <Compile Include="Models\TayanaDbContext.cs" />
+    <Compile Include="Models\Yacht\Yacht.cs" />
+    <Compile Include="Models\Yacht\YachtFile.cs" />
+    <Compile Include="Models\Yacht\YachtPicture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\adminlte\css\adminlte.css" />
+    <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />
+    <Content Include="Content\adminlte\img\Tayana-logowhite.png" />
+    <Content Include="Content\adminlte\js\adminlte.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -152,6 +199,39 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\About.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Contact.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Index.cshtml" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff2" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -177,10 +257,35 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Yachts\Create.cshtml" />
+    <Content Include="Views\Yachts\Delete.cshtml" />
+    <Content Include="Views\Yachts\Details.cshtml" />
+    <Content Include="Views\Yachts\Edit.cshtml" />
+    <Content Include="Views\Yachts\Index.cshtml" />
+    <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\News\Delete.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\Dealers\Create.cshtml" />
+    <Content Include="Views\Dealers\Delete.cshtml" />
+    <Content Include="Views\Dealers\Details.cshtml" />
+    <Content Include="Views\Dealers\Edit.cshtml" />
+    <Content Include="Views\Dealers\Index.cshtml" />
+    <Content Include="Views\Contacts\Create.cshtml" />
+    <Content Include="Views\Contacts\Delete.cshtml" />
+    <Content Include="Views\Contacts\Details.cshtml" />
+    <Content Include="Views\Contacts\Edit.cshtml" />
+    <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\ContactMessages\Create.cshtml" />
+    <Content Include="Views\ContactMessages\Delete.cshtml" />
+    <Content Include="Views\ContactMessages\Details.cshtml" />
+    <Content Include="Views\ContactMessages\Edit.cshtml" />
+    <Content Include="Views\ContactMessages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Areas\Admin\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -208,6 +313,14 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.0.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202609230829551_InitialCreate.resx">
+      <DependentUpon>202609230829551_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.resx">
+      <DependentUpon>202610010715106_AddUpdatedAtAndHandledAt.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -248,5 +361,8 @@
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.2\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.2\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.2\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.2\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.2\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.2\build\EntityFramework.targets')" />
 </Project>
