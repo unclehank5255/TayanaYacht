@@ -133,7 +133,7 @@
     <Compile Include="Areas\Admin\Controllers\ContactMessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
     <Compile Include="Areas\Admin\Controllers\DealersController.cs" />
-    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\YachtsController.cs" />
     <Compile Include="Controllers\ContactMessagesController.cs" />
@@ -148,6 +148,10 @@
     <Compile Include="Migrations\202609230829551_InitialCreate.cs" />
     <Compile Include="Migrations\202609230829551_InitialCreate.Designer.cs">
       <DependentUpon>202609230829551_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.cs" />
+    <Compile Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.Designer.cs">
+      <DependentUpon>202610010715106_AddUpdatedAtAndHandledAt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
@@ -166,6 +170,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\adminlte\css\adminlte.css" />
+    <Content Include="Content\bootstrap-icons\bootstrap-icons.css" />
+    <Content Include="Content\adminlte\img\Tayana-logowhite.png" />
+    <Content Include="Content\adminlte\js\adminlte.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -192,6 +200,38 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Yachts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\About.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Contact.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactMessages\Index.cshtml" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff" />
+    <Content Include="Content\bootstrap-icons\fonts\bootstrap-icons.woff2" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -246,7 +286,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -278,6 +317,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202609230829551_InitialCreate.resx">
       <DependentUpon>202609230829551_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.resx">
+      <DependentUpon>202610010715106_AddUpdatedAtAndHandledAt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
