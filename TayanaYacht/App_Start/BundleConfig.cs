@@ -24,11 +24,12 @@ namespace TayanaYacht
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+            //add adminlte
             bundles.Add(new Bundle("~/bundles/adminlte-css").Include(
                  "~/Content/adminlte/css/adminlte.css"));
 
             bundles.Add(new Bundle("~/bundles/adminlte-js").Include(
-                    "~/Scripts/bootstrap.bundle.min.js",
+                    "~/Scripts/bootstrap.bundle.min.js", 
                     "~/Content/adminlte/js/adminlte.js"));
         }
     }
