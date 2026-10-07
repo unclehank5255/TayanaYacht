@@ -59,7 +59,7 @@
             @Html.DisplayFor(modelItem => item.YachtBannerPath)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.OverviewHtml)
+            @Html.Raw(item.OverviewHtml)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PrincipleDimensionHtml)
