@@ -192,6 +192,10 @@
     <Compile Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.Designer.cs">
       <DependentUpon>202610010715106_AddUpdatedAtAndHandledAt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610070938546_AddIsPublised.cs" />
+    <Compile Include="Migrations\202610070938546_AddIsPublised.Designer.cs">
+      <DependentUpon>202610070938546_AddIsPublised.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -877,6 +881,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610010715106_AddUpdatedAtAndHandledAt.resx">
       <DependentUpon>202610010715106_AddUpdatedAtAndHandledAt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610070938546_AddIsPublised.resx">
+      <DependentUpon>202610070938546_AddIsPublised.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

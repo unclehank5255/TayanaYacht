@@ -65,6 +65,9 @@ namespace TayanaYacht.Models.Yacht
         [Display(Name = "是否為最新")]
         public bool IsLatest { get; set; }
 
+        [Display(Name = "是否已發布")]
+        public bool IsPublished { get; set; }
+
         // Navigation properties
         public virtual ICollection<YachtPicture> YachtPictures { get; set; }
         public virtual ICollection<YachtFile> YachtFiles { get; set; }
