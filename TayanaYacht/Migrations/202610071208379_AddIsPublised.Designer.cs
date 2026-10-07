@@ -7,13 +7,13 @@ namespace TayanaYacht.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.2")]
-    public sealed partial class addIsPublised : IMigrationMetadata
+    public sealed partial class AddIsPublised : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addIsPublised));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddIsPublised));
         
         string IMigrationMetadata.Id
         {
-            get { return "202610070938546_addIsPublised"; }
+            get { return "202610071208379_AddIsPublised"; }
         }
         
         string IMigrationMetadata.Source
