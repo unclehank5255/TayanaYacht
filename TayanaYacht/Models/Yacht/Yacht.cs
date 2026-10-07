@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace TayanaYacht.Models.Yacht
 {
@@ -43,6 +44,7 @@ namespace TayanaYacht.Models.Yacht
         public string YachtBannerPath { get; set; }
 
         [Required]
+        [AllowHtml]
         [Display(Name = "概覽")]
         public string OverviewHtml { get; set; }
 
@@ -62,6 +64,9 @@ namespace TayanaYacht.Models.Yacht
 
         [Display(Name = "是否為最新")]
         public bool IsLatest { get; set; }
+
+        [Display(Name = "是否已發布")]
+        public bool IsPublished { get; set; }
 
         // Navigation properties
         public virtual ICollection<YachtPicture> YachtPictures { get; set; }

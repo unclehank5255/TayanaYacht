@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "File Manager";
+}
+
+<div id="elfinder"></div>
+@section styles {
+    @Styles.Render("~/Content/elfinder", "~/Content/jquery-ui")
+}
+
+@section scripts {
+    @Scripts.Render("~/Scripts/jquery-ui", "~/Scripts/elfinder")
+
+    <script type="text/javascript">
+		// Documentation for client options:
+		// https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+        $(document).ready(function () {
+            var myCommands = elFinder.prototype._options.commands;
+            var disabled = ['callback', 'chmod', 'editor', 'netmount', 'ping', 'zipdl', 'help']; // Not yet implemented commands in elFinder.AspNet
+
+            elFinder.prototype.i18.en.messages.TextArea = "Edit";
+            
+
+            $.each(disabled, function (i, cmd) {
+                (idx = $.inArray(cmd, myCommands)) !== -1 && myCommands.splice(idx, 1);
+            });
+
+            var options = {
+                url: '/el-finder/file-system/connector', // Default (Local File System)
+                soundPath: '/',
+                lang: 'zh_TW',
+                @*//customData: { folder: '@Model.Folder', subFolder: '@Model.SubFolder' }, // customData passed in every request to the connector as query strings. These values are used in FileController's Index method.*@
+                rememberLastDir: false, // Prevent elFinder saving in the Browser LocalStorage the last visited directory
+                commands: myCommands,
+                //lang: 'pt_BR', // elFinder supports UI and messages localization. Check the folder Content\elfinder\js\i18n for all available languages. Be sure to include the corresponding .js file(s) in the JavaScript bundle.
+                //處理上傳後回傳
+                getFileCallback: function (file, fm) {
+                     var params = new URLSearchParams(window.location.search);
+                     var funcNum = params.get('CKEditorFuncNum');
+                     window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
+                     window.close();
+            },
+                uiOptions: { // UI buttons available to the user
+                    toolbar: [
+                        ['back', 'forward'],
+                        ['reload'],
+                        ['home', 'up'],
+                        ['mkdir', 'mkfile', 'upload'],
+                        ['open', 'download'],
+                        ['undo', 'redo'],
+                        ['info'],
+                        ['quicklook'],
+                        ['copy', 'cut', 'paste'],
+                        ['rm'],
+                        ['duplicate', 'rename', 'edit'],
+                        ['selectall', 'selectnone', 'selectinvert'],
+                        ['view', 'sort'],
+                        ['search']
+                    ]
+                },
+                //onlyMimes: ["image", "text/plain"] // Get files of requested mime types only
+                //lang: 'vi', // Change language
+            };
+            $('#elfinder').elfinder(options).elfinder('instance');
+        });
+    </script>
+}

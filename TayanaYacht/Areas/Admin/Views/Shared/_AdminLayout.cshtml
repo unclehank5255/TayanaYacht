@@ -4,9 +4,11 @@
     <meta charset="utf-8" />
     <title>ADMIN TEST</title>
 
-    <link href="@Url.Content("~/Content/bootstrap-icons/bootstrap-icons.css")"
-          rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/bundles/adminlte-css")
+    @Styles.Render("~/bundles/adminlte-bootstrapicon-css")
+    @RenderSection("Styles", required: false)
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
@@ -22,7 +24,7 @@
                            href="#"
                            role="button"
                            aria-label="Toggle sidebar">
-                            <i class="bi bi-list" ></i>
+                            <i class="bi bi-list"></i>
                         </a>
                     </li>
 
@@ -162,7 +164,7 @@
                         </li>
 
                     </ul>
-                    
+
                 </nav>
             </div>
             <!--end::Sidebar Wrapper-->
@@ -200,8 +202,10 @@
         <!--end::Footer-->
 
     </div>
-    @RenderSection("Scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/adminlte-js")
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>
