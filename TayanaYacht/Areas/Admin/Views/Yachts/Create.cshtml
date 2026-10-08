@@ -10,11 +10,27 @@
     @Scripts.Render("~/bundles/ckeditor")
 
     <script>
-        CKEDITOR.replace('OverviewHtml', {
-    filebrowserBrowseUrl: '@Url.Action("Index", "FileManager")',
-    language: 'zh-tw',
-    versionCheck: false
-        });</script>
+        CKEDITOR.replace('YachtBannerPath', {
+        filebrowserBrowseUrl: '@Url.Action("Index", "FileManager")',
+        language: 'zh-tw',
+        versionCheck: false
+    });
+    CKEDITOR.replace('OverviewHtml', {
+        filebrowserBrowseUrl: '@Url.Action("Index", "FileManager")',
+        language: 'zh-tw',
+        versionCheck: false
+    });
+    CKEDITOR.replace('PrincipleDimensionHtml', {
+        filebrowserBrowseUrl: '@Url.Action("Index", "FileManager")',
+        language: 'zh-tw',
+        versionCheck: false
+        });
+    CKEDITOR.replace('SpecificationHtml', {
+        filebrowserBrowseUrl: '@Url.Action("Index", "FileManager")',
+        language: 'zh-tw',
+        versionCheck: false
+    });
+    </script>
 }
 <h2>Create</h2>
 
@@ -54,7 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.YachtBannerPath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.YachtBannerPath, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.YachtBannerPath, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.YachtBannerPath, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -62,12 +78,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OverviewHtml, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.OverviewHtml, new
-                {
-                    htmlAttributes = new
-                    {
-                        @class = "form-control"                    }
-                })
+                @Html.TextAreaFor(model => model.OverviewHtml, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OverviewHtml, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -75,7 +86,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PrincipleDimensionHtml, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PrincipleDimensionHtml, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.PrincipleDimensionHtml, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PrincipleDimensionHtml, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -83,7 +94,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SpecificationHtml, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SpecificationHtml, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.SpecificationHtml, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.SpecificationHtml, "", new { @class = "text-danger" })
             </div>
         </div>

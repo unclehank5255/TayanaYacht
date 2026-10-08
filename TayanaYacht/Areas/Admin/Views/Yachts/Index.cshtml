@@ -7,79 +7,58 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("[＋新增 Yacht]", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SeriesName)
+            圖片
+            @*@Html.DisplayNameFor(model => model.YachtBannerPath)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ModelName)
+            名稱
+            @*@Html.DisplayNameFor(model => model.SeriesName)
+            @Html.DisplayNameFor(model => model.ModelName)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StatusText)
+            狀態
+            @*@Html.DisplayNameFor(model => model.StatusText)*@
+        </th>
+
+        <th>
+            排序
+            @*@Html.DisplayNameFor(model => model.DisplayOrder)*@
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.YachtBannerPath)
+            最新?
+            @*@Html.DisplayNameFor(model => model.IsLatest)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverviewHtml)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PrincipleDimensionHtml)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SpecificationHtml)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayOrder)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsLatest)
-        </th>
-        <th></th>
+
+        <th>操作</th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.SeriesName)
+            @Html.Raw(item.YachtBannerPath)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.SeriesName)
             @Html.DisplayFor(modelItem => item.ModelName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StatusText)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.YachtBannerPath)
-        </td>
-        <td>
-            @Html.Raw(item.OverviewHtml)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrincipleDimensionHtml)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SpecificationHtml)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.DisplayOrder)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeletedAt)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsLatest)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }

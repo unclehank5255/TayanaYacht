@@ -39,6 +39,7 @@ namespace TayanaYacht.Models.Yacht
         public string StatusText { get; set; } // 可null，更高版本才需要在string加?
 
         [Required]
+        [AllowHtml]
         [StringLength(255, ErrorMessage = " yacht標誌路徑不能超過 255 個字元")]
         [Display(Name = " yacht標誌路徑")]
         public string YachtBannerPath { get; set; }
@@ -49,10 +50,12 @@ namespace TayanaYacht.Models.Yacht
         public string OverviewHtml { get; set; }
 
         [Required]
+        [AllowHtml]
         [Display(Name = "主要尺寸")]
         public string PrincipleDimensionHtml { get; set; }
 
         [Required]
+        [AllowHtml]
         [Display(Name = "規格")]
         public string SpecificationHtml { get; set; }
 
