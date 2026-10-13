@@ -10,7 +10,7 @@
 @section scripts {
     @Scripts.Render("~/Scripts/jquery-ui", "~/Scripts/elfinder")
 
-    <script type="text/javascript">
+<script type="text/javascript">
 		// Documentation for client options:
 		// https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
         $(document).ready(function () {
@@ -18,12 +18,15 @@
             var disabled = ['callback', 'chmod', 'editor', 'netmount', 'ping', 'zipdl', 'help']; // Not yet implemented commands in elFinder.AspNet
 
             elFinder.prototype.i18.en.messages.TextArea = "Edit";
-            
+
 
             $.each(disabled, function (i, cmd) {
                 (idx = $.inArray(cmd, myCommands)) !== -1 && myCommands.splice(idx, 1);
             });
-
+            var params = new URLSearchParams(window.location.search);
+            var type = params.get('type');
+            var id = params.get('id');
+            var tag = params.get('tag');
             var options = {
                 url: '/el-finder/file-system/connector', // Default (Local File System)
                 soundPath: '/',
@@ -33,11 +36,24 @@
                 commands: myCommands,
                 //lang: 'pt_BR', // elFinder supports UI and messages localization. Check the folder Content\elfinder\js\i18n for all available languages. Be sure to include the corresponding .js file(s) in the JavaScript bundle.
                 //處理上傳後回傳
-                getFileCallback: function (file, fm) {
-                     var params = new URLSearchParams(window.location.search);
-                     var funcNum = params.get('CKEditorFuncNum');
-                     window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
-                     window.close();
+                customData: {
+                    type: type,
+                    id: id,
+                    tag:tag
+                },
+                // 當使用者雙擊或選取檔案時觸發
+                getFileCallback: function (file) {
+                    
+                    var funcNum = params.get('CKEditorFuncNum');
+                    if (funcNum != null) {
+                        window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
+                    }
+                    else {
+                        var u = new URL(file.url);   // 把哪個網址放進去？
+                        console.log(u.pathname);     // 印出哪個部分？
+                        window.opener.onFilePicked(u.pathname);  // 把哪個部分傳回去？
+                    }
+                    window.close();
             },
                 uiOptions: { // UI buttons available to the user
                     toolbar: [
@@ -62,5 +78,5 @@
             };
             $('#elfinder').elfinder(options).elfinder('instance');
         });
-    </script>
+</script>
 }

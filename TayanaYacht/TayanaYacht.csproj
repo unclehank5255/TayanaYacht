@@ -196,12 +196,17 @@
     <Compile Include="Migrations\202610071208379_AddIsPublised.Designer.cs">
       <DependentUpon>202610071208379_AddIsPublised.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610130818499_UpdatedYachtBnner.cs" />
+    <Compile Include="Migrations\202610130818499_UpdatedYachtBnner.Designer.cs">
+      <DependentUpon>202610130818499_UpdatedYachtBnner.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
     <Compile Include="Models\Contact\PrivacyVersion.cs" />
     <Compile Include="Models\Dealer\Dealer.cs" />
     <Compile Include="Models\Dealer\DealerPage.cs" />
+    <Compile Include="Models\ImageDefaults.cs" />
     <Compile Include="Models\News\News.cs" />
     <Compile Include="Models\News\NewsDetailImage.cs" />
     <Compile Include="Models\News\NewsFile.cs" />
@@ -359,6 +364,7 @@
     <Content Include="Content\elfinder\php\resources\image.png" />
     <Content Include="Content\elfinder\php\resources\video.png" />
     <Content Include="Content\elfinder\sounds\rm.wav" />
+    <Content Include="Content\images\DEFAULT.png" />
     <Content Include="Content\jquery-ui-1.14.2\AUTHORS.txt" />
     <Content Include="Content\jquery-ui-1.14.2\external\jquery\jquery.js" />
     <Content Include="Content\jquery-ui-1.14.2\images\ui-icons_444444_256x240.png" />
@@ -377,6 +383,7 @@
     <Content Include="Content\jquery-ui-1.14.2\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui-1.14.2\jquery-ui.theme.min.css" />
     <Content Include="Content\jquery-ui-1.14.2\LICENSE.txt" />
+    <Content Include="Content\admin-yacht.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -481,6 +488,7 @@
     <Content Include="Scripts\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
     <Content Include="Scripts\ckeditor\SECURITY.md" />
     <Content Include="Scripts\ckeditor\skins\moono-lisa\readme.md" />
+    <Content Include="Areas\Admin\Views\Yachts\ManagePictures.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -884,6 +892,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610071208379_AddIsPublised.resx">
       <DependentUpon>202610071208379_AddIsPublised.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610130818499_UpdatedYachtBnner.resx">
+      <DependentUpon>202610130818499_UpdatedYachtBnner.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

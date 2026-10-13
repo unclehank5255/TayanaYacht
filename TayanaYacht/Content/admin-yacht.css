@@ -1,0 +1,31 @@
+﻿.banner-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.banner-thumb {
+    width: 200px;
+    height: 112px;
+    object-fit: cover;
+}
+
+/*yacht pictures*/
+.picture-list {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 12px; 
+}
+
+.picture-item img {
+    width: 160px;
+    height: 120px;
+    object-fit: cover; 
+}
+
+.yachtindex_container {
+    display: flex; /* 啟用 Flex 布局 */
+    justify-content: space-between; /* 左右元素靠向兩側 */
+    width: 100%; /* 可根據需要調整容器寬度 */
+}

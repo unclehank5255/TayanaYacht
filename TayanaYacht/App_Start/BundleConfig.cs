@@ -56,6 +56,8 @@ namespace TayanaYacht
 
             bundles.Add(new ScriptBundle("~/Scripts/jquery-ui").Include(
                                         "~/Content/jquery-ui-1.14.2/jquery-ui.js"));
+            //yacht admin css
+            bundles.Add(new StyleBundle("~/Content/admin-yacht").Include("~/Content/admin-yacht.css"));
         }
     }
 }
