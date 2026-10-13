@@ -3,23 +3,33 @@ using elFinder.AspNet.Drawing;
 using elFinder.AspNet.Drivers.FileSystem;
 using elFinder.AspNet.Models;
 using Microsoft.Extensions.Primitives;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using TayanaYacht.Models;
+using TayanaYacht.Models.Yacht;
+using TayanaYacht.Models.News;
 
 namespace TayanaYacht.Areas.Admin.Controllers
 {
     [RoutePrefix("el-finder/file-system")]
     public class FileSystemController : Controller
     {
-        [HttpGet, Route("connector")]
-        public async Task<ActionResult> Connector()
-        {
-            var connector = GetConnector();
+        private TayanaDbContext db = new TayanaDbContext();
 
-            var parameters = Request.QueryString.Keys.Cast<string>().ToDictionary(k => k, v => new StringValues(Request.QueryString[v]));
+        [HttpGet, Route("connector")]
+        public async Task<ActionResult> Connector(string type, int? id, string tag)
+        {
+            var folder = GetMediaFolder(type, id,tag);
+            if (folder == null|| type == null) return new HttpStatusCodeResult(400);
+            var connector = GetConnector(folder, type, id.Value, tag);
+
+            var parameters = Request.QueryString.AllKeys.ToDictionary(k => k, k => new StringValues(Request.QueryString.GetValues(k)));
 
             var result = (await connector.ProcessAsync(parameters)).Value;
             if (result is FileContent)
@@ -34,9 +44,11 @@ namespace TayanaYacht.Areas.Admin.Controllers
         }
 
         [HttpPost, Route("connector")]
-        public async Task<ActionResult> ConnectorPost()
+        public async Task<ActionResult> ConnectorPost(string type, int? id, string tag)
         {
-            var connector = GetConnector();
+            var folder = GetMediaFolder(type, id, tag);
+            if (folder == null || type == null) return new HttpStatusCodeResult(400);
+            var connector = GetConnector(folder, type, id.Value, tag);
 
             var parameters = Request.Form.Keys.Cast<string>().ToDictionary(k => k, v => new StringValues(Request.Form[v]));
 
@@ -63,10 +75,12 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
         }
 
-        [HttpGet, Route("thumb/{hash}")]
-        public async Task<ActionResult> Thumbs(string hash)
+        [HttpGet, Route("thumb/{type}/{id:int}/{tag}/{hash}")]
+        public async Task<ActionResult> Thumbs(string hash, string type, int? id, string tag)
         {
-            var connector = GetConnector();
+            var folder = GetMediaFolder(type, id, tag);
+            if (folder == null || type == null) return new HttpStatusCodeResult(400);
+            var connector = GetConnector(folder, type, id.Value, tag);
 
             var result = (await connector.GetThumbnailAsync(hash)).Value;
             if (result is ImageWithMimeType)
@@ -80,21 +94,31 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
         }
 
-        private Connector GetConnector()
+        private Connector GetConnector(string folder,string type,int id,string tag)
         {
             var driver = new FileSystemDriver();
+            //取得網站協定 scheme+host+port+authority+path+query
+            string baseUrl = Request.Url.GetLeftPart(UriPartial.Authority);
+            //path開始
+            string imageUrl = baseUrl
+                + Url.Content("~/Files/" + type + "/" + id + "/" + tag + "/");
+
+            string thumbUrl = baseUrl
+                + Url.Content("~/el-finder/file-system/thumb/" + type + "/" + id + "/" + tag + "/");
+
 
             var root = new RootVolume(
-                Server.MapPath("~/Files"),
-                $"{Request.Url.Scheme}://{Request.Url.Authority}/Files/",
-                $"{Request.Url.Scheme}://{Request.Url.Authority}/el-finder/file-system/thumb/")
+                folder,
+                imageUrl,
+                thumbUrl
+            )
             {
                 //IsReadOnly = !User.IsInRole(AccountController.SuperUser)
                 IsReadOnly = false, // Can be readonly according to user's membership permission
                 IsLocked = false, // If locked, files and directories cannot be deleted, renamed or moved
                 Alias = "Files", // Beautiful name given to the root/home folder
-                                 //MaxUploadSizeInKb = 2048, // Limit imposed to user uploaded file <= 2048 KB
-                                 //LockedFolders = new List<string>(new string[] { "Folder1" })
+                MaxUploadSizeInKb = 10240       //MaxUploadSizeInKb = 2048, // Limit imposed to user uploaded file <= 2048 KB
+                                                         //LockedFolders = new List<string>(new string[] { "Folder1" })
             };
 
             driver.AddRoot(root);
@@ -105,6 +129,60 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 MimeDetect = MimeDetectOption.Internal
             };
         }
+        // 通過就回傳這艘遊艇的資料夾路徑，不通過就回傳 null
+        private string GetMediaFolder(string type,int? id,string tag)
+        {
+            //TODO: 這裡要檢查使用者是否有權限存取這個資料夾，否則就回傳 null
+            if (id == null || type == null)
+            {
+                return null;
+            }
+            string folderName = "";
+            string tagName = "";
+            switch (type)
+            {
+                case "Yacht":
+                    Yacht yacht = db.Yachts.Find(id.Value);
+                    if (yacht == null)
+                    {
+                        return null;
+                    }
+                    folderName = type;
+                    break;
+                case "News":
+                    News news = db.News.Find(id.Value);
+                    if (news == null)
+                    {
+                        return null;
+                    }
+                    folderName = type;
+                    break;
+                default:
+                    return null;
+            }
+            switch (tag)
+            {
+                case "HtmlEditorPicture":
+                case "YachtBannerPicture":
+                case "YachtGalleryPicture":
+                case "YachtLayoutPicture":
+                case "File":
+                    tagName = tag;
+                    break;
 
+                default:
+                    return null;
+            }
+            string rootPath = Path.GetFullPath(Server.MapPath("~/Files"));
+            string fullPath = Path.GetFullPath(Path.Combine(rootPath, folderName, id.Value.ToString(), tagName));
+            //網站目錄+\,不依照大小寫比較
+            if(!fullPath.StartsWith(rootPath+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+            Directory.CreateDirectory(fullPath);
+            return fullPath;
+
+        }
     }
 }

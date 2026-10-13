@@ -1,0 +1,138 @@
+﻿@model List<TayanaYacht.Models.Yacht.YachtPicture>
+@{
+    ViewBag.Title = "ManagePictures";
+}
+
+<h2>
+    @ViewBag.YachtName
+    @ViewBag.YachtId
+
+</h2>
+<p>
+    @Html.ActionLink("[反回 Index]", "Index")
+</p>
+<script>
+var targetInputId;
+    //按下圖片打開elfinder
+    function openPicturePicker(tag, inputId) {
+        targetInputId = inputId;
+        var url = '/Admin/FileManager'
+            + '?type=Yacht'
+            + '&id=@ViewBag.YachtId'
+            + '&tag='+tag;
+
+        window.open(url, 'fileManager', 'width=1100,height=700');
+    }
+    //elfinder回傳圖片路徑
+    function onFilePicked(path) {
+    var input = document.getElementById(targetInputId);
+    input.value = path;
+    input.form.submit();
+        }
+
+</script>
+<h4>Banner</h4>
+<div class="picture-item">
+<img src="@ViewBag.YachtBannerPath" />
+</div>
+@using (Html.BeginForm("UpdateBanner", "Yachts", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="yachtId" value="@ViewBag.YachtId" />
+    <input type="hidden" name="bannerPath" value="@ViewBag.YachtBannerPath" id="bannerImagePath" />
+    <div class="banner-picker-row">
+        <button type="button" onclick="openPicturePicker('YachtBannerPicture', 'bannerImagePath')">選擇Banner圖片</button>
+    </div>
+}
+
+<h4>Gallery</h4>
+
+<div class="picture-list">
+    @foreach (var item in Model.Where(p => p.PictureType == TayanaYacht.Models.Yacht.YachtPictureTypeEnum.Gallery))
+    {
+        <div class="picture-item">
+            <img src="@item.ImagePath" />
+            <div>@item.PictureType 第 @item.DisplayOrder 張</div>
+        </div>
+        <div>
+            @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@item.Id" />
+                <button type="submit">往前</button>
+            }
+            @using (Html.BeginForm("DeletePicture", "Yachts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@item.Id" />
+                <button type="submit" onclick="return confirm('確定要刪除這張圖片嗎？');">刪除</button>
+            }
+        </div>
+    }
+
+</div>
+@using (Html.BeginForm("ManagePictures", "Yachts", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="YachtId" value="@ViewBag.YachtId" />
+    <input type="hidden" name="PictureType" value="Gallery" />
+    <input type="hidden" name="ImagePath" id="galleryImagePath" />
+    <div class="banner-picker-row">
+        <button type="button" onclick="openPicturePicker('YachtGalleryPicture', 'galleryImagePath')">選擇Gallery圖片</button>
+    </div>
+}
+
+
+
+<h4>Layout</h4>
+
+<div class="picture-list">
+    @foreach (var item in Model.Where(p => p.PictureType == TayanaYacht.Models.Yacht.YachtPictureTypeEnum.Layout))
+    {
+        <div class="picture-item">
+            <img src="@item.ImagePath" />
+            <div>@item.PictureType 第 @item.DisplayOrder 張</div>
+        </div>
+        <div>
+            @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@item.Id" />
+                <input type="hidden" name="direction" value="up" />
+                <button type="submit">往前</button>
+            }
+            @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@item.Id" />
+                <input type="hidden" name="direction" value="down" />
+                <button type="submit">往後</button>
+            }
+            @using (Html.BeginForm("DeletePicture", "Yachts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@item.Id" />
+                <button type="submit" onclick="return confirm('確定要刪除這張圖片嗎？');">刪除</button>
+            }
+        </div>
+    }
+</div>
+
+@using (Html.BeginForm("ManagePictures", "Yachts", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="YachtId" value="@ViewBag.YachtId" />
+    <input type="hidden" name="PictureType" value="Layout" />
+    <input type="hidden" name="ImagePath" id="layoutImagePath" />
+    <div class="banner-picker-row">
+        <button type="button" onclick="openPicturePicker('YachtLayoutPicture', 'layoutImagePath')">選擇Layout圖片</button>
+    </div>
+}
+
+@if (TempData["Message"] != null)
+{
+    <p>@TempData["Message"]</p>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
