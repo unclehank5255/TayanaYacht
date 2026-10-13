@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# 遊艇 File移除 
+TayanaYacht/Files/*
+!TayanaYacht/Files/.gitkeep
