@@ -24,51 +24,49 @@ namespace TayanaYacht.Models.Yacht
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "系列名稱不能超過 50 個字元")]
-        [Display(Name = "系列名稱")]
+        [Display(Name = "系列")]
+        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         public string SeriesName { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "型號名稱不能超過 50 個字元")]
-        [Display(Name = "型號名稱")]
+        [Display(Name = "型號")]
+        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         public string ModelName { get; set; }
 
 
-        [Display(Name = "狀態文字")]
-        [StringLength(50, ErrorMessage = "狀態文字不能超過 50 個字元")]
+        [Display(Name = "狀態")]
+        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         public string StatusText { get; set; } // 可null，更高版本才需要在string加?
 
-        [Required]
-        [AllowHtml]
-        [StringLength(255, ErrorMessage = " yacht標誌路徑不能超過 255 個字元")]
-        [Display(Name = " yacht標誌路徑")]
+        [Display(Name = "遊艇封面")]
+        [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
         public string YachtBannerPath { get; set; }
 
         [Required]
         [AllowHtml]
-        [Display(Name = "概覽")]
+        [Display(Name = "概覽OverviewHtml")]
         public string OverviewHtml { get; set; }
 
         [Required]
         [AllowHtml]
-        [Display(Name = "主要尺寸")]
+        [Display(Name = "主要尺寸PrincipleDimension")]
         public string PrincipleDimensionHtml { get; set; }
 
         [Required]
         [AllowHtml]
-        [Display(Name = "規格")]
+        [Display(Name = "規格Specification")]
         public string SpecificationHtml { get; set; }
 
-        [Display(Name = "顯示順序")]
+        [Display(Name = "排序")]
         public int DisplayOrder { get; set; }
 
         [Display(Name = "下架時間")]
         public DateTime? DeletedAt { get; set; }
 
-        [Display(Name = "是否為最新")]
+        [Display(Name = "最新款")]
         public bool IsLatest { get; set; }
 
-        [Display(Name = "是否已發布")]
+        [Display(Name = "已發布")]
         public bool IsPublished { get; set; }
 
         // Navigation properties
