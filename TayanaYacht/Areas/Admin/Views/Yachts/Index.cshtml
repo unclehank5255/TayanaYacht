@@ -10,12 +10,12 @@
 <div class="yachtindex_container">
     <div >
         <p>
-            @Html.ActionLink("[新增 Yacht]", "Create")
+            @Html.ActionLink("[Add Yacht]", "Create")
         </p>
     </div>
     <div >
         <p>
-            @Html.ActionLink("[已刪除 Yacht]", "Create")
+            @Html.ActionLink("[Removed Yacht]", "Deleted")
         </p>
     </div>
 
@@ -39,7 +39,9 @@
         <th>
             @Html.DisplayNameFor(model => model.IsLatest)
         </th>
-
+        <th>
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </th>
         <th>操作</th>
     </tr>
 
@@ -63,10 +65,13 @@
                 @Html.DisplayFor(modelItem => item.IsLatest)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.IsPublished)
+            </td>
+            <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Manage Pictures", "ManagePictures", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @Html.ActionLink("TakeDown", "Delete", new { id = item.Id })
             </td>
         </tr>
     }

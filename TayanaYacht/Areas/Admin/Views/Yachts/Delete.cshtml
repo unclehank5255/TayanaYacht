@@ -3,7 +3,10 @@
 @{
     ViewBag.Title = "Delete";
 }
-
+@if (TempData["Message"] != null)
+{
+    <p>@TempData["Message"]</p>
+}
 <h2>Delete</h2>
 
 <h3>Are you sure you want to delete this?</h3>
@@ -93,11 +96,12 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Delete" class="btn btn-default" onclick="return confirm('確定要下架這艘遊艇嗎？');" /> |
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
