@@ -1,8 +1,8 @@
 ﻿@model TayanaYacht.Models.Yacht.Yacht
 
-@{
-    ViewBag.Title = "Details";
-}
+@*@{
+        ViewBag.Title = "Details";
+    }*@
 
 <h2>Details</h2>
 
@@ -90,9 +90,26 @@
             @Html.DisplayFor(model => model.IsLatest)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPublished)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @if (@Model.DeletedAt == null)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id });
+        <text> | </text>
+        @Html.ActionLink("Back to List", "Index");
+    }
+    else
+    {
+        @Html.ActionLink("Back to List", "Deleted");
+    }
+    }
 </p>

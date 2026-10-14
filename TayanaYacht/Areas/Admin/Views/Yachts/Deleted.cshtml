@@ -1,0 +1,72 @@
+﻿@model IEnumerable<TayanaYacht.Models.Yacht.Yacht>
+@using TayanaYacht.Models
+@{
+    ViewBag.Title = "Deleted";
+}
+
+<h2>Deleted</h2>
+
+
+<p>
+    @Html.ActionLink("[反回 Index]", "Index")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.YachtBannerPath)
+        </th>
+        <th>
+
+            @Html.DisplayNameFor(model => model.SeriesName)
+            @Html.DisplayNameFor(model => model.ModelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StatusText)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsLatest)
+        </th>
+
+        <th>操作</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img class="banner-thumb" src="@(item.YachtBannerPath ?? ImageDefaults.Picture)" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeriesName)
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayOrder)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsLatest)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
+                <text> | </text>
+                @using (Html.BeginForm("Restore", "Yachts", FormMethod.Post, new { @class = "d-inline" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@item.Id" />
+                    <input type="submit" value="Restore" class="btn btn-link p-0 align-baseline" onclick="return confirm('確定要復原這艘遊艇嗎？');"/>
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("[反回 Index]", "Index")
+</p>
