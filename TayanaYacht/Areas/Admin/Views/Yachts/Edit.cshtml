@@ -12,11 +12,7 @@
     @Scripts.Render("~/bundles/ckeditor")
 
     <script>
-        @*CKEDITOR.replace('YachtBannerPath', {
-        filebrowserBrowseUrl: '/Admin/FileManager?type=Yacht&id=@Model.Id&tag=YachtBannerPicture',
-        language: 'zh-tw',
-        versionCheck: false
-    });*@
+
     CKEDITOR.replace('OverviewHtml', {
         filebrowserBrowseUrl: '/Admin/FileManager?type=Yacht&id=@Model.Id&tag=HtmlEditorPicture',
         language: 'zh-tw',
