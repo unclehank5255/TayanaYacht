@@ -1,6 +1,7 @@
 ﻿@model List<TayanaYacht.Models.Yacht.YachtPicture>
 @{
     ViewBag.Title = "ManagePictures";
+    int pictureCount = 1;
 }
 
 <h2>
@@ -45,21 +46,28 @@ var targetInputId;
     </div>
 }
 
-<h4>Gallery</h4>
+<h4 >Gallery</h4>
 
 <div class="picture-list">
     @foreach (var item in Model.Where(p => p.PictureType == TayanaYacht.Models.Yacht.YachtPictureTypeEnum.Gallery))
     {
         <div class="picture-item">
             <img src="@item.ImagePath" />
-            <div>@item.PictureType 第 @item.DisplayOrder 張</div>
+            <div>@item.PictureType 第 @pictureCount 張</div>
         </div>
         <div>
             @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@item.Id" />
-                <button type="submit">往前</button>
+                <div>
+                    <div>
+                        <button type="submit" name="direction" value="up">往前</button>
+                    </div>
+                    <div>
+                        <button type="submit" name="direction" value="down">往後</button>
+                    </div>
+                </div>
             }
             @using (Html.BeginForm("DeletePicture", "Yachts", FormMethod.Post))
             {
@@ -68,6 +76,7 @@ var targetInputId;
                 <button type="submit" onclick="return confirm('確定要刪除這張圖片嗎？');">刪除</button>
             }
         </div>
+        pictureCount++;
     }
 
 </div>
@@ -84,29 +93,29 @@ var targetInputId;
 
 
 
-<h4>Layout</h4>
+<h4 id="layout">Layout</h4>
 
 <div class="picture-list">
+    @{pictureCount = 1;}
     @foreach (var item in Model.Where(p => p.PictureType == TayanaYacht.Models.Yacht.YachtPictureTypeEnum.Layout))
     {
         <div class="picture-item">
             <img src="@item.ImagePath" />
-            <div>@item.PictureType 第 @item.DisplayOrder 張</div>
+            <div>@item.PictureType 第 @pictureCount 張</div>
         </div>
         <div>
             @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@item.Id" />
-                <input type="hidden" name="direction" value="up" />
-                <button type="submit">往前</button>
-            }
-            @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
-                <input type="hidden" name="id" value="@item.Id" />
-                <input type="hidden" name="direction" value="down" />
-                <button type="submit">往後</button>
+                <div>
+                    <div>
+                        <button type="submit" name="direction" value="up">往前</button>
+                    </div>
+                    <div>
+                        <button type="submit" name="direction" value="down">往後</button>
+                    </div>
+                </div>
             }
             @using (Html.BeginForm("DeletePicture", "Yachts", FormMethod.Post))
             {
@@ -115,6 +124,7 @@ var targetInputId;
                 <button type="submit" onclick="return confirm('確定要刪除這張圖片嗎？');">刪除</button>
             }
         </div>
+        pictureCount++;
     }
 </div>
 

@@ -49,9 +49,9 @@
                         window.opener.CKEDITOR.tools.callFunction(funcNum, file.url);
                     }
                     else {
-                        var u = new URL(file.url);   // 把哪個網址放進去？
-                        console.log(u.pathname);     // 印出哪個部分？
-                        window.opener.onFilePicked(u.pathname);  // 把哪個部分傳回去？
+                        var u = new URL(file.url);   
+                        console.log(u.pathname);     
+                        window.opener.onFilePicked(u.pathname);  
                     }
                     window.close();
             },

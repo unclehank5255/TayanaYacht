@@ -20,7 +20,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Admin/Yachts
         public ActionResult Index()
         {
-            return View(db.Yachts.ToList());
+            return View(db.Yachts.Where(y=>y.DeletedAt==null).OrderBy(y => y.DisplayOrder).ToList());
         }
 
         // GET: Admin/Yachts/Details/5
@@ -109,10 +109,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Yacht yacht = db.Yachts.Find(id);
-            if (yacht == null)
-            {
-                return HttpNotFound();
-            }
+
             return View(yacht);
         }
 
@@ -122,7 +119,11 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Yacht yacht = db.Yachts.Find(id);
-            db.Yachts.Remove(yacht);
+            if (yacht == null)
+            {
+                return HttpNotFound();
+            }
+            yacht.DeletedAt = DateTime.Now;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -247,7 +248,15 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 neighbor.DisplayOrder = temp;
             }
             db.SaveChanges();
-            return RedirectToAction("ManagePictures", new { id = yachtId });
+            //根據id區域轉址
+            if (yachtpicture.PictureType.ToString().ToLower() == "layout")
+            {
+                return Redirect(Url.Action("ManagePictures", new { id = yachtId }) + "#layout");
+            }
+            else
+            {
+                return RedirectToAction("ManagePictures", new { id = yachtId });
+            }
         }
         protected override void Dispose(bool disposing)
         {
