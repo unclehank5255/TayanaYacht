@@ -23,6 +23,45 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(db.Yachts.Where(y => y.DeletedAt == null).OrderByDescending(y => y.DisplayOrder).ToList());
         }
 
+        // POST: Admin/Yachts/MoveYachts/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MoveYachts(int? id, string direction)
+        {
+            if (id == null || string.IsNullOrEmpty(direction))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Yacht yacht = db.Yachts.Find(id);
+            if (yacht == null || yacht.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            IQueryable<Yacht> neighborQuery = db.Yachts.Where(y => y.DeletedAt == null);
+            Yacht neighbor = null;
+            if (direction == "up")//先判斷區間 再用排列找到第一個數，資料表大於當前選中 且由小排列到大
+            {
+                neighbor = neighborQuery.Where(y => y.DisplayOrder > yacht.DisplayOrder).OrderBy(y => y.DisplayOrder).FirstOrDefault();
+            }
+            else if (direction == "down")
+            {
+                neighbor = neighborQuery.Where(y => y.DisplayOrder < yacht.DisplayOrder).OrderByDescending(y => y.DisplayOrder).FirstOrDefault();
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            int temp;
+            if (neighbor != null)
+            {
+                temp = yacht.DisplayOrder;
+                yacht.DisplayOrder = neighbor.DisplayOrder;
+                neighbor.DisplayOrder = temp;
+            }
+            db.SaveChanges();
+            return Redirect(Url.Action("Index"));
+        }
+
         // GET: Admin/Yachts/Details/5
         public ActionResult Details(int? id)
         {
@@ -120,7 +159,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Yacht yacht = db.Yachts.Find(id);
-            if(yacht.IsPublished)
+            if (yacht.IsPublished)
             {
                 TempData["Message"] = "已發佈的遊艇無法刪除，請先取消發佈";
             }
@@ -253,15 +292,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 neighbor.DisplayOrder = temp;
             }
             db.SaveChanges();
-            //根據id區域轉址
-            if (yachtpicture.PictureType.ToString().ToLower() == "layout")
-            {
-                return Redirect(Url.Action("ManagePictures", new { id = yachtId }) + "#layout");
-            }
-            else
-            {
-                return RedirectToAction("ManagePictures", new { id = yachtId });
-            }
+            return RedirectToAction("ManagePictures", new { id = yachtId });
+
         }
         // GET: Admin/Yachts/Deleted
         [HttpGet]
