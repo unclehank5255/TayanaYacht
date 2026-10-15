@@ -3,12 +3,10 @@
     ViewBag.Title = "ManagePictures";
     int pictureCount = 1;
 }
+@section scripts {
+    @Scripts.Render("~/Scripts/admin-yacht")
+}
 
-<h2>
-    @ViewBag.YachtName
-    @ViewBag.YachtId
-
-</h2>
 <p>
     @Html.ActionLink("[反回 Index]", "Index")
 </p>
@@ -34,7 +32,7 @@ var targetInputId;
 </script>
 <h4>Banner</h4>
 <div class="picture-item">
-<img src="@ViewBag.YachtBannerPath" />
+    <img src="@ViewBag.YachtBannerPath" />
 </div>
 @using (Html.BeginForm("UpdateBanner", "Yachts", FormMethod.Post))
 {
@@ -46,7 +44,7 @@ var targetInputId;
     </div>
 }
 
-<h4 >Gallery</h4>
+<h4>Gallery</h4>
 
 <div class="picture-list">
     @foreach (var item in Model.Where(p => p.PictureType == TayanaYacht.Models.Yacht.YachtPictureTypeEnum.Gallery))
@@ -93,7 +91,7 @@ var targetInputId;
 
 
 
-<h4 id="layout">Layout</h4>
+<h4>Layout</h4>
 
 <div class="picture-list">
     @{pictureCount = 1;}

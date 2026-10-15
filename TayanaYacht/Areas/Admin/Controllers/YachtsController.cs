@@ -28,7 +28,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult MoveYachts(int? id, string direction)
         {
-            if (id == null || string.IsNullOrEmpty(direction) )
+            if (id == null || string.IsNullOrEmpty(direction))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -159,7 +159,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Yacht yacht = db.Yachts.Find(id);
-            if(yacht.IsPublished)
+            if (yacht.IsPublished)
             {
                 TempData["Message"] = "已發佈的遊艇無法刪除，請先取消發佈";
             }
@@ -292,15 +292,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 neighbor.DisplayOrder = temp;
             }
             db.SaveChanges();
-            //根據id區域轉址
-            if (yachtpicture.PictureType.ToString().ToLower() == "layout")
-            {
-                return Redirect(Url.Action("ManagePictures", new { id = yachtId }) + "#layout");
-            }
-            else
-            {
-                return RedirectToAction("ManagePictures", new { id = yachtId });
-            }
+            return RedirectToAction("ManagePictures", new { id = yachtId });
+
         }
         // GET: Admin/Yachts/Deleted
         [HttpGet]
