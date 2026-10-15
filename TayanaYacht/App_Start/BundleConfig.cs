@@ -33,7 +33,7 @@ namespace TayanaYacht
 
 
             bundles.Add(new Bundle("~/bundles/adminlte-js").Include(
-                    "~/Scripts/bootstrap.bundle.min.js", 
+                    "~/Scripts/bootstrap.bundle.min.js",
                     "~/Content/adminlte/js/adminlte.js"));
             //ckeditor
             bundles.Add(new ScriptBundle("~/bundles/ckeditor").Include(
@@ -58,6 +58,9 @@ namespace TayanaYacht
                                         "~/Content/jquery-ui-1.14.2/jquery-ui.js"));
             //yacht admin css
             bundles.Add(new StyleBundle("~/Content/admin-yacht").Include("~/Content/admin-yacht.css"));
+            //yacht admin js
+            bundles.Add(new ScriptBundle("~/Scripts/admin-yacht").Include("~/Scripts/admin-yacht.js"));
+
         }
     }
 }

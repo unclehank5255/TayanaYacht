@@ -59,7 +59,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 neighbor.DisplayOrder = temp;
             }
             db.SaveChanges();
-            return Redirect(Url.Action("Index")+"#"+yacht.Id);
+            return Redirect(Url.Action("Index"));
         }
 
         // GET: Admin/Yachts/Details/5

@@ -4,6 +4,9 @@
 @{
     ViewBag.Title = "Index";
 }
+@section scripts {
+    @Scripts.Render("~/Scripts/admin-yacht")
+}
 
 <h2>Index</h2>
 
@@ -52,7 +55,7 @@
     {
         <tr>
             <td>
-                <img class="banner-thumb" src="@(item.YachtBannerPath ?? ImageDefaults.Picture)" id=@(item.Id) />
+                <img class="banner-thumb" src="@(item.YachtBannerPath ?? ImageDefaults.Picture)" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SeriesName)
