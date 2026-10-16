@@ -8,7 +8,7 @@
 }
 
 <p>
-    @Html.ActionLink("[反回 Index]", "Index")
+    @Html.ActionLink("[返回 Index]", "Index")
 </p>
 <script>
 var targetInputId;
@@ -137,10 +137,40 @@ var targetInputId;
     </div>
 }
 
+
 @if (TempData["Message"] != null)
 {
-    <p>@TempData["Message"]</p>
+<div class="alert alert-warning position-fixed bottom-0 end-0 m-3">
+    @TempData["Message"]
+</div>
 }
+<h4>Files</h4>
+@if (ViewBag.Files.Count == 0)
+{
+    <p>尚無檔案</p>
+}
+@foreach (var file in ViewBag.Files)
+{
+    <div>
+        <i class="bi bi-file-earmark-pdf"></i>
+        <a href="@file.FilePath" target="_blank">@file.FileOriginalName</a>
+        @using (Html.BeginForm("DeleteFile", "Yachts", FormMethod.Post, new { @class = "d-inline" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@file.Id" />
+            <button type="submit" onclick="return confirm('確定要刪除檔案嗎？');">刪除</button>
+        }
+    </div>
+}
+@using (Html.BeginForm("UploadFile", "Yachts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="yachtId" value="@ViewBag.YachtId" />
+    <input type="text" name="displayName" placeholder="顯示名稱（可留空）" />
+    <input type="file" name="upload" accept=".pdf" />
+    <button type="submit">上傳</button>
+}
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
