@@ -172,8 +172,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Admin/Yachts/ManagePictures/5
-        public ActionResult ManagePictures(int? id)
+        // GET: Admin/Yachts/ManageAttachments/5
+        public ActionResult ManageAttachments(int? id)
         {
             if (id == null)
             {
@@ -207,12 +207,12 @@ namespace TayanaYacht.Areas.Admin.Controllers
 
             yacht.YachtBannerPath = bannerPath;
             db.SaveChanges();
-            return RedirectToAction("ManagePictures", new { id = yachtId });
+            return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
-        // POST: Admin/Yachts/ManagePictures/5
+        // POST: Admin/Yachts/AddPicture/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ManagePictures([Bind(Include = "YachtId,PictureType,ImagePath")] YachtPicture yachtpicture)
+        public ActionResult AddPicture([Bind(Include = "YachtId,PictureType,ImagePath")] YachtPicture yachtpicture)
         {
             if (ModelState.IsValid)
             {
@@ -224,13 +224,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 && y.PictureType == yachtpicture.PictureType).Count() >= 3)
                 {
                     TempData["Message"] = "每種類型最多只能新增三張圖片";
-                    return RedirectToAction("ManagePictures", new { id = yachtpicture.YachtId });
+                    return RedirectToAction("ManageAttachments", new { id = yachtpicture.YachtId });
                 }
                 db.YachtPictures.Add(yachtpicture);
                 db.SaveChanges();
-                return RedirectToAction("ManagePictures", new { id = yachtpicture.YachtId });
+                return RedirectToAction("ManageAttachments", new { id = yachtpicture.YachtId });
             }
-            return RedirectToAction("ManagePictures", new { id = yachtpicture.YachtId });
+            return RedirectToAction("ManageAttachments", new { id = yachtpicture.YachtId });
         }
         // POST: Admin/Yachts/DeletePicture/5
         [HttpPost]
@@ -249,7 +249,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             int yachtId = yachtpicture.YachtId;
             db.YachtPictures.Remove(yachtpicture);
             db.SaveChanges();
-            return RedirectToAction("ManagePictures", new { id = yachtId });
+            return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
 
         // POST: Admin/Yachts/MovePicture/5
@@ -292,7 +292,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 neighbor.DisplayOrder = temp;
             }
             db.SaveChanges();
-            return RedirectToAction("ManagePictures", new { id = yachtId });
+            return RedirectToAction("ManageAttachments", new { id = yachtId });
 
         }
         // GET: Admin/Yachts/Deleted

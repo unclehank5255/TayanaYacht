@@ -1,6 +1,6 @@
 ﻿@model List<TayanaYacht.Models.Yacht.YachtPicture>
 @{
-    ViewBag.Title = "ManagePictures";
+    ViewBag.Title = "ManageAttachments";
     int pictureCount = 1;
 }
 @section scripts {
@@ -78,7 +78,7 @@ var targetInputId;
     }
 
 </div>
-@using (Html.BeginForm("ManagePictures", "Yachts", FormMethod.Post))
+@using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <input type="hidden" name="YachtId" value="@ViewBag.YachtId" />
@@ -126,7 +126,7 @@ var targetInputId;
     }
 </div>
 
-@using (Html.BeginForm("ManagePictures", "Yachts", FormMethod.Post))
+@using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     <input type="hidden" name="YachtId" value="@ViewBag.YachtId" />
