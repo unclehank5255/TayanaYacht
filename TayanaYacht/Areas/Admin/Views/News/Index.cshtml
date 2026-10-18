@@ -27,6 +27,9 @@
             @Html.DisplayNameFor(model => model.PublishDate)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.DeletedAt)
         </th>
         <th></th>
@@ -50,12 +53,15 @@
             @Html.DisplayFor(modelItem => item.PublishDate)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.UpdatedAt)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.DeletedAt)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }

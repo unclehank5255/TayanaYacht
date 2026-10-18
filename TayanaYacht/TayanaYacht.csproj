@@ -200,6 +200,10 @@
     <Compile Include="Migrations\202610130818499_UpdatedYachtBnner.Designer.cs">
       <DependentUpon>202610130818499_UpdatedYachtBnner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610171424553_AddNewsPageUpadateCtreateDefaultValue.cs" />
+    <Compile Include="Migrations\202610171424553_AddNewsPageUpadateCtreateDefaultValue.Designer.cs">
+      <DependentUpon>202610171424553_AddNewsPageUpadateCtreateDefaultValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -897,6 +901,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610130818499_UpdatedYachtBnner.resx">
       <DependentUpon>202610130818499_UpdatedYachtBnner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610171424553_AddNewsPageUpadateCtreateDefaultValue.resx">
+      <DependentUpon>202610171424553_AddNewsPageUpadateCtreateDefaultValue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

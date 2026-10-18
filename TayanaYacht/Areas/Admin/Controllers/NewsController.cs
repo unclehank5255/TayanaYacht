@@ -51,6 +51,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                news.UpdatedAt = DateTime.Now;
                 db.News.Add(news);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -84,6 +85,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                news.UpdatedAt = DateTime.Now;
                 db.Entry(news).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
