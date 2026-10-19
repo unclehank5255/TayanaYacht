@@ -20,6 +20,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: News
         public ActionResult Index()
         {
+            ViewBag.BannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
             return View(db.News.Where(n => n.DeletedAt == null).ToList());
         }
         // POST: Publish/Unpublish News
@@ -106,7 +107,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 News existingNews = db.News.Find(news.Id);
-                if (existingNews == null || news.DeletedAt != null)
+                if (existingNews == null || existingNews.DeletedAt != null)
                 {
                     return HttpNotFound();
                 }
@@ -121,9 +122,26 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(news);
         }
 
+        //POST: Admin/News/UpdatePageBanner/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // POST: Admin/News/Edit/Upload/5
+        public ActionResult UpdatePageBanner(string bannerPath)
+        {
+            
+            NewsPage newsPage = db.NewsPages.Find(1);
+            if (newsPage == null)
+            {
+                newsPage = new NewsPage { Id = 1 };
+                db.NewsPages.Add(newsPage);
+            }
+            newsPage.NewsBannerPath = bannerPath;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // POST: Admin/News/Upload/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadFile(int? id, string displayName, HttpPostedFileBase upload)
         {
             if (id == null)
@@ -150,7 +168,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (displayFileName.Length > 50)
             {
                 TempData["Message"] = "檔案名稱不能超過 50 個字";
-                return RedirectToAction("Edit", new { id = news.Id });
+                return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
             }
             string storedFileName = Guid.NewGuid().ToString("N") + extension;
             string folder = Server.MapPath("~/Files/News/" + news.Id + "/File/");

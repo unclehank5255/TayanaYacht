@@ -139,7 +139,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             string folderName = "";
             string tagName = "";
-  
+
             switch (type)
             {
                 case "Yacht":
@@ -158,15 +158,23 @@ namespace TayanaYacht.Areas.Admin.Controllers
                     }
                     folderName = type;
                     break;
+                case "NewsPage":
+                    if (id != 1)
+                    {
+                        return null;
+                    }
+                    folderName = type;
+                    break;
                 default:
                     return null;
             }
-            switch (tag)    
+            switch (tag)
             {
                 case "HtmlEditorPicture":
                 case "YachtBannerPicture":
                 case "YachtGalleryPicture":
                 case "YachtLayoutPicture":
+                case "NewsBannerPicture":
                 case "NewsCoverPicture":
                 case "File":
                     tagName = tag;

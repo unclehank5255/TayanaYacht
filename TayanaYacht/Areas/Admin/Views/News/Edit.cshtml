@@ -62,13 +62,14 @@
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)
-            <label class="form-label">封面</label>
+
+            <label class="form-label">Cover</label>
             <div class="banner-picker-row">
                 <input type="hidden" name="NewsCoverPath" value="@Model.NewsCoverPath" id="bannerImagePath" />
                 <div class="cover-preview">
                     <img src="@(Model.NewsCoverPath ?? ImageDefaults.Picture)" id="coverPreview" />
                 </div>
-                <button type="button" onclick="openPicturePicker('NewsCoverPicture', 'bannerImagePath')">選擇Banner圖片</button>
+                <button type="button" onclick="openPicturePicker('NewsCoverPicture', 'bannerImagePath')">選擇Cover圖片</button>
             </div>
 
             <div class="form-group">
