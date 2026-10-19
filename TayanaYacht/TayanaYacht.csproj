@@ -220,6 +220,10 @@
     <Compile Include="Migrations\202610181705470_RemoveNewsBannerPathRequire.Designer.cs">
       <DependentUpon>202610181705470_RemoveNewsBannerPathRequire.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs" />
+    <Compile Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.Designer.cs">
+      <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -932,6 +936,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610181705470_RemoveNewsBannerPathRequire.resx">
       <DependentUpon>202610181705470_RemoveNewsBannerPathRequire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.resx">
+      <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

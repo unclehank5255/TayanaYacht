@@ -6,6 +6,8 @@
 <p>
     @Html.ActionLink("[返回 Index]", "Index")
 </p>
+
+
 @section scripts {
     @*adminlte*@
     @Scripts.Render("~/bundles/jqueryval")
@@ -17,7 +19,14 @@
         CKEDITOR.replace('ContentHtml', {
             filebrowserBrowseUrl: '/Admin/FileManager?type=News&id=@Model.Id&tag=HtmlEditorPicture',
         language: 'zh-tw',
-        versionCheck: false
+            versionCheck: false,
+            on: {
+                instanceReady: function () {
+                    if (location.hash === '#files') {
+                        document.getElementById('files').scrollIntoView();
+                    }
+                }
+            }
     });
         var targetInputId;
      //按下圖片打開elfinder
@@ -41,8 +50,6 @@
 <h4>News</h4>
 <hr />
 <text>封面</text>
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -79,11 +86,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ContentHtml, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.ContentHtml, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*TODO: Add  fields as uploade*@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -92,6 +98,39 @@
         </div>
     </div>
 }
+<h4 id="files">Files</h4>
+@if (Model.NewsFiles.Count == 0)
+{
+    <p>尚無檔案</p>
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning position-fixed bottom-0 end-0 m-3">
+        @TempData["Message"]
+    </div>
+}
+@foreach (var file in Model.NewsFiles)
+{
+    <div>
+        <i class="bi bi-file-earmark-pdf"></i>
+        <a href="@file.FilePath" target="_blank">@file.DisplayFileName</a>
+        @using (Html.BeginForm("DeleteFile", "News", FormMethod.Post, new { @class = "d-inline" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@file.Id" />
+            <button type="submit" onclick="return confirm('確定要刪除檔案嗎？');">刪除</button>
+        }
+    </div>
+}
+@using (Html.BeginForm("UploadFile", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="text" name="displayName" placeholder="顯示名稱（可留空）" />
+    <input type="file" name="upload" accept=".pdf" />
+    <button type="submit">上傳</button>
+}
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")

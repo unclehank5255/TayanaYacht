@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.News;
+using TayanaYacht.Models.Yacht;
 
 namespace TayanaYacht.Areas.Admin.Controllers
 {
@@ -118,6 +120,82 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             return View(news);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // POST: Admin/News/Edit/Upload/5
+        public ActionResult UploadFile(int? id, string displayName, HttpPostedFileBase upload)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            News news = db.News.Find(id);
+            if (news == null || news.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            if (upload == null || upload.ContentLength <= 0)
+            {
+                TempData["Message"] = "請選擇要上傳的檔案";
+                return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
+            }
+            string extension = Path.GetExtension(upload.FileName).ToLower();
+            if (extension != ".pdf")
+            {
+                TempData["Message"] = "只能上傳 PDF 檔案";
+                return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
+            }
+            string displayFileName = string.IsNullOrWhiteSpace(displayName) ? Path.GetFileName(upload.FileName) : displayName.Trim();
+            if (displayFileName.Length > 50)
+            {
+                TempData["Message"] = "檔案名稱不能超過 50 個字";
+                return RedirectToAction("Edit", new { id = news.Id });
+            }
+            string storedFileName = Guid.NewGuid().ToString("N") + extension;
+            string folder = Server.MapPath("~/Files/News/" + news.Id + "/File/");
+            Directory.CreateDirectory(folder);
+
+            upload.SaveAs(Path.Combine(folder, storedFileName));
+            var newsFile = new NewsFile
+            {
+                NewsId = news.Id,
+                DisplayFileName = displayFileName,
+                StoredFileName = storedFileName,
+                FilePath = "/Files/News/" + news.Id + "/File/" + storedFileName
+            };
+            db.NewsFiles.Add(newsFile);
+            db.SaveChanges();
+            return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
+        }
+        // POST: Admin/News/DeleteFile/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteFile(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            NewsFile newsFile = db.NewsFiles.Find(id);
+            if (newsFile == null)
+            {
+                return HttpNotFound();
+            }
+
+            string physicalPath = Server.MapPath("~" + newsFile.FilePath);
+
+            db.NewsFiles.Remove(newsFile);
+            db.SaveChanges();
+
+            if (System.IO.File.Exists(physicalPath))
+            {
+                System.IO.File.Delete(physicalPath);
+            }
+
+            return Redirect(Url.Action("Edit", new { id = newsFile.NewsId }) + "#files");
+        }
+
 
         // GET: News/Delete/5
         public ActionResult Delete(int? id)

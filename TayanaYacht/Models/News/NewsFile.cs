@@ -20,13 +20,13 @@ namespace TayanaYacht.Models.News
 
         [Required]
         [StringLength(255, ErrorMessage = "檔案名稱不能超過 255 個字元")]
-        [Display(Name = "原始檔案名稱")]
-        public string OriginalFileName { get; set; }
+        [Display(Name = "檔案UID名稱")]
+        public string StoredFileName { get; set; }
 
         [Required]
-        [StringLength(255, ErrorMessage = "儲存檔案名稱不能超過 255 個字元")]
-        [Display(Name = "儲存檔案名稱")]
-        public string StoredFileName { get; set; }
+        [StringLength(255, ErrorMessage = "顯示檔案名稱不能超過 255 個字元")]
+        [Display(Name = "顯示檔案名稱")]
+        public string DisplayFileName { get; set; }
 
         [Required]
         [StringLength(255, ErrorMessage = "檔案路徑不能超過 255 個字元")]
