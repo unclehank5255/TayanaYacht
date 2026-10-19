@@ -25,7 +25,13 @@
 }
 
 .yachtindex_container {
-    display: flex; /* 啟用 Flex 布局 */
-    justify-content: space-between; /* 左右元素靠向兩側 */
-    width: 100%; /* 可根據需要調整容器寬度 */
+    display: flex; 
+    justify-content: space-between; 
+    width: 100%; 
+}
+/*newsbanner*/
+.cover-preview img {
+    width: 320px;
+    max-width: 100%;
+    height: auto;
 }

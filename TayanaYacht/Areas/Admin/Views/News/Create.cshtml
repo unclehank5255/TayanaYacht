@@ -3,14 +3,27 @@
 @{
     ViewBag.Title = "Create";
 }
+@section scripts {
+    @*adminlte*@
+    @Scripts.Render("~/bundles/jqueryval")
+    @*ckeditor*@
+    @Scripts.Render("~/bundles/ckeditor")
+   
 
+    <script>
+        CKEDITOR.replace('ContentHtml', {
+            language: 'zh-tw',
+            versionCheck: false
+        });
+    </script>
+}
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>News</h4>
         <hr />
@@ -32,26 +45,11 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NewsCoverPath, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NewsCoverPath, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NewsCoverPath, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.ContentHtml, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ContentHtml, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
+                提示「圖片、封面與檔案請在建立後，於編輯頁加入」
                 @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DeletedAt, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DeletedAt, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DeletedAt, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -66,7 +64,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

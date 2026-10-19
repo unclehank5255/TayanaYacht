@@ -200,6 +200,30 @@
     <Compile Include="Migrations\202610130818499_UpdatedYachtBnner.Designer.cs">
       <DependentUpon>202610130818499_UpdatedYachtBnner.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610171424553_AddNewsPageUpadateCtreateDefaultValue.cs" />
+    <Compile Include="Migrations\202610171424553_AddNewsPageUpadateCtreateDefaultValue.Designer.cs">
+      <DependentUpon>202610171424553_AddNewsPageUpadateCtreateDefaultValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610180903006_ChangePublishDateToCreateAt.cs" />
+    <Compile Include="Migrations\202610180903006_ChangePublishDateToCreateAt.Designer.cs">
+      <DependentUpon>202610180903006_ChangePublishDateToCreateAt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610181211180_AddNewsIsPublished.cs" />
+    <Compile Include="Migrations\202610181211180_AddNewsIsPublished.Designer.cs">
+      <DependentUpon>202610181211180_AddNewsIsPublished.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610181644584_AddUnpublishedAt.cs" />
+    <Compile Include="Migrations\202610181644584_AddUnpublishedAt.Designer.cs">
+      <DependentUpon>202610181644584_AddUnpublishedAt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610181705470_RemoveNewsBannerPathRequire.cs" />
+    <Compile Include="Migrations\202610181705470_RemoveNewsBannerPathRequire.Designer.cs">
+      <DependentUpon>202610181705470_RemoveNewsBannerPathRequire.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs" />
+    <Compile Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.Designer.cs">
+      <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -897,6 +921,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610130818499_UpdatedYachtBnner.resx">
       <DependentUpon>202610130818499_UpdatedYachtBnner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610171424553_AddNewsPageUpadateCtreateDefaultValue.resx">
+      <DependentUpon>202610171424553_AddNewsPageUpadateCtreateDefaultValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610180903006_ChangePublishDateToCreateAt.resx">
+      <DependentUpon>202610180903006_ChangePublishDateToCreateAt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610181211180_AddNewsIsPublished.resx">
+      <DependentUpon>202610181211180_AddNewsIsPublished.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610181644584_AddUnpublishedAt.resx">
+      <DependentUpon>202610181644584_AddUnpublishedAt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610181705470_RemoveNewsBannerPathRequire.resx">
+      <DependentUpon>202610181705470_RemoveNewsBannerPathRequire.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.resx">
+      <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

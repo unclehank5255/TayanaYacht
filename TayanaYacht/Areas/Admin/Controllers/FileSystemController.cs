@@ -25,8 +25,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
         [HttpGet, Route("connector")]
         public async Task<ActionResult> Connector(string type, int? id, string tag)
         {
-            var folder = GetMediaFolder(type, id,tag);
-            if (folder == null|| type == null) return new HttpStatusCodeResult(400);
+            var folder = GetMediaFolder(type, id, tag);
+            if (folder == null || type == null) return new HttpStatusCodeResult(400);
             var connector = GetConnector(folder, type, id.Value, tag);
 
             var parameters = Request.QueryString.AllKeys.ToDictionary(k => k, k => new StringValues(Request.QueryString.GetValues(k)));
@@ -94,7 +94,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
         }
 
-        private Connector GetConnector(string folder,string type,int id,string tag)
+        private Connector GetConnector(string folder, string type, int id, string tag)
         {
             var driver = new FileSystemDriver();
             //取得網站協定 scheme+host+port+authority+path+query
@@ -118,7 +118,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 IsLocked = false, // If locked, files and directories cannot be deleted, renamed or moved
                 Alias = "Files", // Beautiful name given to the root/home folder
                 MaxUploadSizeInKb = 10240       //MaxUploadSizeInKb = 2048, // Limit imposed to user uploaded file <= 2048 KB
-                                                         //LockedFolders = new List<string>(new string[] { "Folder1" })
+                                                //LockedFolders = new List<string>(new string[] { "Folder1" })
             };
 
             driver.AddRoot(root);
@@ -130,7 +130,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             };
         }
         // 通過就回傳這艘遊艇的資料夾路徑，不通過就回傳 null
-        private string GetMediaFolder(string type,int? id,string tag)
+        private string GetMediaFolder(string type, int? id, string tag)
         {
             //TODO: 這裡要檢查使用者是否有權限存取這個資料夾，否則就回傳 null
             if (id == null || type == null)
@@ -139,11 +139,12 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             string folderName = "";
             string tagName = "";
+
             switch (type)
             {
                 case "Yacht":
                     Yacht yacht = db.Yachts.Find(id.Value);
-                    if (yacht == null)
+                    if (yacht == null || yacht.DeletedAt != null)
                     {
                         return null;
                     }
@@ -151,7 +152,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
                     break;
                 case "News":
                     News news = db.News.Find(id.Value);
-                    if (news == null)
+                    if (news == null || news.DeletedAt != null)
+                    {
+                        return null;
+                    }
+                    folderName = type;
+                    break;
+                case "NewsPage":
+                    if (id != 1)
                     {
                         return null;
                     }
@@ -166,17 +174,18 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 case "YachtBannerPicture":
                 case "YachtGalleryPicture":
                 case "YachtLayoutPicture":
+                case "NewsBannerPicture":
+                case "NewsCoverPicture":
                 case "File":
                     tagName = tag;
                     break;
-
                 default:
                     return null;
             }
             string rootPath = Path.GetFullPath(Server.MapPath("~/Files"));
             string fullPath = Path.GetFullPath(Path.Combine(rootPath, folderName, id.Value.ToString(), tagName));
             //網站目錄+\,不依照大小寫比較
-            if(!fullPath.StartsWith(rootPath+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))
+            if (!fullPath.StartsWith(rootPath + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
             {
                 return null;
             }
