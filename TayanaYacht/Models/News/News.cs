@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 namespace TayanaYacht.Models.News
 {
@@ -30,11 +31,11 @@ namespace TayanaYacht.Models.News
         [Display(Name = "摘要")]
         public string Summary { get; set; }
 
-        [Required]
         [StringLength(255, ErrorMessage = "新聞封面路徑不能超過 255 個字元")]
         [Display(Name = "新聞封面路徑")]  
         public string NewsCoverPath { get; set; }
 
+        [AllowHtml]
         [Required(ErrorMessage = "內容是必填項")]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
@@ -44,12 +45,20 @@ namespace TayanaYacht.Models.News
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "發布日期")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // 告訴 EF 時間統一由資料庫產生
-        public DateTime PublishDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         [Display(Name = "更新時間")]
         public DateTime UpdatedAt { get; set; }
+
+        [Display(Name = "已發布")]
+        public bool IsPublished { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [Display(Name = "下架日期")]
+        public DateTime? UnpublishedAt { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]

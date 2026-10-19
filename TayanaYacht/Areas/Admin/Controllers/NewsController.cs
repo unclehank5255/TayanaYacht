@@ -18,9 +18,27 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: News
         public ActionResult Index()
         {
-            return View(db.News.ToList());
+            return View(db.News.Where(n => n.DeletedAt == null).ToList());
         }
-
+        // POST: Publish/Unpublish News
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TogglePublish(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var news = db.News.Find(id);
+            if (news == null || news.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            news.IsPublished = !news.IsPublished;
+            news.UnpublishedAt = news.IsPublished ? (DateTime?)null : DateTime.Now;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         // GET: News/Details/5
         public ActionResult Details(int? id)
         {
@@ -29,7 +47,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             News news = db.News.Find(id);
-            if (news == null)
+            if (news == null || news.DeletedAt != null)
             {
                 return HttpNotFound();
             }
@@ -47,7 +65,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml,PublishDate,DeletedAt")] News news)
+        public ActionResult Create([Bind(Include = "Id,Title,Summary,ContentHtml")] News news)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +86,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             News news = db.News.Find(id);
-            if (news == null)
+            if (news == null || news.DeletedAt != null)
             {
                 return HttpNotFound();
             }
@@ -81,12 +99,20 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml,PublishDate,DeletedAt")] News news)
+        public ActionResult Edit([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml")] News news)
         {
             if (ModelState.IsValid)
             {
-                news.UpdatedAt = DateTime.Now;
-                db.Entry(news).State = EntityState.Modified;
+                News existingNews = db.News.Find(news.Id);
+                if (existingNews == null || news.DeletedAt != null)
+                {
+                    return HttpNotFound();
+                }
+                existingNews.Title = news.Title;
+                existingNews.Summary = news.Summary;
+                existingNews.ContentHtml = news.ContentHtml;
+                existingNews.NewsCoverPath = news.NewsCoverPath;
+                existingNews.UpdatedAt = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -101,7 +127,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             News news = db.News.Find(id);
-            if (news == null)
+            if (news == null || news.DeletedAt != null)
             {
                 return HttpNotFound();
             }
@@ -111,10 +137,18 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // POST: News/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             News news = db.News.Find(id);
-            db.News.Remove(news);
+            if (news == null || news.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            news.DeletedAt = DateTime.Now;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

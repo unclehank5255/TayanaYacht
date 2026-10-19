@@ -44,11 +44,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PublishDate)
+            @Html.DisplayNameFor(model => model.IsPublished)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PublishDate)
+            @Html.DisplayFor(model => model.IsPublished)
         </dd>
 
         <dt>
@@ -65,7 +65,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <input type="submit" value="Delete" class="btn btn-default" onclick="return confirm('確定要刪除這則新聞嗎？');"> |
             @Html.ActionLink("Back to List", "Index")
         </div>
     }
