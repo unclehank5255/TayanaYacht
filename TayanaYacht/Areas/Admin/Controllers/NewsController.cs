@@ -117,7 +117,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 existingNews.NewsCoverPath = news.NewsCoverPath;
                 existingNews.UpdatedAt = DateTime.Now;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", new { id = existingNews.Id });
             }
             return View(news);
         }

@@ -48,6 +48,7 @@
             @Html.LabelFor(model => model.ContentHtml, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
+                提示「圖片、封面與檔案請在建立後，於編輯頁加入」
                 @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
             </div>
         </div>
