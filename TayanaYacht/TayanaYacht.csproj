@@ -169,6 +169,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactMessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CountriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\DealersController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileManagerController.cs" />
@@ -520,6 +521,11 @@
     <Content Include="Scripts\ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="Areas\Admin\Views\Yachts\ManageAttachments.cshtml" />
     <Content Include="Areas\Admin\Views\Yachts\Deleted.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
