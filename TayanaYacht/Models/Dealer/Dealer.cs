@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
 
 
 namespace TayanaYacht.Models.Dealer
@@ -15,10 +15,9 @@ namespace TayanaYacht.Models.Dealer
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(60, ErrorMessage = "國家不能超過 60 個字元")]
-        [Display(Name = "國家")]
-        public string Country { get; set; }
+        [Display(Name = "國家編號")]
+        [Range(1, int.MaxValue, ErrorMessage = "請選擇國家 ID")]
+        public int CountryId { get; set; }
 
         [Required]
         [StringLength(255, ErrorMessage = "經銷商封面路徑不能超過 255 個字元")]
@@ -32,5 +31,8 @@ namespace TayanaYacht.Models.Dealer
         [Required]
         [Display(Name = "顯示順序")]
         public int DisplayOrder { get; set; }
+
+        [ForeignKey("CountryId")]
+        public virtual Country Country { get; set; }
     }
 }

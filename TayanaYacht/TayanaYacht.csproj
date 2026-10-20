@@ -224,10 +224,15 @@
     <Compile Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.Designer.cs">
       <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610201219485_AddCountryAndAddForeignKey.cs" />
+    <Compile Include="Migrations\202610201219485_AddCountryAndAddForeignKey.Designer.cs">
+      <DependentUpon>202610201219485_AddCountryAndAddForeignKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
     <Compile Include="Models\Contact\PrivacyVersion.cs" />
+    <Compile Include="Models\Dealer\Country.cs" />
     <Compile Include="Models\Dealer\Dealer.cs" />
     <Compile Include="Models\Dealer\DealerPage.cs" />
     <Compile Include="Models\ImageDefaults.cs" />
@@ -939,6 +944,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.resx">
       <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610201219485_AddCountryAndAddForeignKey.resx">
+      <DependentUpon>202610201219485_AddCountryAndAddForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
