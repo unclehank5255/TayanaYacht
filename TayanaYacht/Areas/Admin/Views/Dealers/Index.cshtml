@@ -51,11 +51,11 @@
             <td>
                 <div class="d-inline-flex gap-1">
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " }) |
-                    @using (Html.BeginForm("Delete", "Countries", FormMethod.Post, new { @class = "d-inline" }))
+                    @using (Html.BeginForm("Delete", "Dealers", FormMethod.Post, new { @class = "d-inline" }))
                     {
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="id" value="@item.Id" />
-                        <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('確定要刪除這個國家嗎？');">Delete</button>
+                        <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('確定要刪除這個經銷商嗎？');">Delete</button>
                     }
                 </div>
             </td>

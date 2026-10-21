@@ -80,7 +80,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         }
 
 
-        // POST: Admin/Countries/Delete/5
+        // POST: Admin/Dealers/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int? id)
