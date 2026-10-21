@@ -441,8 +441,6 @@
     <Content Include="Areas\Admin\Views\Dashboard\Contact.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Dealers\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Contacts\Create.cshtml" />
@@ -522,8 +520,6 @@
     <Content Include="Areas\Admin\Views\Yachts\ManageAttachments.cshtml" />
     <Content Include="Areas\Admin\Views\Yachts\Deleted.cshtml" />
     <Content Include="Areas\Admin\Views\Countries\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Countries\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Countries\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Countries\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Countries\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />

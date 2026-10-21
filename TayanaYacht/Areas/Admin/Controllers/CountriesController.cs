@@ -21,20 +21,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(db.Countries.ToList());
         }
 
-        // GET: Admin/Countries/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Country country = db.Countries.Find(id);
-            if (country == null)
-            {
-                return HttpNotFound();
-            }
-            return View(country);
-        }
+
 
         // GET: Admin/Countries/Create
         public ActionResult Create()
@@ -90,7 +77,11 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(country);
         }
 
-        // GET: Admin/Countries/Delete/5
+
+
+        // POST: Admin/Countries/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -102,15 +93,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(country);
-        }
-
-        // POST: Admin/Countries/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Country country = db.Countries.Find(id);
             db.Countries.Remove(country);
             db.SaveChanges();
             return RedirectToAction("Index");

@@ -1,17 +1,22 @@
 ﻿@model IEnumerable<TayanaYacht.Models.Dealer.Dealer>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "供應商管理";
 }
 
-<h2>Index</h2>
-<p>
-    @Html.ActionLink("管理國家", "Index", "Countries", null, new { @class = "btn btn-outline-secondary mb-3" })
-</p>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<h2 class="my-2">@ViewBag.Title</h2>
+<div class="d-flex gap-2">
+    @Html.ActionLink("新增經銷商", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("國家管理", "Index", "Countries", null, new { @class = "btn btn-outline-secondary" })
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Message"]
+    </div>
+}
+<table class="table my-2">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Country.Name)
@@ -44,9 +49,15 @@
                 @Html.DisplayFor(modelItem => item.DisplayOrder)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                <div class="d-inline-flex gap-1">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " }) |
+                    @using (Html.BeginForm("Delete", "Countries", FormMethod.Post, new { @class = "d-inline" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('確定要刪除這個國家嗎？');">Delete</button>
+                    }
+                </div>
             </td>
         </tr>
     }

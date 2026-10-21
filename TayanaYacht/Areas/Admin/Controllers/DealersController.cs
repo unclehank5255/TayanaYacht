@@ -21,21 +21,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(db.Dealers.Include(d => d.Country).ToList());
         }
 
-        // GET: Dealers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Dealer dealer = db.Dealers.Find(id);
-            if (dealer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(dealer);
-        }
-
         // GET: Dealers/Create
         public ActionResult Create()
         {
@@ -94,7 +79,10 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(dealer);
         }
 
-        // GET: Dealers/Delete/5
+
+        // POST: Admin/Countries/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -106,15 +94,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(dealer);
-        }
-
-        // POST: Dealers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Dealer dealer = db.Dealers.Find(id);
             db.Dealers.Remove(dealer);
             db.SaveChanges();
             return RedirectToAction("Index");

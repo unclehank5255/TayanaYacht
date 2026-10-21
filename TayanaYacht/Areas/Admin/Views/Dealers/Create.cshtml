@@ -1,18 +1,22 @@
 ﻿@model TayanaYacht.Models.Dealer.Dealer
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "創建供應商";
 }
 
-<h2>Create</h2>
-
+<h2 class="my-2">@ViewBag.Title</h2>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Message"]
+    </div>
+}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Dealer</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -47,17 +51,12 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+        <div class="form-group my-2">
+            <input type="submit" value="儲存" class="btn btn-primary me-1" />
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
             </div>
         </div>
-    </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
