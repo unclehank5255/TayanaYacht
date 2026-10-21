@@ -18,7 +18,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers
         public ActionResult Index()
         {
-            return View(db.Dealers.ToList());
+            return View(db.Dealers.Include(d => d.Country).ToList());
         }
 
         // GET: Dealers/Details/5
@@ -39,6 +39,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers/Create
         public ActionResult Create()
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             return View();
         }
 
@@ -47,8 +48,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Country,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
+        public ActionResult Create([Bind(Include = "Id,CountryId,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (ModelState.IsValid)
             {
                 db.Dealers.Add(dealer);
@@ -62,6 +64,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -79,8 +82,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Country,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
+        public ActionResult Edit([Bind(Include = "Id,CountryId,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (ModelState.IsValid)
             {
                 db.Entry(dealer).State = EntityState.Modified;
