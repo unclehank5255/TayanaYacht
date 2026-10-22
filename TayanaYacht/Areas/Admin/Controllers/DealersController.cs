@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Dealer;
 using TayanaYacht.Models.News;
+using TayanaYacht.Models.Yacht;
+
 
 namespace TayanaYacht.Areas.Admin.Controllers
 {
@@ -26,6 +28,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
+            ViewBag.BannerPath = db.DealerPages.Find(1)?.DealerBannerPath;
             return View();
         }
 
@@ -34,7 +37,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CountryId,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
+        public ActionResult Create([Bind(Include = "Id,CountryId,Name,City,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
         {
             ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (ModelState.IsValid)
@@ -68,7 +71,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CountryId,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
+        public ActionResult Edit([Bind(Include = "Id,CountryId,Name,City,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
         {
             ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (ModelState.IsValid)
@@ -95,12 +98,25 @@ namespace TayanaYacht.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        // GET: Admin/Dealers/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Dealer dealer = db.Dealers.Include(d => d.Country).FirstOrDefault(d => d.Id == id);
+            if (dealer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(dealer);
+        }
 
         // POST: Admin/Dealers/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int? id)
+        public ActionResult DeleteConfirmed(int? id)
         {
             if (id == null)
             {

@@ -233,6 +233,10 @@
     <Compile Include="Migrations\202610220526275_DealerCoverNullAble.Designer.cs">
       <DependentUpon>202610220526275_DealerCoverNullAble.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610220759435_AddNameCityInDealer.cs" />
+    <Compile Include="Migrations\202610220759435_AddNameCityInDealer.Designer.cs">
+      <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -526,6 +530,7 @@
     <Content Include="Areas\Admin\Views\Countries\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Countries\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Countries\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -956,6 +961,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610220526275_DealerCoverNullAble.resx">
       <DependentUpon>202610220526275_DealerCoverNullAble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610220759435_AddNameCityInDealer.resx">
+      <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
