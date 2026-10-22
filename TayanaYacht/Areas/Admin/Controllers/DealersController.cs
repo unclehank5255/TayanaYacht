@@ -8,6 +8,9 @@ using System.Web;
 using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Dealer;
+using TayanaYacht.Models.News;
+using TayanaYacht.Models.Yacht;
+
 
 namespace TayanaYacht.Areas.Admin.Controllers
 {
@@ -18,27 +21,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers
         public ActionResult Index()
         {
-            return View(db.Dealers.ToList());
-        }
-
-        // GET: Dealers/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Dealer dealer = db.Dealers.Find(id);
-            if (dealer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(dealer);
+            ViewBag.BannerPath = db.DealerPages.Find(1)?.DealerBannerPath;
+            return View(db.Dealers.Include(d => d.Country).ToList());
         }
 
         // GET: Dealers/Create
         public ActionResult Create()
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             return View();
         }
 
@@ -47,8 +37,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Country,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
+        public ActionResult Create([Bind(Include = "Id,CountryId,Name,City,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (ModelState.IsValid)
             {
                 db.Dealers.Add(dealer);
@@ -62,6 +53,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers/Edit/5
         public ActionResult Edit(int? id)
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -79,8 +71,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Country,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
+        public ActionResult Edit([Bind(Include = "Id,CountryId,Name,City,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
         {
+            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (ModelState.IsValid)
             {
                 db.Entry(dealer).State = EntityState.Modified;
@@ -89,9 +82,41 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             return View(dealer);
         }
+        //POST: Admin/News/UpdatePageBanner/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePageBanner(string bannerPath)
+        {
 
-        // GET: Dealers/Delete/5
+            DealerPage dealerPage = db.DealerPages.Find(1);
+            if (dealerPage == null)
+            {
+                dealerPage = new DealerPage { Id = 1 };
+                db.DealerPages.Add(dealerPage);
+            }
+            dealerPage.DealerBannerPath = bannerPath;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        // GET: Admin/Dealers/Delete/5
         public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Dealer dealer = db.Dealers.Include(d => d.Country).FirstOrDefault(d => d.Id == id);
+            if (dealer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(dealer);
+        }
+
+        // POST: Admin/Dealers/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int? id)
         {
             if (id == null)
             {
@@ -102,15 +127,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(dealer);
-        }
-
-        // POST: Dealers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Dealer dealer = db.Dealers.Find(id);
             db.Dealers.Remove(dealer);
             db.SaveChanges();
             return RedirectToAction("Index");

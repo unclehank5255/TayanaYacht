@@ -169,6 +169,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactMessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\CountriesController.cs" />
     <Compile Include="Areas\Admin\Controllers\DealersController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileManagerController.cs" />
@@ -224,10 +225,23 @@
     <Compile Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.Designer.cs">
       <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610201219485_AddCountryAndAddForeignKey.cs" />
+    <Compile Include="Migrations\202610201219485_AddCountryAndAddForeignKey.Designer.cs">
+      <DependentUpon>202610201219485_AddCountryAndAddForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610220526275_DealerCoverNullAble.cs" />
+    <Compile Include="Migrations\202610220526275_DealerCoverNullAble.Designer.cs">
+      <DependentUpon>202610220526275_DealerCoverNullAble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610220759435_AddNameCityInDealer.cs" />
+    <Compile Include="Migrations\202610220759435_AddNameCityInDealer.Designer.cs">
+      <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
     <Compile Include="Models\Contact\PrivacyVersion.cs" />
+    <Compile Include="Models\Dealer\Country.cs" />
     <Compile Include="Models\Dealer\Dealer.cs" />
     <Compile Include="Models\Dealer\DealerPage.cs" />
     <Compile Include="Models\ImageDefaults.cs" />
@@ -435,8 +449,6 @@
     <Content Include="Areas\Admin\Views\Dashboard\Contact.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Dealers\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Contacts\Create.cshtml" />
@@ -515,6 +527,10 @@
     <Content Include="Scripts\ckeditor\skins\moono-lisa\readme.md" />
     <Content Include="Areas\Admin\Views\Yachts\ManageAttachments.cshtml" />
     <Content Include="Areas\Admin\Views\Yachts\Deleted.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -939,6 +955,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610190540158_RenameColumnStoredFilenameAndDispalyFileName.resx">
       <DependentUpon>202610190540158_RenameColumnStoredFilenameAndDispalyFileName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610201219485_AddCountryAndAddForeignKey.resx">
+      <DependentUpon>202610201219485_AddCountryAndAddForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610220526275_DealerCoverNullAble.resx">
+      <DependentUpon>202610220526275_DealerCoverNullAble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610220759435_AddNameCityInDealer.resx">
+      <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

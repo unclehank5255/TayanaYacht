@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
+using TayanaYacht.Models.Dealer;
 
 namespace TayanaYacht.Models
 {
@@ -19,6 +20,7 @@ namespace TayanaYacht.Models
         public virtual DbSet<News.NewsPage> NewsPages { get; set; }
         public virtual DbSet<News.NewsDetailImage> NewsDetailImages { get; set; }
         public virtual DbSet<Dealer.Dealer> Dealers { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Dealer.DealerPage> DealerPages { get; set; }
         public virtual DbSet<Contact.Contact> Contacts { get; set; }
         public virtual DbSet<Contact.ContactMessage> ContactMessages { get; set; }

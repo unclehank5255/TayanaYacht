@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Yacht;
 using TayanaYacht.Models.News;
+using TayanaYacht.Models.Dealer;
 
 namespace TayanaYacht.Areas.Admin.Controllers
 {
@@ -21,7 +22,11 @@ namespace TayanaYacht.Areas.Admin.Controllers
     public class FileSystemController : Controller
     {
         private TayanaDbContext db = new TayanaDbContext();
-
+        private static readonly HashSet<string> AllowedTags = new HashSet<string>
+        {
+        "HtmlEditorPicture", "YachtBannerPicture", "YachtGalleryPicture", "YachtLayoutPicture",
+        "NewsBannerPicture", "NewsCoverPicture", "DealerBannerPicture", "DealerCoverPicture", "File"
+        };
         [HttpGet, Route("connector")]
         public async Task<ActionResult> Connector(string type, int? id, string tag)
         {
@@ -165,23 +170,29 @@ namespace TayanaYacht.Areas.Admin.Controllers
                     }
                     folderName = type;
                     break;
-                default:
-                    return null;
-            }
-            switch (tag)
-            {
-                case "HtmlEditorPicture":
-                case "YachtBannerPicture":
-                case "YachtGalleryPicture":
-                case "YachtLayoutPicture":
-                case "NewsBannerPicture":
-                case "NewsCoverPicture":
-                case "File":
-                    tagName = tag;
+                case "Dealer":
+                    Dealer dealer = db.Dealers.Find(id.Value);
+                    if (dealer == null)
+                    {
+                        return null;
+                    }
+                    folderName = type;
+                    break;
+                case "DealerPage":
+                    if (id != 1)
+                    {
+                        return null;
+                    }
+                    folderName = type;
                     break;
                 default:
                     return null;
             }
+            if (!AllowedTags.Contains(tag))
+            {
+                return null;
+            }
+            tagName = tag;
             string rootPath = Path.GetFullPath(Server.MapPath("~/Files"));
             string fullPath = Path.GetFullPath(Path.Combine(rootPath, folderName, id.Value.ToString(), tagName));
             //網站目錄+\,不依照大小寫比較

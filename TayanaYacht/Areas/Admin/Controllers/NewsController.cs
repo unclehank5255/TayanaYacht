@@ -21,7 +21,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult Index()
         {
             ViewBag.BannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
-            return View(db.News.Where(n => n.DeletedAt == null).ToList());
+            return View(db.News.Where(n => n.DeletedAt == null).OrderByDescending(n => n.CreatedAt).ToList());
         }
         // POST: Publish/Unpublish News
         [HttpPost]
