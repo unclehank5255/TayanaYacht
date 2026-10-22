@@ -21,6 +21,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers
         public ActionResult Index()
         {
+            ViewBag.BannerPath = db.DealerPages.Find(1)?.DealerBannerPath;
             return View(db.Dealers.Include(d => d.Country).ToList());
         }
 
@@ -28,7 +29,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
-            ViewBag.BannerPath = db.DealerPages.Find(1)?.DealerBannerPath;
             return View();
         }
 

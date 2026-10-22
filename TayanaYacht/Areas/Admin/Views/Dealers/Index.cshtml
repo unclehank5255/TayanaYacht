@@ -3,6 +3,45 @@
 @{
     ViewBag.Title = "供應商管理";
 }
+<script>
+    var targetInputId;
+
+    function openPicturePicker(tag, inputId) {
+        targetInputId = inputId;
+        var url = '/Admin/FileManager'
+            + '?type=DealerPage'
+            + '&id=1'
+            + '&tag=' + tag;
+
+        window.open(url, 'fileManager', 'width=1100,height=700');
+    }
+
+    function onFilePicked(path) {
+        var input = document.getElementById(targetInputId);
+        input.value = path;
+        document.getElementById('bannerPreview').src = path;
+        input.form.submit();
+    }
+</script>
+<h2 class="my-2">封面管理</h2>
+<div class="card mb-3">
+    <div class="card-header">封面</div>
+    <div class="card-body">
+        @using (Html.BeginForm("UpdatePageBanner", "Dealers", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <label class="form-label"></label>
+            <div class="banner-picker-row">
+                <input type="hidden" name="bannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
+                <div class="cover-preview">
+                    <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="bannerPreview" />
+                </div>
+                <button type="button" class="btn btn-outline-primary" onclick="openPicturePicker('DealerBannerPicture', 'bannerImagePath')">選擇封面圖片</button>
+            </div>
+        }
+
+    </div>
+</div>
 
 <h2 class="my-2">@ViewBag.Title</h2>
 <div class="d-flex gap-2">
@@ -16,51 +55,56 @@
         @TempData["Message"]
     </div>
 }
-<table class="table my-2">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Country.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DealerCoverPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayOrder)
-        </th>
-        <th></th>
-    </tr>
+<div class="card mb-3">
+    <div class="card-header">經銷商</div>
+    <div class="card-body">
+        <table class="table my-2">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Country.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DealerCoverPath)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DisplayOrder)
+                </th>
+                <th></th>
+            </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Country.Name)
-            </td>
-            <td>
-                <img class="banner-thumb" src="@(item.DealerCoverPath ?? ImageDefaults.Picture)" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisplayOrder)
-            </td>
-            <td>
-                <div class="d-inline-flex gap-1">
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
-                </div>
-            </td>
-        </tr>
-    }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Country.Name)
+                    </td>
+                    <td>
+                        <img class="banner-thumb" src="@(item.DealerCoverPath ?? ImageDefaults.Picture)" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DisplayOrder)
+                    </td>
+                    <td>
+                        <div class="d-inline-flex gap-1">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                        </div>
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>
+    </div>
+</div>

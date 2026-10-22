@@ -3,44 +3,6 @@
 @{
     ViewBag.Title = "國家管理";
 }
-<script>
-    var targetInputId;
-
-    function openPicturePicker(tag, inputId) {
-        targetInputId = inputId;
-        var url = '/Admin/FileManager'
-            + '?type=DealerPage'
-            + '&id=1'
-            + '&tag=' + tag;
-
-        window.open(url, 'fileManager', 'width=1100,height=700');
-    }
-
-    function onFilePicked(path) {
-        var input = document.getElementById(targetInputId);
-        input.value = path;
-        document.getElementById('bannerPreview').src = path;
-        input.form.submit();
-    }
-</script>
-<div class="card mb-3">
-    <div class="card-header">新聞頁橫幅</div>
-    <div class="card-body">
-        @using (Html.BeginForm("UpdatePageBanner", "Dealers", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <label class="form-label">Banner</label>
-            <div class="banner-picker-row">
-                <input type="hidden" name="BannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
-                <div class="cover-preview">
-                    <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="coverPreview" />
-                </div>
-                <button type="button" class="btn btn-outline-primary" onclick="openPicturePicker('NewsBannerPicture', 'bannerImagePath')">選擇Banner圖片</button>
-            </div>
-        }
-
-    </div>
-</div>
 <h2 class="my-2">@ViewBag.Title</h2>
 <div class="d-flex gap-2">
     @Html.ActionLink("新增國家", "Create", null, new { @class = "btn btn-primary" })
