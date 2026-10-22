@@ -19,7 +19,6 @@ namespace TayanaYacht.Models.Dealer
         [Range(1, int.MaxValue, ErrorMessage = "請選擇國家 ID")]
         public int CountryId { get; set; }
 
-        [Required]
         [StringLength(255, ErrorMessage = "經銷商封面路徑不能超過 255 個字元")]
         [Display(Name = "經銷商封面路徑")]
         public string DealerCoverPath { get; set; }

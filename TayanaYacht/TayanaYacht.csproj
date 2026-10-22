@@ -229,6 +229,10 @@
     <Compile Include="Migrations\202610201219485_AddCountryAndAddForeignKey.Designer.cs">
       <DependentUpon>202610201219485_AddCountryAndAddForeignKey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610220526275_DealerCoverNullAble.cs" />
+    <Compile Include="Migrations\202610220526275_DealerCoverNullAble.Designer.cs">
+      <DependentUpon>202610220526275_DealerCoverNullAble.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -949,6 +953,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610201219485_AddCountryAndAddForeignKey.resx">
       <DependentUpon>202610201219485_AddCountryAndAddForeignKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610220526275_DealerCoverNullAble.resx">
+      <DependentUpon>202610220526275_DealerCoverNullAble.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

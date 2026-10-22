@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Dealer;
+using TayanaYacht.Models.News;
 
 namespace TayanaYacht.Areas.Admin.Controllers
 {
@@ -77,6 +78,22 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(dealer);
+        }
+        //POST: Admin/News/UpdatePageBanner/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePageBanner(string bannerPath)
+        {
+
+            DealerPage dealerPage = db.DealerPages.Find(1);
+            if (dealerPage == null)
+            {
+                dealerPage = new DealerPage { Id = 1 };
+                db.DealerPages.Add(dealerPage);
+            }
+            dealerPage.DealerBannerPath = bannerPath;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
 
