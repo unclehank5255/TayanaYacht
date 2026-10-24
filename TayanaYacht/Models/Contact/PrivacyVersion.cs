@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 
 namespace TayanaYacht.Models.Contact
@@ -27,6 +28,7 @@ namespace TayanaYacht.Models.Contact
         [Display(Name = "版本")]
         public string Version { get; set; }
 
+        [AllowHtml]
         [Required]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
@@ -35,7 +37,7 @@ namespace TayanaYacht.Models.Contact
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         [Display(Name = "創建時間")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)] // 告訴 EF 時間統一由資料庫產生
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // 告訴 EF 時間統一由資料庫產生
         public DateTime CreatedAt { get; set; }
 
         // Navigation property

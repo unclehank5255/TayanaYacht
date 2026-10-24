@@ -62,7 +62,7 @@ namespace TayanaYacht.Models.Contact
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         [Display(Name = "提交時間")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)] // 告訴 EF 時間統一由資料庫產生
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // 告訴 EF 時間統一由資料庫產生
         public DateTime SubmittedAt { get; set; }
 
         [Display(Name = "處理時間")]

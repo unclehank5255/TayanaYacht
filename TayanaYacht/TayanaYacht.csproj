@@ -237,6 +237,10 @@
     <Compile Include="Migrations\202610220759435_AddNameCityInDealer.Designer.cs">
       <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610241439530_RenameColumnNameContact.cs" />
+    <Compile Include="Migrations\202610241439530_RenameColumnNameContact.Designer.cs">
+      <DependentUpon>202610241439530_RenameColumnNameContact.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -964,6 +968,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610220759435_AddNameCityInDealer.resx">
       <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610241439530_RenameColumnNameContact.resx">
+      <DependentUpon>202610241439530_RenameColumnNameContact.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
