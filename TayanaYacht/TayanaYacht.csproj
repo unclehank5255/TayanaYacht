@@ -175,6 +175,7 @@
     <Compile Include="Areas\Admin\Controllers\FileManagerController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileSystemController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PrivacyVersionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\YachtsController.cs" />
     <Compile Include="Controllers\ContactMessagesController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
@@ -240,6 +241,10 @@
     <Compile Include="Migrations\202610241439530_RenameColumnNameContact.cs" />
     <Compile Include="Migrations\202610241439530_RenameColumnNameContact.Designer.cs">
       <DependentUpon>202610241439530_RenameColumnNameContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.cs" />
+    <Compile Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.Designer.cs">
+      <DependentUpon>202610251013312_AddColumnPublishatInPrivacyVersion.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
@@ -535,6 +540,11 @@
     <Content Include="Areas\Admin\Views\Countries\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Countries\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -971,6 +981,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610241439530_RenameColumnNameContact.resx">
       <DependentUpon>202610241439530_RenameColumnNameContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.resx">
+      <DependentUpon>202610251013312_AddColumnPublishatInPrivacyVersion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

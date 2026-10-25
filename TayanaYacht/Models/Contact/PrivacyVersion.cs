@@ -40,6 +40,10 @@ namespace TayanaYacht.Models.Contact
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // 告訴 EF 時間統一由資料庫產生
         public DateTime CreatedAt { get; set; }
 
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [Display(Name = "發布時間")]
+        public DateTime? PublishedAt { get; set; }
         // Navigation property
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<ContactMessage> ContactMessages { get; set; }
