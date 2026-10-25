@@ -49,7 +49,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ContactBannerPath,MapImagePath,ContentHtml,PrivacyVersionId")] Contact contact)
+        public ActionResult Create([Bind(Include = "Id,ContactBannerPath,MapEmbedUrl,ContentHtml,PrivacyVersionId")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ContactBannerPath,MapImagePath,ContentHtml,PrivacyVersionId")] Contact contact)
+        public ActionResult Edit([Bind(Include = "Id,ContactBannerPath,MapEmbedUrl,ContentHtml,PrivacyVersionId")] Contact contact)
         {
             if (ModelState.IsValid)
             {

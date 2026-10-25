@@ -47,7 +47,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Version,ContentHtml,CreatedAt")] PrivacyVersion privacyVersion)
+        public ActionResult Create([Bind(Include = "Version,ContentHtml")] PrivacyVersion privacyVersion)
         {
             if (ModelState.IsValid)
             {
