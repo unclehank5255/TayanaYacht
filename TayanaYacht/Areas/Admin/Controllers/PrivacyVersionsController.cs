@@ -71,32 +71,42 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            if (privacyVersion.PublishedAt != null)
+            {
+                TempData["Message"] = "已發布的版本不能修改";
+                return RedirectToAction("Index");
+            }
+
             return View(privacyVersion);
         }
 
         // POST: Admin/PrivacyVersions/Edit/5
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,ContentHtml,CreatedAt")] PrivacyVersion privacyVersion)
+        public ActionResult EditPost(int? id)
         {
-            var existing = db.PrivacyVersions.Find(privacyVersion.Id);
-            if(existing == null)
-            {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var existing = db.PrivacyVersions.Find(id);
+            if (existing == null)
                 return HttpNotFound();
-            }
+
             if (existing.PublishedAt != null)
             {
+                TempData["Message"] = "已發布的版本不能修改";
                 return RedirectToAction("Index");
             }
-            if (ModelState.IsValid)
+
+            if (TryUpdateModel(existing, new[] { "Title", "ContentHtml" }))
             {
-                db.Entry(privacyVersion).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(privacyVersion);
+
+            return View(existing);
         }
 
         // GET: Admin/PrivacyVersions/Delete/5
@@ -111,6 +121,11 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            if (privacyVersion.PublishedAt != null)
+            {
+                TempData["Message"] = "已發布的版本不能刪除";
+                return RedirectToAction("Index");
+            }
             return View(privacyVersion);
         }
 
@@ -120,6 +135,15 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             PrivacyVersion privacyVersion = db.PrivacyVersions.Find(id);
+            if (privacyVersion == null)
+            {
+                return HttpNotFound();
+            }
+            if (privacyVersion.PublishedAt != null)
+            {
+                TempData["Message"] = "已發布的版本不能刪除";
+                return RedirectToAction("Index");
+            }
             db.PrivacyVersions.Remove(privacyVersion);
             db.SaveChanges();
             return RedirectToAction("Index");

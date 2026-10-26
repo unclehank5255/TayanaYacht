@@ -5,10 +5,20 @@
 }
 
 <h2>@ViewBag.Title</h2>
+<div style="display: flex; align-items: center; gap: 8px;">
+    <p>
+        @Html.ActionLink("新增隱私版本", "Create", null, new { @class = "btn btn-primary" })
+    </p>
 
-<p>
-    @Html.ActionLink("新增隱私版本", "Create", null, new { @class = "btn btn-primary" })
-</p>
+    <p>
+        ⚠已發佈後將不能修改文本
+    </p>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">@TempData["Message"]</div>
+}
 <table class="table">
     <tr>
         <th>
@@ -42,11 +52,25 @@
                 @Html.DisplayFor(modelItem => item.PublishedAt)
             </td>
             <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
+                @if (item.PublishedAt == null)
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
+                }
+                else
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                }
                 @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
-                @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger " })
+                @if (item.PublishedAt == null)
+                {
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger " })
+                }
+                else
+                {
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                }
             </td>
-        </tr>
+            </tr>
     }
 
 </table>

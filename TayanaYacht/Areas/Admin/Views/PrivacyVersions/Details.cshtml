@@ -37,6 +37,14 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+<p>
+    @if (Model.PublishedAt == null)
+    {
+        @Html.ActionLink("編輯", "Edit", new { id = Model.Id }, new { @class = "btn btn-sm btn-outline-primary" })
+    }
+    else
+    {
+        @Html.ActionLink("編輯", "Edit", new { id = Model.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+    }
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
 </p>
