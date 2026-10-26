@@ -18,7 +18,16 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Admin/PrivacyVersions
         public ActionResult Index()
         {
-            return View(db.PrivacyVersions.ToList());
+            var versions = db.PrivacyVersions.ToList();
+
+            int? activeVersionId = versions
+                .Where(v => v.PublishedAt != null)
+                .OrderByDescending(v => v.PublishedAt)
+                .Select(v => (int?)v.Id)
+                .FirstOrDefault();
+
+            ViewBag.ActiveVersionId = activeVersionId;
+            return View(versions);
         }
 
         // GET: Admin/PrivacyVersions/Details/5

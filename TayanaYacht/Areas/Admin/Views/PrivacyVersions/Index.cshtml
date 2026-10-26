@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "隱私版本管理";
+    int? activeId = ViewBag.ActiveVersionId;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -25,10 +26,10 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ContentHtml)
+            @Html.DisplayNameFor(model => model.CreatedAt)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreatedAt)
+            狀態
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PublishedAt)
@@ -38,15 +39,28 @@
 
     @foreach (var item in Model)
     {
+        string status;
+        if (item.PublishedAt == null)
+        {
+            status = "草稿";
+        }
+        else if (item.Id == activeId)
+        {
+            status = "使用中";
+        }
+        else
+        {
+            status = "已取代";
+        }
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ContentHtml)
+                @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
+                @status
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PublishedAt)
@@ -70,7 +84,7 @@
                     @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
                 }
             </td>
-            </tr>
+        </tr>
     }
 
 </table>
