@@ -83,6 +83,19 @@
                 {
                     @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
                 }
+                @using (Html.BeginForm("Publish", "PrivacyVersions", new { id = item.Id }, FormMethod.Post,
+                new { @class = "d-inline", onsubmit = "return confirm('發布後就不能修改或刪除，確定要發布嗎？');" }))
+                {
+                    @Html.AntiForgeryToken()
+                    if (item.PublishedAt == null)
+                    {
+                        <button type="submit" class="btn btn-sm btn-success">發布</button>
+                    }
+                    else
+                    {
+                        <button  class="btn btn-sm btn-outline-secondary" disabled>發布</button>
+                    }
+                }
             </td>
         </tr>
     }

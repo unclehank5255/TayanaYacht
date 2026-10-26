@@ -68,6 +68,26 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(privacyVersion);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Publish(int? id)
+        {
+            var versionToPublish = db.PrivacyVersions.Find(id);
+            if (versionToPublish == null)
+            {
+                return HttpNotFound();
+            }
+            if(versionToPublish.PublishedAt!=null)
+            {
+                TempData["Message"] = "已發布的版本不能再次發佈";
+                return RedirectToAction("Index");
+            }
+            // Publish the selected version
+            versionToPublish.PublishedAt = DateTime.Now;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         // GET: Admin/PrivacyVersions/Edit/5
         public ActionResult Edit(int? id)
         {
