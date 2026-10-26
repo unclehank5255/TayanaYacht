@@ -25,8 +25,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
         private static readonly HashSet<string> AllowedTags = new HashSet<string>
         {
         "HtmlEditorPicture", "YachtBannerPicture", "YachtGalleryPicture", "YachtLayoutPicture",
-        "NewsBannerPicture", "NewsCoverPicture", "DealerBannerPicture", "DealerCoverPicture", "File"
+        "NewsBannerPicture", "NewsCoverPicture", "DealerBannerPicture", "DealerCoverPicture","ContactBannerPicture", "File"
         };
+
         [HttpGet, Route("connector")]
         public async Task<ActionResult> Connector(string type, int? id, string tag)
         {
@@ -179,6 +180,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
                     folderName = type;
                     break;
                 case "DealerPage":
+                    if (id != 1)
+                    {
+                        return null;
+                    }
+                    folderName = type;
+                    break;
+                case "ContactPage":
                     if (id != 1)
                     {
                         return null;

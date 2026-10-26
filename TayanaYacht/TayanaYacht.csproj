@@ -466,11 +466,7 @@
     <Content Include="Areas\Admin\Views\Dealers\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Contacts\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Details.cshtml" />
