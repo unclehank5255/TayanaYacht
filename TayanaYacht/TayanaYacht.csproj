@@ -246,6 +246,10 @@
     <Compile Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.Designer.cs">
       <DependentUpon>202610251013312_AddColumnPublishatInPrivacyVersion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610260757046_RenamePrivacyVersionVersionNameToTitle.cs" />
+    <Compile Include="Migrations\202610260757046_RenamePrivacyVersionVersionNameToTitle.Designer.cs">
+      <DependentUpon>202610260757046_RenamePrivacyVersionVersionNameToTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -984,6 +988,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.resx">
       <DependentUpon>202610251013312_AddColumnPublishatInPrivacyVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610260757046_RenamePrivacyVersionVersionNameToTitle.resx">
+      <DependentUpon>202610260757046_RenamePrivacyVersionVersionNameToTitle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

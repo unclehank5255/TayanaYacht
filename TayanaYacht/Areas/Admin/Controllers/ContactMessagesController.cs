@@ -59,7 +59,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contactMessage.PrivacyVersionId);
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contactMessage.PrivacyVersionId);
             ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName", contactMessage.YachtId);
             return View(contactMessage);
         }
@@ -76,7 +76,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contactMessage.PrivacyVersionId);
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contactMessage.PrivacyVersionId);
             ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName", contactMessage.YachtId);
             return View(contactMessage);
         }
@@ -94,7 +94,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contactMessage.PrivacyVersionId);
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contactMessage.PrivacyVersionId);
             ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName", contactMessage.YachtId);
             return View(contactMessage);
         }

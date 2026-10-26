@@ -12,13 +12,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Version)
+            @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ContentHtml)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PublishedAt)
         </th>
         <th></th>
     </tr>
@@ -27,7 +30,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Version)
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ContentHtml)
@@ -36,8 +39,11 @@
                 @Html.DisplayFor(modelItem => item.CreatedAt)
             </td>
             <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " }) 
-                @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " }) 
+                @Html.DisplayFor(modelItem => item.PublishedAt)
+            </td>
+            <td>
+                @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
+                @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
                 @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger " })
             </td>
         </tr>

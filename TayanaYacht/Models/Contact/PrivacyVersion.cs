@@ -25,8 +25,8 @@ namespace TayanaYacht.Models.Contact
 
         [Required]
         [StringLength(50, ErrorMessage = "版本不能超過 50 個字元")]
-        [Display(Name = "版本")]
-        public string Version { get; set; }
+        [Display(Name = "版本名稱")]
+        public string Title { get; set; }
 
         [AllowHtml]
         [Required]

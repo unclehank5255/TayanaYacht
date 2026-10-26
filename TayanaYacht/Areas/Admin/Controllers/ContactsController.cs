@@ -40,7 +40,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Contacts/Create
         public ActionResult Create()
         {
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version");
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contact.PrivacyVersionId);
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contact.PrivacyVersionId);
             return View(contact);
         }
 
@@ -74,7 +74,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contact.PrivacyVersionId);
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contact.PrivacyVersionId);
             return View(contact);
         }
 
@@ -91,7 +91,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contact.PrivacyVersionId);
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contact.PrivacyVersionId);
             return View(contact);
         }
 

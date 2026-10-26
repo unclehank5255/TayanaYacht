@@ -47,7 +47,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Version,ContentHtml")] PrivacyVersion privacyVersion)
+        public ActionResult Create([Bind(Include = "Title,ContentHtml")] PrivacyVersion privacyVersion)
         {
             if (ModelState.IsValid)
             {
@@ -79,8 +79,17 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Version,ContentHtml,CreatedAt")] PrivacyVersion privacyVersion)
+        public ActionResult Edit([Bind(Include = "Id,Title,ContentHtml,CreatedAt")] PrivacyVersion privacyVersion)
         {
+            var existing = db.PrivacyVersions.Find(privacyVersion.Id);
+            if(existing == null)
+            {
+                return HttpNotFound();
+            }
+            if (existing.PublishedAt != null)
+            {
+                return RedirectToAction("Index");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(privacyVersion).State = EntityState.Modified;
