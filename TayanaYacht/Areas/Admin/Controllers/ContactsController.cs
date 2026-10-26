@@ -18,8 +18,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Contacts
         public ActionResult Index()
         {
-            var contacts = db.Contacts.Include(c => c.PrivacyVersion);
-            return View(contacts.ToList());
+            return View(db.Contacts.ToList());
         }
 
         // GET: Contacts/Details/5
@@ -40,7 +39,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Contacts/Create
         public ActionResult Create()
         {
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title");
             return View();
         }
 
@@ -49,7 +47,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ContactBannerPath,MapEmbedUrl,ContentHtml,PrivacyVersionId")] Contact contact)
+        public ActionResult Create([Bind(Include = "Id,ContactBannerPath,MapEmbedUrl,ContentHtml")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -57,8 +55,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contact.PrivacyVersionId);
             return View(contact);
         }
 
@@ -74,7 +70,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contact.PrivacyVersionId);
             return View(contact);
         }
 
@@ -83,7 +78,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ContactBannerPath,MapEmbedUrl,ContentHtml,PrivacyVersionId")] Contact contact)
+        public ActionResult Edit([Bind(Include = "Id,ContactBannerPath,MapEmbedUrl,ContentHtml")] Contact contact)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +86,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title", contact.PrivacyVersionId);
             return View(contact);
         }
 

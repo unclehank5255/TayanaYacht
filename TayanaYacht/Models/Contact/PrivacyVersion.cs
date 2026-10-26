@@ -14,7 +14,6 @@ namespace TayanaYacht.Models.Contact
         // Constructor to initialize the Contacts and ContactMessages collections
         public PrivacyVersion()
         {
-            Contacts = new HashSet<Contact>();
             ContactMessages = new HashSet<ContactMessage>();
         }
         //Primary key
@@ -45,7 +44,6 @@ namespace TayanaYacht.Models.Contact
         [Display(Name = "發布時間")]
         public DateTime? PublishedAt { get; set; }
         // Navigation property
-        public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<ContactMessage> ContactMessages { get; set; }
     }
 }

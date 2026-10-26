@@ -33,13 +33,5 @@ namespace TayanaYacht.Models.Contact
         [Required(ErrorMessage = "內容是必填項")]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
-
-        [Display(Name = "隱私版本編號")]
-        [Range(1, int.MaxValue, ErrorMessage = "選擇隱私政策版本")]
-        public int PrivacyVersionId { get; set; }
-
-        // Navigation property
-        [ForeignKey("PrivacyVersionId")]
-        virtual public PrivacyVersion PrivacyVersion { get; set; }
     }
 }

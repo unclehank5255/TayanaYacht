@@ -40,7 +40,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: ContactMessages/Create
         public ActionResult Create()
         {
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version");
+            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Title");
             ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName");
             return View();
         }
