@@ -25,12 +25,12 @@ namespace TayanaYacht.Models.Contact
         public string ContactBannerPath { get; set; }
 
         [Required]
-        [StringLength(2000, ErrorMessage = "地圖iframe 嵌入網址不能超過 2000 個字元")]
+        [StringLength(2000, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "地圖iframe 嵌入網址")]
         public string MapEmbedUrl { get; set; }
 
         [AllowHtml]
-        [Required(ErrorMessage = "內容是必填項")]
+        [Required(ErrorMessage = "{0}是必填項")]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
     }

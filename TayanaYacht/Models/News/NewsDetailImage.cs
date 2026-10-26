@@ -16,12 +16,12 @@ namespace TayanaYacht.Models.News
 
         [Required]
         [Display(Name = "新聞編號")]
-        [Range(1, int.MaxValue, ErrorMessage = "請選擇新聞")]
+        [Range(1, int.MaxValue, ErrorMessage = "{0}必須在 {1} 到 {2} 之間")]
         public int NewsId { get; set; }
 
-        [Required(ErrorMessage = "新聞內文圖片路徑為必填")]
+        [Required(ErrorMessage = "{0}是必填項")]
         [Display(Name = "新聞內文圖片路徑")]
-        [StringLength(255, ErrorMessage = "新聞內文圖片路徑不能超過 255 個字元")]
+        [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
         public string DetailImagePath { get; set; }
 
         // Navigation property

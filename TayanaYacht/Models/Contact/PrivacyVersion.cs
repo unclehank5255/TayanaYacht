@@ -23,7 +23,7 @@ namespace TayanaYacht.Models.Contact
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "版本不能超過 50 個字元")]
+        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "版本名稱")]
         public string Title { get; set; }
 

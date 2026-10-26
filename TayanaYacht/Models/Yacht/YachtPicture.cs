@@ -26,12 +26,12 @@ namespace TayanaYacht.Models.Yacht
         [Range(1, int.MaxValue, ErrorMessage = "請選擇遊艇")]
         public int YachtId { get; set; }
 
-        [Range(0, 2, ErrorMessage = "圖片分類必須在 0 到 2 之間")]
+        [Range(0, 2, ErrorMessage = "{0}必須在 {1} 到 {2} 之間")]
         [Display(Name = "圖片分類")]
         public YachtPictureTypeEnum PictureType { get; set; }
 
         [Required]
-        [StringLength(255, ErrorMessage = "圖片路徑不能超過 255 個字元")]
+        [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "圖片路徑")]
         public string ImagePath { get; set; }
 
