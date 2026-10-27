@@ -1,14 +1,15 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using TayanaYacht.Models;
+using TayanaYacht.Models.Contact;
 using TayanaYacht.Models.Yacht;
 using static TayanaYacht.Models.ImageDefaults;
 
@@ -81,12 +82,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Admin/Yachts/Create
         public ActionResult Create()
         {
-            Yacht yacht = new Yacht();
-            yacht.YachtBannerPath = ImageDefaults.Picture;
-            yacht.OverviewHtml = "<h2>遊艇介紹</h2><p>請修改內容</p>";
-            yacht.PrincipleDimensionHtml = "<h2>主要尺寸</h2><p>請修改內容</p>";
-            yacht.SpecificationHtml = "<h2>規格</h2><p>請修改內容</p>";
-            return View(yacht);
+            return View();
         }
 
         // POST: Admin/Yachts/Create
@@ -94,7 +90,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,SeriesName,ModelName,StatusText,OverviewHtml,PrincipleDimensionHtml,SpecificationHtml,,IsLatest")] Yacht yacht)
+        public ActionResult Create([Bind(Include = "SeriesName,ModelName,StatusText,OverviewHtml,PrincipleDimensionHtml,SpecificationHtml,IsLatest")] Yacht yacht)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +99,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 yacht.DisplayOrder = nextOrder;
                 db.Yachts.Add(yacht);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["Message"] = "遊艇已建立，請繼續填寫內容、上傳圖片";
+                return RedirectToAction("Edit", new { id = yacht.Id });
             }
 
             return View(yacht);
@@ -118,24 +116,42 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             Yacht yacht = db.Yachts.Find(id);
             // 遊艇下架後不能編輯
-            if (yacht == null || yacht.DeletedAt != null)
+            if (yacht == null)
             {
                 return HttpNotFound();
             }
+            if (yacht.DeletedAt != null)
+            {
+                TempData["Message"] = "已發布的版本不能修改";
+                return RedirectToAction("Index");
+            }
             return View(yacht);
         }
-
         // POST: Admin/Yachts/Edit/5
         // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,SeriesName,ModelName,StatusText,YachtBannerPath,OverviewHtml,PrincipleDimensionHtml,SpecificationHtml,DisplayOrder,DeletedAt,IsLatest")] Yacht yacht)
+
+        public ActionResult EditPost(int? id)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-                db.Entry(yacht).State = EntityState.Modified;
-                db.Entry(yacht).Property(y => y.YachtBannerPath).IsModified = false;
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Yacht yacht = db.Yachts.Find(id);
+            // 遊艇下架後不能編輯
+            if (yacht == null)
+            {
+                return HttpNotFound();
+            }
+            if (yacht.DeletedAt != null)
+            {
+                TempData["Message"] = "已發布的版本不能修改";
+                return RedirectToAction("Index");
+            }
+            if (TryUpdateModel(yacht, new[] { "SeriesName", "ModelName", "StatusText", "YachtBannerPath", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest", "IsPublished" }))
+            {
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
