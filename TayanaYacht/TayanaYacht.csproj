@@ -252,6 +252,10 @@
     <Compile Include="Migrations\202610261456258_RemovePrivacyVersionFromContact.Designer.cs">
       <DependentUpon>202610261456258_RemovePrivacyVersionFromContact.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.cs" />
+    <Compile Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.Designer.cs">
+      <DependentUpon>202610261810204_UpdatedContactMessaColumnAndLegt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -467,10 +471,8 @@
     <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Contacts\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\ContactMessages\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\ContactMessages\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Index.cshtml" />
     <Content Include="Content\adminlte\bootstrap-icons\fonts\bootstrap-icons.woff" />
     <Content Include="Content\adminlte\bootstrap-icons\fonts\bootstrap-icons.woff2" />
@@ -982,6 +984,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610261456258_RemovePrivacyVersionFromContact.resx">
       <DependentUpon>202610261456258_RemovePrivacyVersionFromContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.resx">
+      <DependentUpon>202610261810204_UpdatedContactMessaColumnAndLegt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
