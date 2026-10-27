@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
 
 
 namespace TayanaYacht.Models.Contact
@@ -18,26 +19,19 @@ namespace TayanaYacht.Models.Contact
         //Migiration加上這句Sql("ALTER TABLE dbo.Contacts ADD CONSTRAINT CK_Contacts_Id CHECK (Id = 1)");
         public int Id { get; set; }
 
-        [Required]
+        
         [StringLength(255, ErrorMessage = "聯絡橫幅路徑不能超過 255 個字元")]
         [Display(Name = "聯絡橫幅路徑")]
         public string ContactBannerPath { get; set; }
 
         [Required]
-        [StringLength(255, ErrorMessage = "地圖圖片路徑不能超過 255 個字元")]
-        [Display(Name = "地圖圖片路徑")]
-        public string MapImagePath { get; set; }
-        
-        [Required(ErrorMessage = "內容是必填項")]
+        [StringLength(2000, ErrorMessage = "{0}不能超過 {1} 個字元")]
+        [Display(Name = "地圖iframe 嵌入網址")]
+        public string MapEmbedUrl { get; set; }
+
+        [AllowHtml]
+        [Required(ErrorMessage = "{0}是必填項")]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
-
-        [Display(Name = "隱私版本編號")]
-        [Range(1, int.MaxValue, ErrorMessage = "選擇隱私政策版本")]
-        public int PrivacyVersionId { get; set; }
-
-        // Navigation property
-        [ForeignKey("PrivacyVersionId")]
-        virtual public PrivacyVersion PrivacyVersion { get; set; }
     }
 }

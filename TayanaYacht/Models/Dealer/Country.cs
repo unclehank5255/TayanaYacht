@@ -20,7 +20,7 @@ namespace TayanaYacht.Models.Dealer
         public int Id { get; set; }
 
         [Required]
-        [StringLength(60, ErrorMessage = "國家不能超過 60 個字元")]
+        [StringLength(60, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "國家")]
         public string Name { get; set; }
 

@@ -18,8 +18,33 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: ContactMessages
         public ActionResult Index()
         {
-            var contactMessages = db.ContactMessages.Include(c => c.PrivacyVersion).Include(c => c.Yacht);
-            return View(contactMessages.ToList());
+            var messages = db.ContactMessages.OrderByDescending(m => m.SubmittedAt).ToList();
+            return View(messages);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MarkHandled(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var message = db.ContactMessages.Find(id);
+            if (message == null)
+            {
+                return HttpNotFound();
+            }
+            if (message.HandledAt != null)
+            {
+                TempData["Message"] = "這則留言已經處理過了";
+                return RedirectToAction("Index");
+            }
+
+            message.HandledAt = DateTime.Now;
+            db.SaveChanges();
+            TempData["Message"] = "已標記為處理完成";
+            return RedirectToAction("Index");
         }
 
         // GET: ContactMessages/Details/5
@@ -37,67 +62,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(contactMessage);
         }
 
-        // GET: ContactMessages/Create
-        public ActionResult Create()
-        {
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version");
-            ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName");
-            return View();
-        }
-
-        // POST: ContactMessages/Create
-        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Email,Phone,Country,YachtId,YachtNameSnapshot,Comment,AcceptedPrivacy,PrivacyVersionId,SubmittedAt")] ContactMessage contactMessage)
-        {
-            if (ModelState.IsValid)
-            {
-                db.ContactMessages.Add(contactMessage);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contactMessage.PrivacyVersionId);
-            ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName", contactMessage.YachtId);
-            return View(contactMessage);
-        }
-
-        // GET: ContactMessages/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ContactMessage contactMessage = db.ContactMessages.Find(id);
-            if (contactMessage == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contactMessage.PrivacyVersionId);
-            ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName", contactMessage.YachtId);
-            return View(contactMessage);
-        }
-
-        // POST: ContactMessages/Edit/5
-        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Email,Phone,Country,YachtId,YachtNameSnapshot,Comment,AcceptedPrivacy,PrivacyVersionId,SubmittedAt")] ContactMessage contactMessage)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(contactMessage).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contactMessage.PrivacyVersionId);
-            ViewBag.YachtId = new SelectList(db.Yachts, "Id", "SeriesName", contactMessage.YachtId);
-            return View(contactMessage);
-        }
 
         // GET: ContactMessages/Delete/5
         public ActionResult Delete(int? id)
@@ -114,14 +78,20 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(contactMessage);
         }
 
-        // POST: ContactMessages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ContactMessage contactMessage = db.ContactMessages.Find(id);
-            db.ContactMessages.Remove(contactMessage);
+            var message = db.ContactMessages.Find(id);
+            if (message == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.ContactMessages.Remove(message);
             db.SaveChanges();
+
+            TempData["Message"] = "留言已刪除";
             return RedirectToAction("Index");
         }
 

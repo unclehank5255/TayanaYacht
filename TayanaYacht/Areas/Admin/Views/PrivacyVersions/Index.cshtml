@@ -1,0 +1,103 @@
+﻿@model IEnumerable<TayanaYacht.Models.Contact.PrivacyVersion>
+
+@{
+    ViewBag.Title = "隱私版本管理";
+    int? activeId = ViewBag.ActiveVersionId;
+}
+
+<h2>@ViewBag.Title</h2>
+<div style="display: flex; align-items: center; gap: 8px;">
+    <p>
+        @Html.ActionLink("新增隱私版本", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+
+    <p>
+        ⚠已發佈後將不能修改文本
+    </p>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">@TempData["Message"]</div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            狀態
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PublishedAt)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        string status;
+        if (item.PublishedAt == null)
+        {
+            status = "草稿";
+        }
+        else if (item.Id == activeId)
+        {
+            status = "使用中";
+        }
+        else
+        {
+            status = "已取代";
+        }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @status
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublishedAt)
+            </td>
+            <td>
+                @if (item.PublishedAt == null)
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
+                }
+                else
+                {
+                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                }
+                @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
+                @if (item.PublishedAt == null)
+                {
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger " })
+                }
+                else
+                {
+                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                }
+                @using (Html.BeginForm("Publish", "PrivacyVersions", new { id = item.Id }, FormMethod.Post,
+                new { @class = "d-inline", onsubmit = "return confirm('發布後就不能修改或刪除，確定要發布嗎？');" }))
+                {
+                    @Html.AntiForgeryToken()
+                    if (item.PublishedAt == null)
+                    {
+                        <button type="submit" class="btn btn-sm btn-success">發布</button>
+                    }
+                    else
+                    {
+                        <button  class="btn btn-sm btn-outline-secondary" disabled>發布</button>
+                    }
+                }
+            </td>
+        </tr>
+    }
+
+</table>

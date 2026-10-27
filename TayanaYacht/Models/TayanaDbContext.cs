@@ -42,13 +42,6 @@ namespace TayanaYacht.Models
                 .HasForeignKey(message => message.PrivacyVersionId)
                 .WillCascadeOnDelete(false);
 
-            // 刪除 PrivacyVersion 時，不刪除 Contact 頁面設定
-            modelBuilder.Entity<Contact.Contact>()
-                .HasRequired(contact => contact.PrivacyVersion)
-                .WithMany(version => version.Contacts)
-                .HasForeignKey(contact => contact.PrivacyVersionId)
-                .WillCascadeOnDelete(false);
-
             // 執行 EF 原本的 Model 建立流程
             base.OnModelCreating(modelBuilder);
         }

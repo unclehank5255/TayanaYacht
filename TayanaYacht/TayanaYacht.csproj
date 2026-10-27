@@ -175,9 +175,8 @@
     <Compile Include="Areas\Admin\Controllers\FileManagerController.cs" />
     <Compile Include="Areas\Admin\Controllers\FileSystemController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PrivacyVersionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\YachtsController.cs" />
-    <Compile Include="Controllers\ContactMessagesController.cs" />
-    <Compile Include="Controllers\ContactsController.cs" />
     <Compile Include="Controllers\DealersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -236,6 +235,26 @@
     <Compile Include="Migrations\202610220759435_AddNameCityInDealer.cs" />
     <Compile Include="Migrations\202610220759435_AddNameCityInDealer.Designer.cs">
       <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610241439530_RenameColumnNameContact.cs" />
+    <Compile Include="Migrations\202610241439530_RenameColumnNameContact.Designer.cs">
+      <DependentUpon>202610241439530_RenameColumnNameContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.cs" />
+    <Compile Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.Designer.cs">
+      <DependentUpon>202610251013312_AddColumnPublishatInPrivacyVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610260757046_RenamePrivacyVersionVersionNameToTitle.cs" />
+    <Compile Include="Migrations\202610260757046_RenamePrivacyVersionVersionNameToTitle.Designer.cs">
+      <DependentUpon>202610260757046_RenamePrivacyVersionVersionNameToTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610261456258_RemovePrivacyVersionFromContact.cs" />
+    <Compile Include="Migrations\202610261456258_RemovePrivacyVersionFromContact.Designer.cs">
+      <DependentUpon>202610261456258_RemovePrivacyVersionFromContact.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.cs" />
+    <Compile Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.Designer.cs">
+      <DependentUpon>202610261810204_UpdatedContactMessaColumnAndLegt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
@@ -451,15 +470,9 @@
     <Content Include="Areas\Admin\Views\Dealers\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Contacts\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Contacts\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\ContactMessages\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\ContactMessages\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ContactMessages\Index.cshtml" />
     <Content Include="Content\adminlte\bootstrap-icons\fonts\bootstrap-icons.woff" />
     <Content Include="Content\adminlte\bootstrap-icons\fonts\bootstrap-icons.woff2" />
@@ -531,6 +544,11 @@
     <Content Include="Areas\Admin\Views\Countries\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Countries\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PrivacyVersions\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -882,16 +900,6 @@
     <Content Include="Views\Dealers\Details.cshtml" />
     <Content Include="Views\Dealers\Edit.cshtml" />
     <Content Include="Views\Dealers\Index.cshtml" />
-    <Content Include="Views\Contacts\Create.cshtml" />
-    <Content Include="Views\Contacts\Delete.cshtml" />
-    <Content Include="Views\Contacts\Details.cshtml" />
-    <Content Include="Views\Contacts\Edit.cshtml" />
-    <Content Include="Views\Contacts\Index.cshtml" />
-    <Content Include="Views\ContactMessages\Create.cshtml" />
-    <Content Include="Views\ContactMessages\Delete.cshtml" />
-    <Content Include="Views\ContactMessages\Details.cshtml" />
-    <Content Include="Views\ContactMessages\Edit.cshtml" />
-    <Content Include="Views\ContactMessages\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -964,6 +972,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610220759435_AddNameCityInDealer.resx">
       <DependentUpon>202610220759435_AddNameCityInDealer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610241439530_RenameColumnNameContact.resx">
+      <DependentUpon>202610241439530_RenameColumnNameContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610251013312_AddColumnPublishatInPrivacyVersion.resx">
+      <DependentUpon>202610251013312_AddColumnPublishatInPrivacyVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610260757046_RenamePrivacyVersionVersionNameToTitle.resx">
+      <DependentUpon>202610260757046_RenamePrivacyVersionVersionNameToTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610261456258_RemovePrivacyVersionFromContact.resx">
+      <DependentUpon>202610261456258_RemovePrivacyVersionFromContact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.resx">
+      <DependentUpon>202610261810204_UpdatedContactMessaColumnAndLegt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

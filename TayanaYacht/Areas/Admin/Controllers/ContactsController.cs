@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Contact;
 
@@ -14,111 +7,38 @@ namespace TayanaYacht.Areas.Admin.Controllers
     public class ContactsController : Controller
     {
         private TayanaDbContext db = new TayanaDbContext();
+        private const int ContactId = 1;
 
-        // GET: Contacts
-        public ActionResult Index()
+        public ActionResult Edit()
         {
-            var contacts = db.Contacts.Include(c => c.PrivacyVersion);
-            return View(contacts.ToList());
-        }
-
-        // GET: Contacts/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
+            var contact = db.Contacts.Find(ContactId) ?? new Contact { Id = ContactId };
             return View(contact);
         }
 
-        // GET: Contacts/Create
-        public ActionResult Create()
-        {
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version");
-            return View();
-        }
-
-        // POST: Contacts/Create
-        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ContactBannerPath,MapImagePath,ContentHtml,PrivacyVersionId")] Contact contact)
+        public ActionResult EditPost()
         {
-            if (ModelState.IsValid)
+            var contact = db.Contacts.Find(ContactId);
+            bool isNew = contact == null;
+            if (isNew)
+            {
+                contact = new Contact { Id = ContactId };
+            }
+
+            if (!TryUpdateModel(contact, new[] { "ContactBannerPath", "ContentHtml", "MapEmbedUrl" }))
+            {
+                return View(contact);
+            }
+
+            if (isNew)
             {
                 db.Contacts.Add(contact);
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contact.PrivacyVersionId);
-            return View(contact);
-        }
-
-        // GET: Contacts/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contact.PrivacyVersionId);
-            return View(contact);
-        }
-
-        // POST: Contacts/Edit/5
-        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ContactBannerPath,MapImagePath,ContentHtml,PrivacyVersionId")] Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(contact).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.PrivacyVersionId = new SelectList(db.PrivacyVersions, "Id", "Version", contact.PrivacyVersionId);
-            return View(contact);
-        }
-
-        // GET: Contacts/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contacts.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: Contacts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Contact contact = db.Contacts.Find(id);
-            db.Contacts.Remove(contact);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            TempData["Message"] = "聯絡頁設定已儲存";
+            return RedirectToAction("Edit");
         }
 
         protected override void Dispose(bool disposing)

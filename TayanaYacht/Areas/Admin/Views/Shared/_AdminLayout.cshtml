@@ -120,52 +120,82 @@
             <div class="sidebar-wrapper">
                 <nav class="mt-2" aria-label="Main navigation">
                     <!--begin::Sidebar Menu-->
+                    @{
+                        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                        var contactControllers = new[] { "Contacts", "ContactMessages", "PrivacyVersions" };
+                        var isContactGroup = contactControllers.Contains(currentController);
+                    }
+
                     <ul class="nav sidebar-menu flex-column"
                         data-lte-toggle="treeview"
                         data-accordion="false"
                         id="navigation">
 
                         <li class="nav-item">
-                            <a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })" class="nav-link">
+                            <a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })"
+                               class="nav-link @(currentController == "Dashboard" ? "active" : "")">
                                 <i class="nav-icon bi bi-speedometer"></i>
-                                <p>Dashboard </p>
+                                <p>儀表板</p>
                             </a>
                         </li>
 
-
                         <li class="nav-item">
-                            <a href="@Url.Action("Index", "Yachts", new { area = "Admin" })" class="nav-link">
-                                <i class="nav-icon bi bi-file-earmark"></i>
-                                <p>Yachts 管理</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "News", new { area = "Admin" })" class="nav-link">
-                                <i class="nav-icon bi bi-file-earmark"></i>
-                                <p>News 管理</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "Dealers", new { area = "Admin" })" class="nav-link">
-                                <i class="nav-icon bi bi-file-earmark"></i>
-                                <p>Dealers 管理</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "Contacts", new { area = "Admin" })" class="nav-link">
-                                <i class="nav-icon bi bi-file-earmark"></i>
-                                <p>Contacts 管理</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="@Url.Action("Index", "ContactMessages", new { area = "Admin" })" class="nav-link">
-                                <i class="nav-icon bi bi-file-earmark"></i>
-                                <p>Contact Messages 管理</p>
+                            <a href="@Url.Action("Index", "Yachts", new { area = "Admin" })"
+                               class="nav-link @(currentController == "Yachts" ? "active" : "")">
+                                <i class="nav-icon bi bi-water"></i>
+                                <p>遊艇管理</p>
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "News", new { area = "Admin" })"
+                               class="nav-link @(currentController == "News" ? "active" : "")">
+                                <i class="nav-icon bi bi-newspaper"></i>
+                                <p>最新消息</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Dealers", new { area = "Admin" })"
+                               class="nav-link @(currentController == "Dealers" ? "active" : "")">
+                                <i class="nav-icon bi bi-shop"></i>
+                                <p>經銷商</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item @(isContactGroup ? "menu-open" : "")">
+                            <a href="#" class="nav-link @(isContactGroup ? "active" : "")">
+                                <i class="nav-icon bi bi-envelope"></i>
+                                <p>
+                                    聯絡我們
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Edit", "Contacts", new { area = "Admin" })"
+                                       class="nav-link @(currentController == "Contacts" ? "active" : "")">
+                                        <i class="nav-icon bi bi-gear"></i>
+                                        <p>聯絡頁設定</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "ContactMessages", new { area = "Admin" })"
+                                       class="nav-link @(currentController == "ContactMessages" ? "active" : "")">
+                                        <i class="nav-icon bi bi-chat-dots"></i>
+                                        <p>留言管理</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "PrivacyVersions", new { area = "Admin" })"
+                                       class="nav-link @(currentController == "PrivacyVersions" ? "active" : "")">
+                                        <i class="nav-icon bi bi-shield-check"></i>
+                                        <p>隱私條款</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
-
                 </nav>
             </div>
             <!--end::Sidebar Wrapper-->

@@ -17,7 +17,7 @@ namespace TayanaYacht.Models.News
         //Migiration加上這句Sql("ALTER TABLE dbo.NewsPages ADD CONSTRAINT CK_NewsPages_Id CHECK (Id = 1)");
         public int Id { get; set; }
 
-        [StringLength(255, ErrorMessage = "新聞橫幅路徑不能超過 255 個字元")]
+        [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "新聞橫幅路徑")]
         public string NewsBannerPath { get; set; }
     }

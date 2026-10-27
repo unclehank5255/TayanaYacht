@@ -22,21 +22,21 @@ namespace TayanaYacht.Models.News
         public int Id { get; set; }
 
         [Required]
-        [StringLength(25, ErrorMessage = "標題不能超過 25 個字元")]
+        [StringLength(25, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "標題")]
         public string Title { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "摘要不能超過 50 個字元")]
+        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "摘要")]
         public string Summary { get; set; }
 
-        [StringLength(255, ErrorMessage = "新聞封面路徑不能超過 255 個字元")]
+        [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "新聞封面路徑")]  
         public string NewsCoverPath { get; set; }
 
         [AllowHtml]
-        [Required(ErrorMessage = "內容是必填項")]
+        [Required(ErrorMessage = "{0}是必填項")]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
 
