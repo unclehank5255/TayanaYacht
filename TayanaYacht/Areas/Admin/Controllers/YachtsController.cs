@@ -95,7 +95,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,SeriesName,ModelName,StatusText,OverviewHtml,PrincipleDimensionHtml,SpecificationHtml,,IsLatest")] Yacht yacht)
+        public ActionResult Create([Bind(Include = "SeriesName,ModelName,StatusText,OverviewHtml,PrincipleDimensionHtml,SpecificationHtml,IsLatest")] Yacht yacht)
         {
             if (ModelState.IsValid)
             {
