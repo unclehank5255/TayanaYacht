@@ -10,7 +10,9 @@
 }
 
 <h2 class="my-2">@ViewBag.Title</h2>
-
+<p class="text-muted ">
+    目前共 <span class="badge bg-secondary bg-gradient">@Model.Count()</span> 艘船在貨架上
+</p>
 <div class="d-flex gap-2 mb-3">
     @Html.ActionLink("新增遊艇", "Create", null, new { @class = "btn btn-primary" })
     @Html.ActionLink("已下架遊艇", "Deleted", null, new { @class = "btn btn-outline-secondary" })
