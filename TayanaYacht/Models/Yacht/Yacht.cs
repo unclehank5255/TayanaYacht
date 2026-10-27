@@ -42,17 +42,14 @@ namespace TayanaYacht.Models.Yacht
         [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
         public string YachtBannerPath { get; set; }
 
-        [Required]
         [AllowHtml]
         [Display(Name = "概覽OverviewHtml")]
         public string OverviewHtml { get; set; }
 
-        [Required]
         [AllowHtml]
         [Display(Name = "主要尺寸PrincipleDimension")]
         public string PrincipleDimensionHtml { get; set; }
 
-        [Required]
         [AllowHtml]
         [Display(Name = "規格Specification")]
         public string SpecificationHtml { get; set; }

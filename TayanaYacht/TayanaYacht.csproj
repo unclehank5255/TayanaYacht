@@ -256,6 +256,10 @@
     <Compile Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.Designer.cs">
       <DependentUpon>202610261810204_UpdatedContactMessaColumnAndLegt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.cs" />
+    <Compile Include="Migrations\202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.Designer.cs">
+      <DependentUpon>202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -464,8 +468,6 @@
     <Content Include="Areas\Admin\Views\News\Details.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Dashboard\About.cshtml" />
-    <Content Include="Areas\Admin\Views\Dashboard\Contact.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Dealers\Edit.cshtml" />
@@ -987,6 +989,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610261810204_UpdatedContactMessaColumnAndLegt.resx">
       <DependentUpon>202610261810204_UpdatedContactMessaColumnAndLegt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.resx">
+      <DependentUpon>202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

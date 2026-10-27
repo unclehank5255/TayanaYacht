@@ -6,7 +6,7 @@
 
 <h2 class="my-2">@ViewBag.Title</h2>
 <p class="text-muted ">
-    目前共 <span class="badge bg-secondary bg-gradient">@Model.Count()</span> 艘船不在貨架上
+    目前共 @Model.Count() 艘船不在貨架上
 </p>
 <div class="my-2">
     @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })

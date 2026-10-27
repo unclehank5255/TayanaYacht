@@ -82,12 +82,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Admin/Yachts/Create
         public ActionResult Create()
         {
-            Yacht yacht = new Yacht();
-            yacht.YachtBannerPath = ImageDefaults.Picture;
-            yacht.OverviewHtml = "<h2>遊艇介紹</h2><p>請修改內容</p>";
-            yacht.PrincipleDimensionHtml = "<h2>主要尺寸</h2><p>請修改內容</p>";
-            yacht.SpecificationHtml = "<h2>規格</h2><p>請修改內容</p>";
-            return View(yacht);
+            return View();
         }
 
         // POST: Admin/Yachts/Create
@@ -104,7 +99,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 yacht.DisplayOrder = nextOrder;
                 db.Yachts.Add(yacht);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                TempData["Message"] = "遊艇已建立，請繼續填寫內容、上傳圖片";
+                return RedirectToAction("Edit", new { id = yacht.Id });
             }
 
             return View(yacht);
