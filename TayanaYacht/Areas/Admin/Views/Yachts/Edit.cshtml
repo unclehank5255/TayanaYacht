@@ -28,12 +28,7 @@
         language: 'zh-tw',
         versionCheck: false
     });
-    </script>
-}
-<h2>Edit</h2>
-
-<script>
-    function openBannerPicker() {
+        function openBannerPicker() {
         var url = '/Admin/FileManager'
             + '?type=Yacht'
             + '&id=@Model.Id'
@@ -41,96 +36,89 @@
 
         window.open(url, 'fileManager', 'width=1100,height=700');
     }
-</script>
-<p>
-    @Html.ActionLink("[反回 Index]", "Index")
-</p>
+    </script>
+}
+
+<h2 class="my-2">@ViewBag.Title</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+<div class="my-2">
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    <h4>Yacht</h4>
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.SeriesName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.SeriesName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.SeriesName, "", new { @class = "text-danger" })
+    <div class="card mb-3">
+        <div class="card-header">基本資訊</div>
+        <div class="card-body">
+            <div class="mb-3">
+                @Html.LabelFor(model => model.SeriesName, new { @class = "form-label" })
+                @Html.EditorFor(model => model.SeriesName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SeriesName, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.ModelName, new { @class = "form-label" })
+                @Html.EditorFor(model => model.ModelName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ModelName, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                @Html.LabelFor(model => model.StatusText, new { @class = "form-label" })
+                @Html.EditorFor(model => model.StatusText, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StatusText, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ModelName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ModelName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ModelName, "", new { @class = "text-danger" })
+    <div class="card mb-3">
+        <div class="card-header">發布設定</div>
+        <div class="card-body">
+            <div class="form-check mb-2">
+                @Html.CheckBoxFor(model => model.IsLatest, new { @class = "form-check-input" })
+                @Html.LabelFor(model => model.IsLatest, new { @class = "form-check-label" })
+            </div>
+            <div class="form-check">
+                @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-check-input" })
+                @Html.LabelFor(model => model.IsPublished, new { @class = "form-check-label" })
+            </div>
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.StatusText, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.StatusText, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.StatusText, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.OverviewHtml, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.OverviewHtml, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="card mb-3">
+        <div class="card-header">@Html.DisplayNameFor(model => model.OverviewHtml)</div>
+        <div class="card-body">
+            @Html.TextAreaFor(model => model.OverviewHtml, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.OverviewHtml, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.PrincipleDimensionHtml, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.PrincipleDimensionHtml, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="card mb-3">
+        <div class="card-header">@Html.DisplayNameFor(model => model.PrincipleDimensionHtml)</div>
+        <div class="card-body">
+            @Html.TextAreaFor(model => model.PrincipleDimensionHtml, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.PrincipleDimensionHtml, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.SpecificationHtml, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.SpecificationHtml, new { htmlAttributes = new { @class = "form-control" } })
+    <div class="card mb-3">
+        <div class="card-header">@Html.DisplayNameFor(model => model.SpecificationHtml)</div>
+        <div class="card-body">
+            @Html.TextAreaFor(model => model.SpecificationHtml, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.SpecificationHtml, "", new { @class = "text-danger" })
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsLatest, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.IsLatest)
-                @Html.ValidationMessageFor(model => model.IsLatest, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="d-flex gap-2 mb-3">
+        <input type="submit" value="儲存" class="btn btn-primary" />
+        @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.IsPublished, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <div class="checkbox">
-                @Html.EditorFor(model => model.IsPublished)
-                @Html.ValidationMessageFor(model => model.IsPublished, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
