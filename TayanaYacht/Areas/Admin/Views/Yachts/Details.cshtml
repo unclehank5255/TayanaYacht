@@ -1,115 +1,69 @@
 ﻿@model TayanaYacht.Models.Yacht.Yacht
+@using TayanaYacht.Models
+@{
+    ViewBag.Title = "遊艇內容";
+}
 
-@*@{
-        ViewBag.Title = "Details";
-    }*@
+<h2 class="my-2">@ViewBag.Title</h2>
 
-<h2>Details</h2>
-
-<div>
-    <h4>Yacht</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SeriesName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SeriesName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ModelName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ModelName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StatusText)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StatusText)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.YachtBannerPath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YachtBannerPath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OverviewHtml)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OverviewHtml)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PrincipleDimensionHtml)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PrincipleDimensionHtml)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SpecificationHtml)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SpecificationHtml)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DisplayOrder)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DisplayOrder)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsLatest)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsLatest)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsPublished)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsPublished)
-        </dd>
-
-    </dl>
+<div class="card mb-3">
+    <div class="card-body d-flex align-items-center gap-3">
+        <img class="banner-thumb" src="@(Model.YachtBannerPath ?? ImageDefaults.Picture)" />
+        <div>
+            <div class="fw-semibold">@Model.SeriesName @Model.ModelName</div>
+            <div class="text-muted mb-1">@Model.StatusText</div>
+            @if (Model.DeletedAt != null)
+            {
+                <span class="badge bg-secondary">已下架 @Model.DeletedAt.Value.ToString("yyyy-MM-dd HH:mm")</span>
+            }
+            else if (Model.IsPublished)
+            {
+                <span class="badge bg-success">已發布</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">未發布</span>
+            }
+            @if (Model.IsLatest)
+            {
+                <span class="badge bg-info">最新款</span>
+            }
+        </div>
+    </div>
 </div>
-<p>
-    @if (@Model.DeletedAt == null)
+
+<div class="card mb-3">
+    <div class="card-header">@Html.DisplayNameFor(model => model.OverviewHtml)</div>
+    <div class="card-body">@Html.Raw(Model.OverviewHtml)</div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">@Html.DisplayNameFor(model => model.PrincipleDimensionHtml)</div>
+    <div class="card-body">@Html.Raw(Model.PrincipleDimensionHtml)</div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">@Html.DisplayNameFor(model => model.SpecificationHtml)</div>
+    <div class="card-body">@Html.Raw(Model.SpecificationHtml)</div>
+</div>
+
+<div class="d-flex gap-2 mb-3">
+    @if (Model.DeletedAt != null)
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id });
-        <text> | </text>
-        @Html.ActionLink("Back to List", "Index");
+        using (Html.BeginForm("Restore", "Yachts", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-success"
+                    onclick="return confirm('確定要重新上架這艘遊艇嗎？');">
+                重新上架
+            </button>
+        }
+        @Html.ActionLink("返回已下架列表", "Deleted", null, new { @class = "btn btn-outline-secondary" })
     }
     else
     {
-        @Html.ActionLink("Back to List", "Deleted");
+        @Html.ActionLink("編輯", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
     }
-    }
-</p>
+</div>
