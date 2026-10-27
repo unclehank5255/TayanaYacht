@@ -78,14 +78,20 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return View(contactMessage);
         }
 
-        // POST: ContactMessages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ContactMessage contactMessage = db.ContactMessages.Find(id);
-            db.ContactMessages.Remove(contactMessage);
+            var message = db.ContactMessages.Find(id);
+            if (message == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.ContactMessages.Remove(message);
             db.SaveChanges();
+
+            TempData["Message"] = "留言已刪除";
             return RedirectToAction("Index");
         }
 

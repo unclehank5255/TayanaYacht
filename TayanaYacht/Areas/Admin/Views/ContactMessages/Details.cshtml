@@ -58,7 +58,7 @@
         using (Html.BeginForm("MarkHandled", "ContactMessages", new { id = Model.Id }, FormMethod.Post))
         {
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-success">標記已處理</button>
+            <button type="submit" class="btn btn-success" onclick="return confirm('確定要標記為已處理嗎？')">標記已處理</button>
         }
     }
     @Html.ActionLink("刪除", "Delete", new { id = Model.Id }, new { @class = "btn btn-outline-danger" })

@@ -70,7 +70,7 @@
                                 using (Html.BeginForm("MarkHandled", "ContactMessages", new { id = item.Id }, FormMethod.Post, new { @class = "d-inline" }))
                                 {
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-sm btn-success">標記已處理</button>
+                                    <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('確定要標記為已處理嗎？')">標記已處理</button>
                                 }
                             }
 
