@@ -135,7 +135,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        
+
         public ActionResult EditPost(int? id)
         {
             if (id == null)
@@ -153,7 +153,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 TempData["Message"] = "已發布的版本不能修改";
                 return RedirectToAction("Index");
             }
-            if (TryUpdateModel(yacht, new[] {  "SeriesName", "ModelName", "StatusText", "YachtBannerPath", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest"}))
+            if (TryUpdateModel(yacht, new[] { "SeriesName", "ModelName", "StatusText", "YachtBannerPath", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest", "IsPublished" }))
             {
                 db.SaveChanges();
                 return RedirectToAction("Index");
