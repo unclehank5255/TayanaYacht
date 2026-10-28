@@ -1,113 +1,110 @@
 ﻿@model IEnumerable<TayanaYacht.Models.News.News>
 @using TayanaYacht.Models;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "最新消息";
+    var news = Model.ToList();
+    var lastPostedAt = news.Any()
+       ? news.Max(n => n.CreatedAt).ToString("yyyy-MM-dd HH:mm")
+       : "—";
+    var publishedCount = news.Count(n => n.UnpublishedAt == null);
 }
 @section scripts {
     @Scripts.Render("~/Scripts/admin-yacht")
-}
-<h2>Index</h2>
-<script>
-    var targetInputId;
-    //按下圖片打開elfinder
-    function openPicturePicker(tag, inputId) {
-        targetInputId = inputId;
-        var url = '/Admin/FileManager'
-            + '?type=NewsPage'
-            + '&id=1'
-            + '&tag=' + tag;
+    <script>
+        var targetInputId;
+        //按下圖片打開elfinder
+        function openPicturePicker(tag, inputId) {
+            targetInputId = inputId;
+            var url = '/Admin/FileManager'
+                + '?type=NewsPage'
+                + '&id=1'
+                + '&tag=' + tag;
 
-        window.open(url, 'fileManager', 'width=1100,height=700');
-    }
-    //elfinder回傳圖片路徑
-    function onFilePicked(path) {
-        var input = document.getElementById(targetInputId);
-        input.value = path;
-        document.getElementById('coverPreview').src = path;
-        input.form.submit();
-    }
-</script>
-<div class="card mb-3">
-    <div class="card-header">新聞頁橫幅</div>
-    <div class="card-body">
-        @using (Html.BeginForm("UpdatePageBanner", "News", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <label class="form-label">Banner</label>
-            <div class="banner-picker-row">
-                <input type="hidden" name="BannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
-                <div class="cover-preview">
-                    <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="coverPreview" />
-                </div>
-                <button type="button" class="btn btn-outline-primary" onclick="openPicturePicker('NewsBannerPicture', 'bannerImagePath')">選擇Banner圖片</button>
-            </div>
+            window.open(url, 'fileManager', 'width=1100,height=700');
         }
-
+        //elfinder回傳圖片路徑
+        function onFilePicked(path) {
+            var input = document.getElementById(targetInputId);
+            input.value = path;
+            document.getElementById('coverPreview').src = path;
+            input.form.submit();
+        }
+    </script>
+}
+<div class="d-flex gap-3 align-items-start mb-3">
+    <div class="flex-shrink-0">
+        <h2 class="my-2">@ViewBag.Title</h2>
+        <p class="text-muted ">
+            目前共 @news.Count 則新聞，上架中 @publishedCount ，上次發文：<span class="badge bg-secondary">@lastPostedAt</span>
+        </p>
+        <div class="d-flex gap-2 mb-3">
+            @Html.ActionLink("新增新聞", "Create", null, new { @class = "btn btn-primary " })
+        </div>
+    </div>
+    <div class="card  flex-grow-1">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <div class="card-body">
+                    <h6 class="my-2">新聞頁橫幅</h6>
+                    <p class="small text-muted pb-2">前台新聞頁最上方的大圖</p>
+                    @using (Html.BeginForm("UpdatePageBanner", "News", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="BannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
+                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                onclick="openPicturePicker('NewsBannerPicture', 'bannerImagePath')">
+                            選擇橫幅圖片
+                        </button>
+                    }
+                </div>
+            </div>
+            <div class="col-md-8">
+                <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="coverPreview" class="banner-card-img rounded-end" />
+            </div>
+        </div>
     </div>
 </div>
 
-@Html.ActionLink("新增新聞", "Create", null, new { @class = "btn btn-primary mb-3" })
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">@TempData["Message"]</div>
+}
 
-<hr />
 <div class="card mb-3">
-    <div class="card-header">新聞列表</div>
-    <div class="card-body">
+    <div class="card-body p-0">
         <table class="table table-hover align-middle mb-0">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.NewsCoverPath)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Summary)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreatedAt)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UpdatedAt)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsPublished)
-                </th>
-                <th>
-                    狀態
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UnpublishedAt)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+            <thead class="table-light">
                 <tr>
-                    <td>
-                        <img class="banner-thumb" src="@(item.NewsCoverPath ?? ImageDefaults.Picture)" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Summary)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedAt)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedAt)
-                    </td>
-                    <td>
-                        @using (Html.BeginForm("TogglePublish", "News", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@item.Id" />
-                            <div>
+                    <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                    <th>@Html.DisplayNameFor(model => model.NewsCoverPath)</th>
+                    <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <th>下架/上架</th>
+                    <th>狀態</th>
+                    <th>@Html.DisplayNameFor(model => model.UnpublishedAt)</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!news.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">目前沒有新聞</td>
+                    </tr>
+                }
+                @foreach (var item in news)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                        <td><img class="banner-thumb" src="@(item.NewsCoverPath ?? ImageDefaults.Picture)" /></td>
+                        <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>
+                            @using (Html.BeginForm("TogglePublish", "News", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.Id" />
                                 <div>
                                     <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('確定要切換發布狀態嗎？');">
-                                        @if (item.IsPublished)
+                                        @if (item.UnpublishedAt == null)
                                         {
                                             <span>下架 </span>
                                         }
@@ -117,31 +114,33 @@
                                         }
                                     </button>
                                 </div>
-
-                            </div>
-                        }
-                    </td>
-                    <td>
-                        @if (item.IsPublished)
-                        {
-                            <span>上架中</span>
-                        }
-                        else
-                        {
-                            <span>未上架</span>
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UnpublishedAt)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
-            }
-
+                            }
+                        </td>
+                        <td>
+                            @if (item.UnpublishedAt == null)
+                            {
+                                <span class="badge bg-success">上架中</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">未上架</span>
+                            }
+                            @if (string.IsNullOrWhiteSpace(item.ContentHtml) || string.IsNullOrWhiteSpace(item.NewsCoverPath))
+                            {
+                                <span class="badge bg-danger">草稿</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnpublishedAt)
+                        </td>
+                        <td class="text-end text-nowrap">
+                            @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary" })
+                            @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                            @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>

@@ -260,6 +260,14 @@
     <Compile Include="Migrations\202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.Designer.cs">
       <DependentUpon>202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610280544473_RemoveColumnPublishAtNews.cs" />
+    <Compile Include="Migrations\202610280544473_RemoveColumnPublishAtNews.Designer.cs">
+      <DependentUpon>202610280544473_RemoveColumnPublishAtNews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.cs" />
+    <Compile Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.Designer.cs">
+      <DependentUpon>202610280546411_UpdateContentHtmlNotRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -444,7 +452,7 @@
     <Content Include="Content\jquery-ui-1.14.2\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui-1.14.2\jquery-ui.theme.min.css" />
     <Content Include="Content\jquery-ui-1.14.2\LICENSE.txt" />
-    <Content Include="Content\admin-yacht.css" />
+    <Content Include="Content\admin.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -992,6 +1000,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.resx">
       <DependentUpon>202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610280544473_RemoveColumnPublishAtNews.resx">
+      <DependentUpon>202610280544473_RemoveColumnPublishAtNews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.resx">
+      <DependentUpon>202610280546411_UpdateContentHtmlNotRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -37,8 +38,25 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            news.IsPublished = !news.IsPublished;
-            news.UnpublishedAt = news.IsPublished ? (DateTime?)null : DateTime.Now;
+
+            if (news.UnpublishedAt != null)
+            {
+                if (string.IsNullOrWhiteSpace(news.ContentHtml))
+                {
+                    TempData["Message"] = "無法上架，請先編輯內容";
+                    return RedirectToAction("Index");
+                }
+                if (string.IsNullOrWhiteSpace(news.NewsCoverPath))
+                {
+                    TempData["Message"] = "無法上架，請先設定封面圖片";
+                    return RedirectToAction("Index");
+                }
+                news.UnpublishedAt = null;
+            }
+            else
+            {
+                news.UnpublishedAt = DateTime.Now;
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -73,6 +91,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 news.UpdatedAt = DateTime.Now;
+                news.UnpublishedAt = DateTime.Now;
                 db.News.Add(news);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -127,7 +146,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdatePageBanner(string bannerPath)
         {
-            
+
             NewsPage newsPage = db.NewsPages.Find(1);
             if (newsPage == null)
             {
