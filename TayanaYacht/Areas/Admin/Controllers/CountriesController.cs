@@ -34,7 +34,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,DisplayOrder")] Country country)
+        public ActionResult Create([Bind(Include = "Name,DisplayOrder")] Country country)
         {
             if (ModelState.IsValid)
             {
