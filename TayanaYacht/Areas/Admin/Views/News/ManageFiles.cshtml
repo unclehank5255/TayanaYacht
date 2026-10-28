@@ -1,0 +1,55 @@
+﻿@model TayanaYacht.Models.News.News
+@using TayanaYacht.Models;
+@{
+    ViewBag.Title = "檔案管理";
+}
+
+<h2 class="my-2">@ViewBag.Title</h2>
+<p class="text-muted">
+    正在管理「@Model.Title」的檔案，共 @Model.NewsFiles.Count 個，只接受 <span class="badge bg-secondary">PDF</span>
+</p>
+<div class="d-flex gap-2 mb-3">
+    @Html.ActionLink("編輯新聞", "Edit", new { id = Model.Id }, new { @class = "btn btn-outline-primary" })
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">@TempData["Message"]</div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">下載檔案</div>
+    <div class="card-body">
+        @if (!Model.NewsFiles.Any())
+        {
+            <p class="text-muted mb-0">尚無檔案</p>
+        }
+        @foreach (var file in Model.NewsFiles)
+        {
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <a href="@file.FilePath" target="_blank">@file.DisplayFileName</a>
+                @using (Html.BeginForm("DeleteFile", "News", FormMethod.Post, new { @class = "ms-auto" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@file.Id" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('確定要刪除檔案嗎？');">
+                        刪除
+                    </button>
+                }
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        @using (Html.BeginForm("UploadFile", "News", FormMethod.Post, new { enctype = "multipart/form-data", @class = "d-flex gap-2" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <input type="text" name="displayName" class="form-control" placeholder="顯示名稱（可留空）" />
+            <input type="file" name="upload" class="form-control" accept=".pdf" />
+            <button type="submit" class="btn btn-primary text-nowrap">上傳</button>
+        }
+    </div>
+</div>

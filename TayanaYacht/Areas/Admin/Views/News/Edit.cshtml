@@ -1,12 +1,8 @@
 ﻿@model TayanaYacht.Models.News.News
 @using TayanaYacht.Models;
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "編輯管理";
 }
-<p>
-    @Html.ActionLink("[返回 Index]", "Index")
-</p>
-
 
 @section scripts {
     @*adminlte*@
@@ -49,21 +45,30 @@
         }
     </script>
 }
-<h4>News</h4>
-<hr />
+
+
+
+<h2 class="my-2">@ViewBag.Title</h2>
+<p class="text-muted ">
+    正在編輯「@Model.Title」的新聞文本，創建時間 <span class="badge bg-secondary"> @Model.CreatedAt </span> ，上次更新時間 <span class="badge bg-info "> @Model.UpdatedAt </span>
+</p>
+<div class="my-2">
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
 <div class="card mb-3">
     <div class="card-header">基本資訊</div>
     <div class="card-body">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)
-
-            <label class="form-label">Cover</label>
             <div class="banner-picker-row">
                 <input type="hidden" name="NewsCoverPath" value="@Model.NewsCoverPath" id="bannerImagePath" />
                 <div class="cover-preview">
@@ -72,73 +77,29 @@
                 <button type="button" onclick="openPicturePicker('NewsCoverPicture', 'bannerImagePath')">選擇Cover圖片</button>
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.LabelFor(model => model.Summary, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Summary, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
-                </div>
+                @Html.EditorFor(model => model.Summary, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
+            <div class="mb-3">
                 @Html.LabelFor(model => model.ContentHtml, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
-                </div>
+                @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
+            <div class="d-flex gap-2 mb-3">
+                <input type="submit" value="儲存" class="btn btn-primary" />
+                @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
             </div>
-        </div>
-        }
-    </div>
-</div>
 
-<div class="card mb-3" id="files">
-    <div class="card-header">下載檔案 ⚠ 上傳或刪除檔案前，請先儲存上方的內容</div>
-    <div class="card-body">
-        @if (Model.NewsFiles.Count == 0)
-        {
-            <p>尚無檔案</p>
-        }
-        @if (TempData["Message"] != null)
-        {
-            <div class="alert alert-warning position-fixed bottom-0 end-0 m-3">
-                @TempData["Message"]
-            </div>
-        }
-        @foreach (var file in Model.NewsFiles)
-        {
-            <div>
-                <i class="bi bi-file-earmark-pdf"></i>
-                <a href="@file.FilePath" target="_blank">@file.DisplayFileName</a>
-                @using (Html.BeginForm("DeleteFile", "News", FormMethod.Post, new { @class = "d-inline" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" value="@file.Id" />
-                    <button type="submit" onclick="return confirm('確定要刪除檔案嗎？');">刪除</button>
-                }
-            </div>
-        }
-        @using (Html.BeginForm("UploadFile", "News", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="id" value="@Model.Id" />
-            <input type="text" name="displayName" placeholder="顯示名稱（可留空）" />
-            <input type="file" name="upload" accept=".pdf" />
-            <button type="submit">上傳</button>
         }
     </div>
 </div>

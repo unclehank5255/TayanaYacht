@@ -81,7 +81,7 @@
                     <th>下架/上架</th>
                     <th>狀態</th>
                     <th>@Html.DisplayNameFor(model => model.UnpublishedAt)</th>
-                    <th>操作</th>
+                    <th class="text-end">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -135,7 +135,7 @@
                         </td>
                         <td class="text-end text-nowrap">
                             @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary" })
-                            @Html.ActionLink("細節", "Details", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                            @Html.ActionLink("檔案", "ManageFiles", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
                             @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
                         </td>
                     </tr>

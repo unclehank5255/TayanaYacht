@@ -477,7 +477,6 @@
     <Content Include="Areas\Admin\Views\Yachts\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Create.cshtml" />
     <Content Include="Areas\Admin\Views\News\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\News\Details.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
@@ -563,6 +562,7 @@
     <Content Include="Areas\Admin\Views\PrivacyVersions\Details.cshtml" />
     <Content Include="Areas\Admin\Views\PrivacyVersions\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PrivacyVersions\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\News\ManageFiles.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
