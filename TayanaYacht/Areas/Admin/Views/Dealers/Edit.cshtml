@@ -42,15 +42,15 @@
 <p class="text-muted ">
     正在編輯供應商「@Model.Name」的文本，國家 <span class="badge bg-secondary"> @Model.Country.Name </span> ，城區 <span class="badge bg-secondary "> @Model.City </span>
 </p>
-<div class="form-group my-2">
-    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
-</div>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">
+    <div class="alert alert-success">
         @TempData["Message"]
     </div>
 }
+<div class="form-group my-2">
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

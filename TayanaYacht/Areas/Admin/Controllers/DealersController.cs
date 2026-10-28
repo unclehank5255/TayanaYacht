@@ -44,7 +44,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 db.Dealers.Add(dealer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["Message"] = "經銷商已建立，請繼續填寫內容、上傳圖片";
+                return RedirectToAction("Edit", new { id=dealer.Id});
             }
 
             return View(dealer);
