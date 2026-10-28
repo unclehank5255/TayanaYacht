@@ -40,6 +40,6 @@
     @Html.AntiForgeryToken()
     <div class="d-flex gap-2">
         <button type="submit" class="btn btn-danger">確定刪除</button>
-        @Html.ActionLink("取消", "Details", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
+        @Html.ActionLink("返回取消", "Details", new { id = Model.Id }, new { @class = "btn btn-outline-secondary" })
     </div>
 }

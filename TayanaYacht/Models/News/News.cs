@@ -32,18 +32,17 @@ namespace TayanaYacht.Models.News
         public string Summary { get; set; }
 
         [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
-        [Display(Name = "新聞封面路徑")]  
+        [Display(Name = "新聞封面")]  
         public string NewsCoverPath { get; set; }
 
         [AllowHtml]
-        [Required(ErrorMessage = "{0}是必填項")]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
 
         //要在Migration中設定預設值，PublishDate = c.DateTime(nullable: false, defaultValueSql: "GETDATE()")
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "發布日期")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [Display(Name = "創建日期")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // 告訴 EF 時間統一由資料庫產生
         public DateTime CreatedAt { get; set; }
 
@@ -51,9 +50,6 @@ namespace TayanaYacht.Models.News
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         [Display(Name = "更新時間")]
         public DateTime UpdatedAt { get; set; }
-
-        [Display(Name = "已發布")]
-        public bool IsPublished { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]

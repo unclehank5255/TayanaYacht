@@ -6,18 +6,11 @@
 @section scripts {
     @*adminlte*@
     @Scripts.Render("~/bundles/jqueryval")
-    @*ckeditor*@
-    @Scripts.Render("~/bundles/ckeditor")
-
-
-    <script>
-        CKEDITOR.replace('ContentHtml', {
-        language: 'zh-tw',
-            versionCheck: false,
-    });
-    </script>
 }
 <h2 class="my-2">@ViewBag.Title</h2>
+<div class="alert alert-info">
+    先填國家編號 城市 經銷商名稱 和顯示順序，建立後會進入編輯頁，再填寫內容、上傳圖片。新增新聞預設為<strong>未上架</strong>。
+</div>
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-warning">
@@ -29,52 +22,46 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CountryId, (SelectList)ViewBag.CountryList, "請選擇國家", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <div class="card mb-3">
+        <div class="card-header">基本資訊</div>
+        <div class="card-body">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            <div class="mb-3">
+                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownListFor(model => model.CountryId, (SelectList)ViewBag.CountryList, "請選擇國家", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.ContentHtml, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
-        </div>
-    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group my-2">
+                <input type="submit" value="儲存" class="btn btn-primary me-1" />
+                @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
+            </div>
         </div>
     </div>
-
-    <div class="form-group my-2">
-        <input type="submit" value="儲存" class="btn btn-primary me-1" />
-        @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
-    </div>
-</div>
 }
 
 

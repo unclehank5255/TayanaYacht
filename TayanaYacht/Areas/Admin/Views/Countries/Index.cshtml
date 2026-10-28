@@ -2,11 +2,17 @@
 @using TayanaYacht.Models;
 @{
     ViewBag.Title = "國家管理";
+    var emptyCount = Model.Count(c => !c.Dealers.Any());
 }
 <h2 class="my-2">@ViewBag.Title</h2>
-<div class="d-flex gap-2">
+<p class="text-muted ">
+    目前共 @Model.Count() 個國家，<span class="badge bg-warning">@emptyCount</span> 個國家尚無經銷商
+</p>
+<div class="d-flex gap-2 mb-3">
     @Html.ActionLink("新增國家", "Create", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("返回經銷商", "Index", "Dealers", null, new { @class = "btn btn-outline-secondary" })
 </div>
+
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-warning">
@@ -14,39 +20,45 @@
     </div>
 }
 
-<table class="table my-2">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayOrder)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisplayOrder)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary me-1" }) |
-                @using (Html.BeginForm("Delete", "Countries", FormMethod.Post, new { @class = "d-inline" }))
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th> @Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.DisplayOrder)</th>
+                    <th class="text-end">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
                 {
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" value="@item.Id" />
-                    <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('確定要刪除這個國家嗎？');">Delete</button>
+                    <tr>
+                        <td colspan="3" class="text-center text-muted py-4">目前沒有國家</td>
+                    </tr>
                 }
-            </td>
-        </tr>
-    }
-
-</table>
-<div class="form-group my-2">
-    @Html.ActionLink("返回經銷商", "Index", "Dealers", null, new { @class = "btn btn-outline-secondary" })
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DisplayOrder)
+                        </td>
+                        <td class="text-end">
+                            @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary me-1" })
+                            @using (Html.BeginForm("Delete", "Countries", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('確定要刪除這個國家嗎？');">刪除</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+

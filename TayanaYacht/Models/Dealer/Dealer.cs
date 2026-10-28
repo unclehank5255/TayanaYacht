@@ -16,7 +16,7 @@ namespace TayanaYacht.Models.Dealer
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Display(Name = "國家編號")]
+        [Display(Name = "國家")]
         [Range(1, int.MaxValue, ErrorMessage = "{0}必須在 {1} 到 {2} 之間")]
         public int CountryId { get; set; }
 
@@ -35,7 +35,6 @@ namespace TayanaYacht.Models.Dealer
         public string City { get; set; }
 
         [AllowHtml]
-        [Required(ErrorMessage = "{0}是必填項")]
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
 

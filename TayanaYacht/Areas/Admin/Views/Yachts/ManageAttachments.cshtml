@@ -3,6 +3,7 @@
 @using TayanaYacht.Models.Yacht
 @{
     ViewBag.Title = "附件管理";
+    var yacht = (Yacht)ViewBag.Yacht;
     const int maxPictures = 3;
     var galleryPictures = Model.Where(p => p.PictureType == YachtPictureTypeEnum.Gallery).ToList();
     var layoutPictures = Model.Where(p => p.PictureType == YachtPictureTypeEnum.Layout).ToList();
@@ -17,7 +18,7 @@
             targetInputId = inputId;
             var url = '/Admin/FileManager'
                 + '?type=Yacht'
-                + '&id=@ViewBag.YachtId'
+                + '&id=@yacht.Id'
                 + '&tag=' + tag;
 
             window.open(url, 'fileManager', 'width=1100,height=700');
@@ -32,7 +33,9 @@
 }
 
 <h2 class="my-2">@ViewBag.Title</h2>
-
+<p class="text-muted ">
+    正在管理 @yacht.SeriesName @yacht.ModelName 遊艇附件，創建時間 <span class="badge bg-secondary ">@yacht.CreatedAt</span> ，上次更新時間 <span class="badge bg-info ">@yacht.UpdatedAt</span>
+</p>
 <div class="my-2">
     @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
 </div>
@@ -46,13 +49,13 @@
     <div class="card-header">橫幅</div>
     <div class="card-body">
         <div class="picture-item mb-3">
-            <img src="@(ViewBag.YachtBannerPath ?? ImageDefaults.Picture)" />
+            <img src="@(yacht.YachtBannerPath ?? ImageDefaults.Picture)" />
         </div>
         @using (Html.BeginForm("UpdateBanner", "Yachts", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
-            <input type="hidden" name="yachtId" value="@ViewBag.YachtId" />
-            <input type="hidden" name="bannerPath" value="@ViewBag.YachtBannerPath" id="bannerImagePath" />
+            <input type="hidden" name="yachtId" value="@yacht.Id" />
+            <input type="hidden" name="bannerPath" value="@yacht.YachtBannerPath" id="bannerImagePath" />
             <button type="button" class="btn btn-outline-primary"
                     onclick="openPicturePicker('YachtBannerPicture', 'bannerImagePath')">
                 選擇橫幅圖片
@@ -112,7 +115,7 @@
             using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
-                <input type="hidden" name="YachtId" value="@ViewBag.YachtId" />
+                <input type="hidden" name="YachtId" value="@yacht.Id" />
                 <input type="hidden" name="PictureType" value="Gallery" />
                 <input type="hidden" name="ImagePath" id="galleryImagePath" />
                 <button type="button" class="btn btn-sm btn-outline-primary"
@@ -179,7 +182,7 @@
             using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
-                <input type="hidden" name="YachtId" value="@ViewBag.YachtId" />
+                <input type="hidden" name="YachtId" value="@yacht.Id" />
                 <input type="hidden" name="PictureType" value="Layout" />
                 <input type="hidden" name="ImagePath" id="layoutImagePath" />
                 <button type="button" class="btn btn-sm btn-outline-primary"
@@ -223,10 +226,11 @@
         @using (Html.BeginForm("UploadFile", "Yachts", FormMethod.Post, new { enctype = "multipart/form-data", @class = "d-flex gap-2" }))
         {
             @Html.AntiForgeryToken()
-            <input type="hidden" name="yachtId" value="@ViewBag.YachtId" />
+            <input type="hidden" name="yachtId" value="@yacht.Id" />
             <input type="text" name="displayName" class="form-control" placeholder="顯示名稱（可留空）" />
             <input type="file" name="upload" class="form-control" accept=".pdf" />
             <button type="submit" class="btn btn-primary text-nowrap">上傳</button>
+            @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" }) 
         }
     </div>
 </div>

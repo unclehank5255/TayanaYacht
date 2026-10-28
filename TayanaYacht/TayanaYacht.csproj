@@ -260,6 +260,22 @@
     <Compile Include="Migrations\202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.Designer.cs">
       <DependentUpon>202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610280544473_RemoveColumnPublishAtNews.cs" />
+    <Compile Include="Migrations\202610280544473_RemoveColumnPublishAtNews.Designer.cs">
+      <DependentUpon>202610280544473_RemoveColumnPublishAtNews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.cs" />
+    <Compile Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.Designer.cs">
+      <DependentUpon>202610280546411_UpdateContentHtmlNotRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610280619300_AddYachtTimestamps.cs" />
+    <Compile Include="Migrations\202610280619300_AddYachtTimestamps.Designer.cs">
+      <DependentUpon>202610280619300_AddYachtTimestamps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.cs" />
+    <Compile Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.Designer.cs">
+      <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -465,7 +481,6 @@
     <Content Include="Areas\Admin\Views\Yachts\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Create.cshtml" />
     <Content Include="Areas\Admin\Views\News\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\News\Details.cshtml" />
     <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
@@ -551,6 +566,7 @@
     <Content Include="Areas\Admin\Views\PrivacyVersions\Details.cshtml" />
     <Content Include="Areas\Admin\Views\PrivacyVersions\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PrivacyVersions\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\News\ManageFiles.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -992,6 +1008,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.resx">
       <DependentUpon>202610271652364_ChancelYachtOrviewPricinpleDimensionSpectifiactionHtmlRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610280544473_RemoveColumnPublishAtNews.resx">
+      <DependentUpon>202610280544473_RemoveColumnPublishAtNews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.resx">
+      <DependentUpon>202610280546411_UpdateContentHtmlNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610280619300_AddYachtTimestamps.resx">
+      <DependentUpon>202610280619300_AddYachtTimestamps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.resx">
+      <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

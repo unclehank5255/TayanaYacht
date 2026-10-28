@@ -57,7 +57,17 @@ namespace TayanaYacht.Models.Yacht
         [Display(Name = "排序")]
         public int DisplayOrder { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}")]
+        [Display(Name = "創建日期")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // 告訴 EF 時間統一由資料庫產生
+        public DateTime CreatedAt { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}")]
+        [Display(Name = "更新時間")]
+        public DateTime UpdatedAt { get; set; }
         [Display(Name = "下架時間")]
+
         public DateTime? DeletedAt { get; set; }
 
         [Display(Name = "最新款")]

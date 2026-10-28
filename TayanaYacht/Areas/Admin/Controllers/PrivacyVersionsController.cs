@@ -18,7 +18,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Admin/PrivacyVersions
         public ActionResult Index()
         {
-            var versions = db.PrivacyVersions.ToList();
+            var versions = db.PrivacyVersions.OrderByDescending(v => v.PublishedAt).ToList();
 
             int? activeVersionId = versions
                 .Where(v => v.PublishedAt != null)

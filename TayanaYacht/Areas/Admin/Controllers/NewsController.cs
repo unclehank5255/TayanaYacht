@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -37,24 +38,27 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            news.IsPublished = !news.IsPublished;
-            news.UnpublishedAt = news.IsPublished ? (DateTime?)null : DateTime.Now;
+
+            if (news.UnpublishedAt != null)
+            {
+                if (string.IsNullOrWhiteSpace(news.ContentHtml))
+                {
+                    TempData["Message"] = "無法上架，請先編輯內容";
+                    return RedirectToAction("Index");
+                }
+                if (string.IsNullOrWhiteSpace(news.NewsCoverPath))
+                {
+                    TempData["Message"] = "無法上架，請先設定封面圖片";
+                    return RedirectToAction("Index");
+                }
+                news.UnpublishedAt = null;
+            }
+            else
+            {
+                news.UnpublishedAt = DateTime.Now;
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-        // GET: News/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            News news = db.News.Find(id);
-            if (news == null || news.DeletedAt != null)
-            {
-                return HttpNotFound();
-            }
-            return View(news);
         }
 
         // GET: News/Create
@@ -73,9 +77,11 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 news.UpdatedAt = DateTime.Now;
+                news.UnpublishedAt = DateTime.Now;
                 db.News.Add(news);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["Message"] = "新聞已建立，請繼續填寫內容、上傳圖片";
+                return RedirectToAction("Edit", new { id = news.Id});
             }
 
             return View(news);
@@ -127,7 +133,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UpdatePageBanner(string bannerPath)
         {
-            
+
             NewsPage newsPage = db.NewsPages.Find(1);
             if (newsPage == null)
             {
@@ -137,6 +143,22 @@ namespace TayanaYacht.Areas.Admin.Controllers
             newsPage.NewsBannerPath = bannerPath;
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult ManageFiles(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            News news = db.News.Find(id);
+            if (news == null || news.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            return View(news);
+
         }
 
         // POST: Admin/News/Upload/5
@@ -156,19 +178,19 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (upload == null || upload.ContentLength <= 0)
             {
                 TempData["Message"] = "請選擇要上傳的檔案";
-                return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
+                return RedirectToAction("ManageFiles", new { id = news.Id });
             }
             string extension = Path.GetExtension(upload.FileName).ToLower();
             if (extension != ".pdf")
             {
                 TempData["Message"] = "只能上傳 PDF 檔案";
-                return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
+                return RedirectToAction("ManageFiles", new { id = news.Id });
             }
             string displayFileName = string.IsNullOrWhiteSpace(displayName) ? Path.GetFileName(upload.FileName) : displayName.Trim();
             if (displayFileName.Length > 50)
             {
                 TempData["Message"] = "檔案名稱不能超過 50 個字";
-                return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
+                return RedirectToAction("ManageFiles", new { id = news.Id });
             }
             string storedFileName = Guid.NewGuid().ToString("N") + extension;
             string folder = Server.MapPath("~/Files/News/" + news.Id + "/File/");
@@ -184,7 +206,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             };
             db.NewsFiles.Add(newsFile);
             db.SaveChanges();
-            return Redirect(Url.Action("Edit", new { id = news.Id }) + "#files");
+            return RedirectToAction("ManageFiles", new { id = news.Id });
         }
         // POST: Admin/News/DeleteFile/5
         [HttpPost]

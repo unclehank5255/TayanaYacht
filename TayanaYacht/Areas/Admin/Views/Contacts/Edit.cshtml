@@ -35,6 +35,9 @@
 }
 
 <h2 class="my-2">@ViewBag.Title</h2>
+<p class="text-muted ">
+    正在編輯聯絡頁的文本。
+</p>
 
 @if (TempData["Message"] != null)
 {
@@ -49,7 +52,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="card mb-3">
-        <div class="card-header">橫幅</div>
+        <div class="card-header">封面管理</div>
         <div class="card-body">
             <div class="banner-picker-row">
                 <input type="hidden" name="ContactBannerPath" value="@Model.ContactBannerPath" id="bannerPathInput" />
@@ -80,12 +83,13 @@
 
             @if (!string.IsNullOrEmpty(Model.MapEmbedUrl))
             {
-                <iframe src="@Model.MapEmbedUrl" class="mt-3" width="100%" height="300" style="border:0;" loading="lazy"></iframe>
+                <iframe src="@Model.MapEmbedUrl" class="mt-3 w-100" height="300" style="border:0;" loading="lazy"></iframe>
             }
         </div>
     </div>
 
-    <div class="my-2">
-        <input type="submit" value="儲存" class="btn btn-primary" />
+    <div class="form-group my-2">
+        <input type="submit" value="儲存" class="btn btn-primary me-1" />
+        @Html.ActionLink("回到編輯", "Edit", null, new { @class = "btn btn-outline-secondary" })
     </div>
 }

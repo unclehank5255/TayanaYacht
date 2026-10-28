@@ -90,13 +90,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SeriesName,ModelName,StatusText,OverviewHtml,PrincipleDimensionHtml,SpecificationHtml,IsLatest")] Yacht yacht)
+        public ActionResult Create([Bind(Include = "SeriesName,ModelName,StatusText,IsLatest")] Yacht yacht)
         {
             if (ModelState.IsValid)
             {
                 int maxOrder = db.Yachts.Select(y => y.DisplayOrder).OrderByDescending(y => y).FirstOrDefault();//DefaultIfEmpty(0).Max();
                 int nextOrder = maxOrder + 1;
                 yacht.DisplayOrder = nextOrder;
+                yacht.UpdatedAt = DateTime.Now;
                 db.Yachts.Add(yacht);
                 db.SaveChanges();
 
@@ -122,7 +123,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             if (yacht.DeletedAt != null)
             {
-                TempData["Message"] = "已發布的版本不能修改";
+                TempData["Message"] = "已下架的遊艇不能修改";
                 return RedirectToAction("Index");
             }
             return View(yacht);
@@ -147,11 +148,12 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             if (yacht.DeletedAt != null)
             {
-                TempData["Message"] = "已發布的版本不能修改";
+                TempData["Message"] = "已下架的遊艇不能修改";
                 return RedirectToAction("Index");
             }
-            if (TryUpdateModel(yacht, new[] { "SeriesName", "ModelName", "StatusText", "YachtBannerPath", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest", "IsPublished" }))
+            if (TryUpdateModel(yacht, new[] { "SeriesName", "ModelName", "StatusText", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest", "IsPublished" }))
             {
+                yacht.UpdatedAt = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -174,8 +176,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             ViewBag.YachtBannerPath = yacht.YachtBannerPath ?? ImageDefaults.Picture;
             var pictures = db.YachtPictures.Where(p => p.YachtId == id).OrderBy(p => p.DisplayOrder).ToList();
-            ViewBag.YachtId = id;
-            ViewBag.YachtName = $"{yacht.SeriesName} {yacht.ModelName}";
+            ViewBag.Yacht = yacht;
             ViewBag.Files = db.YachtFiles.Where(f => f.YachtId == id).OrderBy(f => f.Id).ToList();
             return View(pictures);
         }
@@ -195,6 +196,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
 
             yacht.YachtBannerPath = bannerPath;
+            TouchYacht(yachtId.Value);
             db.SaveChanges();
             return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
@@ -216,6 +218,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                     return RedirectToAction("ManageAttachments", new { id = yachtpicture.YachtId });
                 }
                 db.YachtPictures.Add(yachtpicture);
+                TouchYacht(yachtpicture.YachtId);
                 db.SaveChanges();
                 return RedirectToAction("ManageAttachments", new { id = yachtpicture.YachtId });
             }
@@ -237,6 +240,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             int yachtId = yachtpicture.YachtId;
             db.YachtPictures.Remove(yachtpicture);
+            TouchYacht(yachtId);
             db.SaveChanges();
             return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
@@ -279,6 +283,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 temp = yachtpicture.DisplayOrder;
                 yachtpicture.DisplayOrder = neighbor.DisplayOrder;
                 neighbor.DisplayOrder = temp;
+                TouchYacht(yachtId);
             }
             db.SaveChanges();
             return RedirectToAction("ManageAttachments", new { id = yachtId });
@@ -328,6 +333,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 FilePath = "/Files/Yacht/" + yachtId + "/File/" + storedFileName
             };
             db.YachtFiles.Add(yachtFile);
+            TouchYacht(yachtFile.YachtId);
             db.SaveChanges();
             return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
@@ -349,6 +355,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             string physicalPath = Server.MapPath("~" + yachtFile.FilePath);
 
             db.YachtFiles.Remove(yachtFile);
+            TouchYacht(yachtFile.YachtId);
             db.SaveChanges();
 
             if (System.IO.File.Exists(physicalPath))
@@ -396,30 +403,55 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Yacht yacht = db.Yachts.Find(id);
-
-            return View(yacht);
-        }
-        // POST: Admin/Yachts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Yacht yacht = db.Yachts.Find(id);
-            if (yacht.IsPublished)
-            {
-                TempData["Message"] = "已發佈的遊艇無法下架，請先取消發佈";
-            }
-            if (yacht == null)
+            if (yacht == null || yacht.DeletedAt != null)
             {
                 return HttpNotFound();
             }
+            if (yacht.IsPublished)
+            {
+                TempData["Message"] = "已發布的遊艇無法下架，請先取消發布";
+                return RedirectToAction("Index");
+            }
+            return View(yacht);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Yacht yacht = db.Yachts.Find(id);
+            if (yacht == null || yacht.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            if (yacht.IsPublished)
+            {
+                TempData["Message"] = "已發布的遊艇無法下架，請先取消發布";
+                return RedirectToAction("Index");
+            }
+
             yacht.DeletedAt = DateTime.Now;
             db.SaveChanges();
+            TempData["Message"] = "遊艇已下架";
             return RedirectToAction("Index");
         }
         #endregion
 
+        #region Helpers
+        private void TouchYacht(int yachtId)
+        {
+            var yacht = db.Yachts.Find(yachtId);
+            if (yacht != null)
+            {
+                yacht.UpdatedAt = DateTime.Now;
+            }
+        }
 
+        #endregion
         protected override void Dispose(bool disposing)
         {
             if (disposing)
