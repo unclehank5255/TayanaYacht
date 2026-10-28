@@ -4,68 +4,36 @@
 @{
     ViewBag.Title = "刪除經銷商";
 }
-<h2>@ViewBag.Title</h2>
-<h3>確定要刪除這個經銷商嗎？</h3>
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Country.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Country.Name)
-        </dd>
+<h2 class="my-2">@ViewBag.Title</h2>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DealerCoverPath)
-        </dt>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">@TempData["Message"]</div>
+}
 
-        <dd>
-            <img class="banner-thumb" src="@(Model.DealerCoverPath ?? ImageDefaults.Picture)" />
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContentHtml)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContentHtml)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DisplayOrder)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DisplayOrder)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-group my-2">
-            <input type="submit" value="刪除" class="btn btn-danger me-1");" />
-            @Html.ActionLink("返回", "Index", null, new { @class = "btn btn-outline-secondary" })
-        </div>
-    }
+<div class="alert alert-warning">
+    確定要刪除這間經銷商嗎？刪除後前台不會顯示，後台列表也看不到。
 </div>
+<div class="card mb-3">
+    <div class="card-body d-flex align-items-center gap-3">
+        <img class="banner-thumb" src="@(Model.DealerCoverPath ?? ImageDefaults.Picture)" />
+        <div>
+            <div class="fw-semibold">@Model.Country.Name</div>
+            <div class="text-muted small mb-1">@Model.City</div>
+            <div class="text-muted small mb-1">@Model.Name</div>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group my-2">
+        <input type="submit" value="刪除" class="btn btn-danger me-1" );" />
+        @Html.ActionLink("返回取消", "Index", null, new { @class = "btn btn-outline-secondary" })
+    </div>
+}
+

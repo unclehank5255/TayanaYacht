@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<TayanaYacht.Models.Dealer.Dealer>
 @using TayanaYacht.Models;
 @{
-    ViewBag.Title = "供應商管理";
+    var dealers = Model.ToList();
+    ViewBag.Title = "經銷商管理";
+    var countryCount = dealers.Select(d => d.CountryId).Distinct().Count();
+    var noCoverCount = dealers.Count(d => string.IsNullOrEmpty(d.DealerCoverPath));
 }
 <script>
     var targetInputId;
@@ -23,88 +26,74 @@
         input.form.submit();
     }
 </script>
-<h2 class="my-2">封面管理</h2>
-<div class="card mb-3">
-    <div class="card-header">封面</div>
-    <div class="card-body">
-        @using (Html.BeginForm("UpdatePageBanner", "Dealers", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            <label class="form-label"></label>
-            <div class="banner-picker-row">
-                <input type="hidden" name="bannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
-                <div class="cover-preview">
-                    <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="bannerPreview" />
-                </div>
-                <button type="button" class="btn btn-outline-primary" onclick="openPicturePicker('DealerBannerPicture', 'bannerImagePath')">選擇封面圖片</button>
-            </div>
-        }
-
+<div class="d-flex gap-3 align-items-start mb-3">
+    <div class="flex-shrink-0">
+        <h2 class="my-2">@ViewBag.Title</h2>
+        <p class="text-muted ">
+            目前共 @Model.Count() 家經銷商，分佈在 <span class="badge bg-secondary">@countryCount</span>  個國家，共 <span class="badge bg-warning">@noCoverCount</span>  家尚未設定封面
+        </p>
+        <div class="d-flex gap-2 mb-3">
+            @Html.ActionLink("新增經銷商", "Create", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("國家管理", "Index", "Countries", null, new { @class = "btn btn-outline-secondary" })
+        </div>
     </div>
-</div>
-
-<h2 class="my-2">@ViewBag.Title</h2>
-<div class="d-flex gap-2">
-    @Html.ActionLink("新增經銷商", "Create", null, new { @class = "btn btn-primary" })
-    @Html.ActionLink("國家管理", "Index", "Countries", null, new { @class = "btn btn-outline-secondary" })
+    <div class="card  flex-grow-1">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <div class="card-body">
+                    <h6 class="my-2">經銷商頁橫幅</h6>
+                    <p class="small text-muted pb-2">前台經銷商頁最上方的大圖</p>
+                    @using (Html.BeginForm("UpdatePageBanner", "Dealers", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="BannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
+                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                onclick="openPicturePicker('DealerBannerPicture', 'bannerImagePath')">
+                            選擇橫幅圖片
+                        </button>
+                    }
+                </div>
+            </div>
+            <div class="col-md-8">
+                <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="coverPreview" class="banner-card-img rounded-end" />
+            </div>
+        </div>
+    </div>
 </div>
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">
-        @TempData["Message"]
-    </div>
+    <div class="alert alert-warning">@TempData["Message"]</div>
 }
-<div class="card mb-3">
-    <div class="card-header">經銷商</div>
-    <div class="card-body">
-        <table class="table my-2">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Country.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DealerCoverPath)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.City)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DisplayOrder)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Country.Name)
-                    </td>
-                    <td>
-                        <img class="banner-thumb" src="@(item.DealerCoverPath ?? ImageDefaults.Picture)" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DisplayOrder)
-                    </td>
-                    <td>
-                        <div class="d-inline-flex gap-1">
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
-                        </div>
-                    </td>
+                    <th>@Html.DisplayNameFor(model => model.DisplayOrder)</th>
+                    <th>@Html.DisplayNameFor(model => model.DealerCoverPath)</th>
+                    <th> @Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Country.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.City)</th>
+                    <th class="text-end">操作</th>
                 </tr>
-            }
-
+            </thead>
+            <tbody>
+                @foreach (var item in dealers)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.DisplayOrder)</td>
+                        <td><img class="banner-thumb" src="@(item.DealerCoverPath ?? ImageDefaults.Picture)" /></td>
+                        <td> @Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Country.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.City)</td>
+                        <td class="text-end text-nowrap">
+                            @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
+                            @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>

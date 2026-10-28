@@ -39,6 +39,12 @@
 }
 
 <h2 class="my-2">@ViewBag.Title</h2>
+<p class="text-muted ">
+    正在編輯供應商「@Model.Name」的文本，國家 <span class="badge bg-secondary"> @Model.Country.Name </span> ，城區 <span class="badge bg-secondary "> @Model.City </span>
+</p>
+<div class="form-group my-2">
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-warning">
@@ -48,63 +54,59 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
-
-    <div class="banner-picker-row">
-        <input type="hidden" name="DealerCoverPath" value="@Model.DealerCoverPath" id="coverPathInput" />
-        <div class="cover-preview">
-            <img src="@(Model.DealerCoverPath ?? ImageDefaults.Picture)" id="coverPreview" />
-        </div>
-        <button type="button" onclick="    openPicturePicker('DealerCoverPicture', 'coverPathInput')">選擇Cover圖片</button>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.CountryId, (SelectList)ViewBag.CountryList, "請選擇國家", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+    <div class="card mb-3">
+        <div class="card-header">封面編輯</div>
+        <div class="card-body">
+            <div class="banner-picker-row">
+                <input type="hidden" name="DealerCoverPath" value="@Model.DealerCoverPath" id="coverPathInput" />
+                <div class="cover-preview">
+                    <img src="@(Model.DealerCoverPath ?? ImageDefaults.Picture)" id="coverPreview" />
+                </div>
+                <button type="button" class="btn btn-primary" onclick="openPicturePicker('DealerCoverPicture', 'coverPathInput')">選擇Cover圖片</button>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    <div class="card mb-3">
+        <div class="card-header">基本資訊</div>
+        <div class="card-body">
+            <div class="mb-3">
+                @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.DropDownListFor(model => model.CountryId, (SelectList)ViewBag.CountryList, "請選擇國家", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+            <div class="mb-3">
+                @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    <div class="card mb-3">
+        <div class="card-header">基本資訊</div>
+        <div class="card-body">
+            <div class="mb-3">
+                @Html.LabelFor(model => model.ContentHtml, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.ContentHtml, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(model => model.ContentHtml, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.ContentHtml, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
     <div class="form-group my-2">
         <input type="submit" value="儲存" class="btn btn-primary me-1" />
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
+        @Html.ActionLink("取消返回", "Index", null, new { @class = "btn btn-outline-secondary" })
     </div>
-
-</div>
 }
 
 
