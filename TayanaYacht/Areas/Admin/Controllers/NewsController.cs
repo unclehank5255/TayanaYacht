@@ -80,7 +80,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 news.UnpublishedAt = DateTime.Now;
                 db.News.Add(news);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["Message"] = "新聞已建立，請繼續填寫內容、上傳圖片";
+                return RedirectToAction("Edit", new { id = news.Id});
             }
 
             return View(news);
