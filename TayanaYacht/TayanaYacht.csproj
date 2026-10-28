@@ -268,6 +268,10 @@
     <Compile Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.Designer.cs">
       <DependentUpon>202610280546411_UpdateContentHtmlNotRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610280619300_AddYachtTimestamps.cs" />
+    <Compile Include="Migrations\202610280619300_AddYachtTimestamps.Designer.cs">
+      <DependentUpon>202610280619300_AddYachtTimestamps.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -452,7 +456,7 @@
     <Content Include="Content\jquery-ui-1.14.2\jquery-ui.theme.css" />
     <Content Include="Content\jquery-ui-1.14.2\jquery-ui.theme.min.css" />
     <Content Include="Content\jquery-ui-1.14.2\LICENSE.txt" />
-    <Content Include="Content\admin.css" />
+    <Content Include="Content\admin-yacht.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -1006,6 +1010,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610280546411_UpdateContentHtmlNotRequired.resx">
       <DependentUpon>202610280546411_UpdateContentHtmlNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610280619300_AddYachtTimestamps.resx">
+      <DependentUpon>202610280619300_AddYachtTimestamps.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
