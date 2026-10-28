@@ -272,6 +272,10 @@
     <Compile Include="Migrations\202610280619300_AddYachtTimestamps.Designer.cs">
       <DependentUpon>202610280619300_AddYachtTimestamps.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.cs" />
+    <Compile Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.Designer.cs">
+      <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
@@ -1013,6 +1017,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610280619300_AddYachtTimestamps.resx">
       <DependentUpon>202610280619300_AddYachtTimestamps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.resx">
+      <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
