@@ -276,7 +276,12 @@
     <Compile Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.Designer.cs">
       <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610291033150_AddAdminUser.cs" />
+    <Compile Include="Migrations\202610291033150_AddAdminUser.Designer.cs">
+      <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
     <Compile Include="Models\Contact\PrivacyVersion.cs" />
@@ -1020,6 +1025,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.resx">
       <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610291033150_AddAdminUser.resx">
+      <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
