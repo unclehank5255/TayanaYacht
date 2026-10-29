@@ -33,6 +33,15 @@
                 <!--end::Start Navbar Links-->
                 <!--begin::End Navbar Links-->
                 <ul class="navbar-nav ms-auto">
+                    <!--登出-->
+                    <li class="nav-item d-flex align-items-center me-2">
+                        <span class="text-muted me-2">@User.Identity.Name</span>
+                        @using (Html.BeginForm("Logout", "Account", new { area = "Admin" }, FormMethod.Post, new { @class = "d-inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('確認是否登出?')">登出</button>
+                        }
+                    </li>
                     <!--begin::Fullscreen Toggle-->
                     <li class="nav-item">
                         <a class="nav-link"
