@@ -25,6 +25,7 @@ namespace TayanaYacht.Models
         public virtual DbSet<Contact.Contact> Contacts { get; set; }
         public virtual DbSet<Contact.ContactMessage> ContactMessages { get; set; }
         public virtual DbSet<Contact.PrivacyVersion> PrivacyVersions { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 

@@ -167,6 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactMessagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContactsController.cs" />
     <Compile Include="Areas\Admin\Controllers\CountriesController.cs" />
@@ -276,7 +277,12 @@
     <Compile Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.Designer.cs">
       <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610291033150_AddAdminUser.cs" />
+    <Compile Include="Migrations\202610291033150_AddAdminUser.Designer.cs">
+      <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
     <Compile Include="Models\Contact\ContactMessage.cs" />
     <Compile Include="Models\Contact\PrivacyVersion.cs" />
@@ -567,6 +573,7 @@
     <Content Include="Areas\Admin\Views\PrivacyVersions\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\PrivacyVersions\Index.cshtml" />
     <Content Include="Areas\Admin\Views\News\ManageFiles.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -1020,6 +1027,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610281918144_DealerContacentHtmlNotRequired.resx">
       <DependentUpon>202610281918144_DealerContacentHtmlNotRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610291033150_AddAdminUser.resx">
+      <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
