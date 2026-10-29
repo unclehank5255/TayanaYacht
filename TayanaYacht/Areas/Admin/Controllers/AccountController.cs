@@ -10,13 +10,20 @@ namespace TayanaYacht.Areas.Admin.Controllers
     {
         private TayanaDbContext db = new TayanaDbContext();
 
+
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult Login(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(string username, string password, string returnUrl)
@@ -40,6 +47,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
