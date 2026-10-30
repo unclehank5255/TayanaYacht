@@ -842,3 +842,9 @@ body {
     clear: both;
     width: 100%;
 }
+/*讓小圖縮到指定範圍*/
+.ad-gallery .ad-thumbs li a img {
+    width: 100px;
+    height: 60px;
+    object-fit: cover;
+}

@@ -4,7 +4,9 @@
 @{
     ViewBag.Title = "附件管理";
     var yacht = (Yacht)ViewBag.Yacht;
-    const int maxPictures = 3;
+    const int maxPicturesGallery = 10;
+    const int maxPicturesLayout = 3;
+
     var galleryPictures = Model.Where(p => p.PictureType == YachtPictureTypeEnum.Gallery).ToList();
     var layoutPictures = Model.Where(p => p.PictureType == YachtPictureTypeEnum.Layout).ToList();
 }
@@ -67,7 +69,7 @@
 <div class="card mb-3">
     <div class="card-header d-flex align-items-center">
         <span>Gallery（輪播圖）</span>
-        <span class="badge bg-secondary ms-auto">@galleryPictures.Count / @maxPictures</span>
+        <span class="badge bg-secondary ms-auto">@galleryPictures.Count / @maxPicturesGallery</span>
     </div>
     <div class="card-body">
         @if (!galleryPictures.Any())
@@ -110,7 +112,7 @@
         </div>
     </div>
     <div class="card-footer">
-        @if (galleryPictures.Count < maxPictures)
+        @if (galleryPictures.Count < maxPicturesGallery)
         {
             using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
             {
@@ -134,7 +136,7 @@
 <div class="card mb-3">
     <div class="card-header d-flex align-items-center">
         <span>Layout（平面圖）</span>
-        <span class="badge bg-secondary ms-auto">@layoutPictures.Count / @maxPictures</span>
+        <span class="badge bg-secondary ms-auto">@layoutPictures.Count / @maxPicturesLayout</span>
     </div>
     <div class="card-body">
         @if (!layoutPictures.Any())
@@ -177,7 +179,7 @@
         </div>
     </div>
     <div class="card-footer">
-        @if (layoutPictures.Count < maxPictures)
+        @if (layoutPictures.Count < maxPicturesGallery)
         {
             using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
             {
@@ -209,7 +211,7 @@
         {
             <div class="d-flex align-items-center gap-2 mb-2">
                 <i class="bi bi-file-earmark-pdf"></i>
-                <a href="@file.FilePath" target="_blank">@file.FileOriginalName</a>
+                <a href="@file.FilePath" target="_blank">@file.FileDisplayName</a>
                 @using (Html.BeginForm("DeleteFile", "Yachts", FormMethod.Post, new { @class = "ms-auto" }))
                 {
                     @Html.AntiForgeryToken()

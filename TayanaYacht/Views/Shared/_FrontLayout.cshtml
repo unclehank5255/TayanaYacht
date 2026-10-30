@@ -3,13 +3,20 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>TtayanaWorld (DEMO)</title>
-    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.cycle.all.2.74.js")"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/front/css/jquery.ad-gallery.css")" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.ad-gallery.js")"></script>
+
+    @*<script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.min.js")"></script>*@
+    @*<script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.cycle.all.2.74.js")"></script>*@
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.slideshow').cycle({
-                fx: 'fade' // choose your transition type, ex: fade, scrollUp, shuffle, etc...
-            });
+        $(function () {
+
+            var galleries = $('.ad-gallery').adGallery();
+            galleries[0].settings.effect = 'slide-hori';
+
+
+
         });
     </script>
 

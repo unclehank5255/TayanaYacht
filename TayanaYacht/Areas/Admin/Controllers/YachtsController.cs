@@ -35,9 +35,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Yacht yacht = db.Yachts.Find(id);
-            if (yacht == null || yacht.DeletedAt != null)
+            if (yacht == null)
             {
                 return HttpNotFound();
+            }
+            if (yacht.DeletedAt != null)
+            {
+                TempData["Message"] = "遊艇已下架";
+                return RedirectToAction("Index");
             }
             IQueryable<Yacht> neighborQuery = db.Yachts.Where(y => y.DeletedAt == null);
             Yacht neighbor = null;
@@ -65,7 +70,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         }
 
         // GET: Admin/Yachts/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id)//給下架遊艇查看
         {
             if (id == null)
             {
@@ -210,11 +215,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 int maxOrder = db.YachtPictures.Where(y => y.YachtId == yachtpicture.YachtId && y.PictureType == yachtpicture.PictureType).Select(p => p.DisplayOrder).DefaultIfEmpty(0).Max();
                 int nextOrder = maxOrder + 1;
                 yachtpicture.DisplayOrder = nextOrder;
-                //限制只能抓三張
+                //限制Layout只能抓三張
+                int temp = (yachtpicture.PictureType.ToString() == "Layout") ? 3 : 10;
+                string temps = (yachtpicture.PictureType.ToString() == "Layout") ? "三" : "十";
                 if (db.YachtPictures.Where(y => y.YachtId == yachtpicture.YachtId
-                && y.PictureType == yachtpicture.PictureType).Count() >= 3)
+                && y.PictureType == yachtpicture.PictureType).Count() >= temp)
                 {
-                    TempData["Message"] = "每種類型最多只能新增三張圖片";
+                    TempData["Message"] = $"每種類型最多只能新增{temps}張圖片";
                     return RedirectToAction("ManageAttachments", new { id = yachtpicture.YachtId });
                 }
                 db.YachtPictures.Add(yachtpicture);
@@ -314,8 +321,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 TempData["Message"] = "只能上傳 PDF 檔案";
                 return RedirectToAction("ManageAttachments", new { id = yachtId });
             }
-            string fileOriginalName = string.IsNullOrWhiteSpace(displayName) ? Path.GetFileName(upload.FileName) : displayName.Trim();
-            if (fileOriginalName.Length > 50)
+            string fileDisplayName = string.IsNullOrWhiteSpace(displayName) ? Path.GetFileName(upload.FileName) : displayName.Trim();
+            if (fileDisplayName.Length > 50)
             {
                 TempData["Message"] = "檔案名稱不能超過 50 個字";
                 return RedirectToAction("ManageAttachments", new { id = yachtId });
@@ -328,7 +335,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             var yachtFile = new YachtFile
             {
                 YachtId = yachtId.Value,
-                FileOriginalName = fileOriginalName,
+                FileDisplayName = fileDisplayName,
                 StoredFileName = storedFileName,
                 FilePath = "/Files/Yacht/" + yachtId + "/File/" + storedFileName
             };

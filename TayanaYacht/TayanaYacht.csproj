@@ -281,6 +281,10 @@
     <Compile Include="Migrations\202610291033150_AddAdminUser.Designer.cs">
       <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.cs" />
+    <Compile Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.Designer.cs">
+      <DependentUpon>202610301526095_RenameFileOriginNametoFileDisplayName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
@@ -295,6 +299,7 @@
     <Compile Include="Models\News\NewsFile.cs" />
     <Compile Include="Models\News\NewsPage.cs" />
     <Compile Include="Models\TayanaDbContext.cs" />
+    <Compile Include="Models\ViewModels\YachtPageVM.cs" />
     <Compile Include="Models\Yacht\Yacht.cs" />
     <Compile Include="Models\Yacht\YachtFile.cs" />
     <Compile Include="Models\Yacht\YachtPicture.cs" />
@@ -561,6 +566,7 @@
     <Content Include="Content\front\images\top.gif" />
     <Content Include="Content\front\images\transparent.gif" />
     <Content Include="Content\front\images\ya01.jpg" />
+    <Content Include="Content\front\js\jquery.ad-gallery.js" />
     <Content Include="Content\front\js\jquery.cycle.all.2.74.js" />
     <Content Include="Content\front\js\jquery.min.js" />
     <Content Include="Content\images\DEFAULT.png" />
@@ -1028,10 +1034,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Yachts\Create.cshtml" />
-    <Content Include="Views\Yachts\Delete.cshtml" />
-    <Content Include="Views\Yachts\Details.cshtml" />
-    <Content Include="Views\Yachts\Edit.cshtml" />
     <Content Include="Views\Yachts\Index.cshtml" />
     <Content Include="Views\News\Create.cshtml" />
     <Content Include="Views\News\Delete.cshtml" />
@@ -1150,6 +1152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610291033150_AddAdminUser.resx">
       <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.resx">
+      <DependentUpon>202610301526095_RenameFileOriginNametoFileDisplayName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
