@@ -9,6 +9,12 @@ CKEDITOR.editorConfig = function( config ) {
 	// https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
+
+	// 按 Enter 鍵時產生 <br> 而不是新開 <p>
+	config.enterMode = CKEDITOR.ENTER_BR;
+	config.autoParagraph = false;
+	//允許class不然被吃掉，代價是不能亂貼連結
+	config.allowedContent = true;
 	config.toolbarGroups = [
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
