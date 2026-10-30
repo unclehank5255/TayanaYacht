@@ -848,3 +848,7 @@ body {
     height: 60px;
     object-fit: cover;
 }
+/*layout不超出外框*/
+.box6 img {
+    max-width: 100%
+}

@@ -79,18 +79,43 @@
                 </ul>
             </div>
             <!--次選單-->
+            @switch (Model.ActiveTab)
+            {
+                case TayanaYacht.Models.ViewModels.YachtTab.Layout:
+                    <div class="box6">
+                        <p>Layout & deck plan</p>
+                        <ul>
+                            @foreach (var picture in Model.LayoutPictures)
+                            {
+                                <li><img src="@Url.Content("~"+picture.ImagePath)" alt="&quot;&quot;"></li>
 
-            <div class="box1">
-                @Html.Raw(Model.CurrentYacht.OverviewHtml)<br /><br />
+                            }
+                        </ul>
+                    </div>
+                    break;
+                case TayanaYacht.Models.ViewModels.YachtTab.Specification:
+        <div class="box5">
+            <h4>DETAIL SPECIFICATION</h4>
 
-            </div>
+            @Html.Raw(Model.CurrentYacht.SpecificationHtml)
 
-            <div class="box3">
-                <h4>PRINCIPAL DIMENSION</h4>
-                @Html.Raw(Model.CurrentYacht.PrincipleDimensionHtml)
+        </div>
+                    break;
+                default:
+                    <div class="box1">
+                        @Html.Raw(Model.CurrentYacht.OverviewHtml)<br /><br />
+
+                    </div>
+
+                    <div class="box3">
+                        <h4>PRINCIPAL DIMENSION</h4>
+                        @Html.Raw(Model.CurrentYacht.PrincipleDimensionHtml)
 
 
-            </div>
+                    </div>
+                    break;
+            }
+
             <p class="topbuttom"><img src="@Url.Content("~/Content/front/images/top.gif")" alt="top" /></p>
 
             <!--下載開始-->
