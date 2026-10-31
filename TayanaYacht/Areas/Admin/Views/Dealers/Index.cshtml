@@ -32,6 +32,7 @@
         <p class="text-muted ">
             目前共 @Model.Count() 家經銷商，分佈在 <span class="badge bg-secondary">@countryCount</span>  個國家，共 <span class="badge bg-warning">@noCoverCount</span>  家尚未設定封面
         </p>
+
         <div class="d-flex gap-2 mb-3">
             @Html.ActionLink("新增經銷商", "Create", null, new { @class = "btn btn-primary" })
             @Html.ActionLink("國家管理", "Index", "Countries", null, new { @class = "btn btn-outline-secondary" })
@@ -48,14 +49,14 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="BannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
                         <button type="button" class="btn btn-sm btn-outline-primary"
-                                onclick="openPicturePicker('DealerBannerPicture', 'bannerImagePath')">
+                                onclick="    openPicturePicker('DealerBannerPicture', 'bannerImagePath')">
                             選擇橫幅圖片
                         </button>
                     }
                 </div>
             </div>
             <div class="col-md-8">
-                <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="coverPreview" class="banner-card-img rounded-end" />
+                <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="bannerPreview" class="banner-card-img rounded-end" />
             </div>
         </div>
     </div>
@@ -63,7 +64,7 @@
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">@TempData["Message"]</div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
 <div class="card">
     <div class="card-body p-0">

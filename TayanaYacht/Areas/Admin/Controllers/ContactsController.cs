@@ -38,6 +38,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             db.SaveChanges();
 
             TempData["Message"] = "聯絡頁設定已儲存";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Edit");
         }
 

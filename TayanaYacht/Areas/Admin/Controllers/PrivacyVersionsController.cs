@@ -62,6 +62,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 db.PrivacyVersions.Add(privacyVersion);
                 db.SaveChanges();
+                TempData["Message"] = "創建成功";
+                TempData["MessageType"] = "susscess";
                 return RedirectToAction("Index");
             }
 
@@ -77,14 +79,17 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            if(versionToPublish.PublishedAt!=null)
+            if (versionToPublish.PublishedAt != null)
             {
                 TempData["Message"] = "已發布的版本不能再次發佈";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
             // Publish the selected version
             versionToPublish.PublishedAt = DateTime.Now;
             db.SaveChanges();
+            TempData["Message"] = "發佈成功";
+            TempData["MessageType"] = "susscess";
             return RedirectToAction("Index");
         }
 
@@ -103,6 +108,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (privacyVersion.PublishedAt != null)
             {
                 TempData["Message"] = "已發布的版本不能修改";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
 
@@ -126,6 +132,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (existing.PublishedAt != null)
             {
                 TempData["Message"] = "已發布的版本不能修改";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
 
@@ -134,7 +141,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            TempData["Message"] = "編輯成功";
+            TempData["MessageType"] = "susscess";
             return View(existing);
         }
 
@@ -153,8 +161,11 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (privacyVersion.PublishedAt != null)
             {
                 TempData["Message"] = "已發布的版本不能刪除";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
+            TempData["Message"] = "確定要刪除這條隱私版本嗎？";
+            TempData["MessageType"] = "warning";
             return View(privacyVersion);
         }
 
@@ -171,10 +182,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (privacyVersion.PublishedAt != null)
             {
                 TempData["Message"] = "已發布的版本不能刪除";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
             db.PrivacyVersions.Remove(privacyVersion);
             db.SaveChanges();
+            TempData["Message"] = "刪除成功";
+            TempData["MessageType"] = "susscess";
             return RedirectToAction("Index");
         }
 

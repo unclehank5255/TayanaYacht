@@ -18,7 +18,7 @@
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">@TempData["Message"]</div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
 <div class="card mb-3">
     <div class="card-body p-0">
@@ -35,11 +35,29 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    string status; if (item.PublishedAt == null) { status = "草稿"; } else if (item.Id == activeId) { status = "使用中"; } else { status = "已取代"; }
+                    string status;
+                    string badgeClass;
+                    if (item.PublishedAt == null)
+                    {
+                        status = "草稿";
+                        badgeClass = "bg-warning text-dark";
+                    }
+                    else if (item.Id == activeId)
+                    {
+                        status = "使用中";
+                        badgeClass = "bg-success";
+                    }
+                    else
+                    {
+                        status = "已取代";
+                        badgeClass = "bg-secondary";
+                    }
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Title)</td>
                         <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
-                        <td>@status</td>
+                        <td>
+                            <span class="badge @badgeClass">@status</span>
+                        </td>
                         <td> @Html.DisplayFor(modelItem => item.PublishedAt)</td>
                         <td>
                             @if (item.PublishedAt == null)

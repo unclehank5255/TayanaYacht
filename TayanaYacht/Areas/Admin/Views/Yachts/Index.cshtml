@@ -59,7 +59,7 @@
                         <td>
                             @if (string.IsNullOrWhiteSpace(item.YachtBannerPath) || string.IsNullOrWhiteSpace(item.OverviewHtml) || string.IsNullOrWhiteSpace(item.PrincipleDimensionHtml) || string.IsNullOrWhiteSpace(item.SpecificationHtml))
                             {
-                                <span class="badge bg-danger">草稿</span>
+                                <span class="badge bg-warning">草稿</span>
                             }
                             @if (item.IsPublished)
                             {

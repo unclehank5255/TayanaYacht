@@ -10,9 +10,7 @@
 </p>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">
-        @TempData["Message"]
-    </div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
 
 @using (Html.BeginForm())

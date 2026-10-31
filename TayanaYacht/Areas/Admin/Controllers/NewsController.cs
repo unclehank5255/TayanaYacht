@@ -59,7 +59,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 news.UnpublishedAt = DateTime.Now;
             }
-            if(news.PublishDate == null)
+            if (news.PublishDate == null)
             {
                 news.PublishDate = DateTime.Now;
             }
@@ -92,7 +92,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.SaveChanges();
                 TempData["Message"] = "新聞已建立，請繼續填寫內容、上傳圖片";
                 TempData["MessageType"] = "success";
-                return RedirectToAction("Edit", new { id = news.Id});
+                return RedirectToAction("Edit", new { id = news.Id });
             }
 
             return View(news);
@@ -271,6 +271,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            TempData["Message"] = "確定要刪除這則新聞嗎？刪除後前台不會顯示，後台列表也看不到。\r\n";
+            TempData["MessageType"] = "warning";
             return View(news);
         }
 

@@ -28,6 +28,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers/Create
         public ActionResult Create()
         {
+            TempData["Message"] = "先填國家編號 城市 經銷商名稱 和顯示順序，建立後會進入編輯頁，再填寫內容、上傳圖片。新增新聞預設為<strong>未上架</strong>。";
+            TempData["MessageType"] = "info";
             ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             return View();
         }
@@ -45,7 +47,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.Dealers.Add(dealer);
                 db.SaveChanges();
                 TempData["Message"] = "經銷商已建立，請繼續填寫內容、上傳圖片";
-                return RedirectToAction("Edit", new { id=dealer.Id});
+                TempData["MessageType"] = "success";
+                return RedirectToAction("Edit", new { id = dealer.Id });
             }
 
             return View(dealer);
@@ -79,6 +82,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 db.Entry(dealer).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Message"] = "編輯成功";
+                TempData["MessageType"] = "success";
                 return RedirectToAction("Index");
             }
             return View(dealer);
@@ -97,6 +102,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             dealerPage.DealerBannerPath = bannerPath;
             db.SaveChanges();
+            TempData["Message"] = "封面更新成功";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
         // GET: Admin/Dealers/Delete/5
@@ -111,6 +118,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            TempData["Message"] = "確定要刪除這間經銷商嗎？刪除後前台不會顯示，後台列表也看不到。\r\n";
+            TempData["MessageType"] = "warning";
+
             return View(dealer);
         }
 
@@ -130,6 +140,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             db.Dealers.Remove(dealer);
             db.SaveChanges();
+            TempData["Message"] = "刪除成功";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
 

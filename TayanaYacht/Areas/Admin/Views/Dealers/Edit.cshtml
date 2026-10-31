@@ -44,9 +44,7 @@
 </p>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["Message"]
-    </div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
 <div class="form-group my-2">
     @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })

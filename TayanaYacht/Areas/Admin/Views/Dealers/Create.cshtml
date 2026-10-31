@@ -8,15 +8,11 @@
     @Scripts.Render("~/bundles/jqueryval")
 }
 <h2 class="my-2">@ViewBag.Title</h2>
-<div class="alert alert-info">
-    先填國家編號 城市 經銷商名稱 和顯示順序，建立後會進入編輯頁，再填寫內容、上傳圖片。新增新聞預設為<strong>未上架</strong>。
-</div>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">
-        @TempData["Message"]
-    </div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
+
 
 @using (Html.BeginForm())
 {
