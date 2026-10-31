@@ -47,7 +47,7 @@ namespace TayanaYacht.Models.News
         public DateTime CreatedAt { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd }", ApplyFormatInEditMode = true)]
         [Display(Name = "發佈日期")]
         public DateTime? PublishDate { get; set; }
 

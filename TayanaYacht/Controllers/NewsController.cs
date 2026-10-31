@@ -18,7 +18,8 @@ namespace TayanaYacht.Controllers
         // GET: News
         public ActionResult Index()
         {
-            return View(db.News.Where(n => n.DeletedAt == null).OrderByDescending(n => n.CreatedAt).ToList());
+            ViewBag.NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
+            return View(db.News.Where(n => n.DeletedAt == null && n.UnpublishedAt == null).OrderByDescending(n => n.CreatedAt).ToList());
         }
 
         // GET: News/Details/5
@@ -28,6 +29,7 @@ namespace TayanaYacht.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
             News news = db.News.Find(id);
             if (news == null)
             {

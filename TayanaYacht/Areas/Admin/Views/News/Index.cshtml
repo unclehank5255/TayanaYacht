@@ -50,7 +50,7 @@
                     @using (Html.BeginForm("UpdatePageBanner", "News", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-                        <input type="hidden" name="BannerPath" value="@ViewBag.BannerPath" id="bannerImagePath" />
+                        <input type="hidden" name="BannerPath" value="@ViewBag.NewsBannerPath" id="bannerImagePath" />
                         <button type="button" class="btn btn-sm btn-outline-primary"
                                 onclick="openPicturePicker('NewsBannerPicture', 'bannerImagePath')">
                             選擇橫幅圖片
@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <img src="@(ViewBag.BannerPath ?? ImageDefaults.Picture)" id="coverPreview" class="banner-card-img rounded-end" />
+                <img src="@(ViewBag.NewsBannerPath ?? ImageDefaults.Picture)" id="coverPreview" class="banner-card-img rounded-end" />
             </div>
         </div>
     </div>

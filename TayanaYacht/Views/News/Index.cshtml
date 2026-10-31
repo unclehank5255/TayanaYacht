@@ -1,13 +1,35 @@
 ﻿@model IEnumerable<TayanaYacht.Models.News.News>
 
+<style>
+    .news-thumbnail-frame {
+        width: 150px;
+        height: 100px;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .news-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .page-banner {
+        width: 100%;
+        object-fit: cover;
+        display: block;
+    }
+</style>
+
 <!--遮罩-->
-<div class="bannermasks"><img src="images/banner02_masks.png" alt="&quot;&quot;" /></div>
+<div class="bannermasks"><img src="@Url.Content("~/Content/front/images/banner02_masks.png")" alt="&quot;&quot;" /></div>
 <!--遮罩結束-->
 <!--------------------------------換圖開始---------------------------------------------------->
 
 <div class="banner">
     <ul>
-        <li><img src="images/newbanner.jpg" alt="Tayana Yachts" /></li>
+        <li><img class="banner" src="@Url.Content("~"+ViewBag.NewsBannerPath)" alt="Tayana Yachts" /></li>
     </ul>
 
 </div>
@@ -44,7 +66,7 @@
 
     <!--------------------------------左邊選單結束---------------------------------------------------->
     <!--------------------------------右邊選單開始---------------------------------------------------->
-    <div id="crumb"><a href="@Url.Action("Index", "Home")">Home</a> >> <a href="@Url.Action("Index", "News")">News </a> >> <a href="@Url.Action("Index", "News")"><span class="on1">News & Events</span></a></div>
+    <div id="crumb"><a href="#">Home</a> >> <a href="#">News </a> >> <a href="#"><span class="on1">News & Events</span></a></div>
     <div class="right">
         <div class="right1">
             <div class="title"> <span>News & Events</span></div>
@@ -55,70 +77,23 @@
                 <ul>
                     @foreach (var news in Model)
                     {
-                    <li>
-                        <div class="list01">
-                            <ul>
-                                <li><div><p><img src="@Url.Content("~"+news.NewsCoverPath)" alt="&quot;&quot;" /></p></div></li>
-                                <li>
-                                    <span>@news.CreatedAt</span><br />
-                                    @news.Title
-                                </li>
-                                <li>@news.Summary</li>
-                            </ul>
-                        </div>
-                    </li>
+                        <li>
+                            <div class="list01">
+                                <ul>
+
+                                    <li><a href="@Url.Action("Details","News", new { id = news.Id})"><div><p class="news-thumbnail-frame"><img class="news-thumbnail" src="@Url.Content("~"+news.NewsCoverPath)" alt="&quot;&quot;" /></p></div></a></li>
+
+                                    <li>
+                                        <span>@(news.PublishDate?.ToString("yyyy-MM-dd"))</span><br />
+                                        <a href="@Url.Action("Details","News", new { id = news.Id})">
+                                            @news.Title
+                                        </a><br />
+                                    </li>
+                                    <li>@news.Summary</li>
+                                </ul>
+                            </div>
+                        </li>
                     }
-                    <li>
-                        <div class="list01">
-                            <ul>
-                                <li>
-                                    <div>
-                                        <p><img src="images/pit007.jpg" alt="&quot;&quot;" /></p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>2012-01-28</span><br />
-                                    Tayana 58 CE Certificates are available
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="list01">
-                            <ul>
-                                <li><div><p><img src="images/pit008.jpg" alt="&quot;&quot;" /></p></div></li>
-                                <li>
-                                    <span>2012-01-28</span><br />
-                                    Tayana 58 CE Certificates are available
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="list01">
-                            <ul>
-                                <li><div><p><img src="images/pit006.jpg" alt="&quot;&quot;" width="300" /></p></div></li>
-                                <li>
-                                    <span>2012-01-28</span><br />
-                                    Tayana 58 CE Certificates are available
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="list01">
-                            <ul>
-                                <li><div><p><img src="images/pit006.jpg" alt="&quot;&quot;" width="300" /></p></div></li>
-                                <li>
-                                    <span>2012-01-28</span><br />
-                                    Tayana 58 CE Certificates are available
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
                 </ul>
 
                 <div class="pagenumber"> | <span>1</span> | <a href="#">2</a> | <a href="#">3</a> | <a href="#">4</a> | <a href="#">5</a> |  <a href="#">Next</a>  <a href="#">LastPage</a></div>

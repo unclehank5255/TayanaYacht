@@ -852,3 +852,9 @@ body {
 .box6 img {
     max-width: 100%
 }
+/*news index讓小圖縮到指定範圍*/
+.list01 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

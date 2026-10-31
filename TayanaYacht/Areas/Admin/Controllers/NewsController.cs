@@ -21,7 +21,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: News
         public ActionResult Index()
         {
-            ViewBag.BannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
+            ViewBag.NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
             return View(db.News.Where(n => n.DeletedAt == null).OrderByDescending(n => n.CreatedAt).ToList());
         }
         // POST: Publish/Unpublish News
@@ -54,14 +54,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
                 news.UnpublishedAt = null;
+                if (news.PublishDate == null)
+                {
+                    news.PublishDate = DateTime.Now;
+                }
             }
             else
             {
                 news.UnpublishedAt = DateTime.Now;
-            }
-            if (news.PublishDate == null)
-            {
-                news.PublishDate = DateTime.Now;
             }
             TempData["Message"] = "狀態更新成功";
             TempData["MessageType"] = "success";
