@@ -45,7 +45,7 @@
 </p>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-success">
+    <div class="alert alert-@(TempData["MessageType"]??"success")">
         @TempData["Message"]
     </div>
 }

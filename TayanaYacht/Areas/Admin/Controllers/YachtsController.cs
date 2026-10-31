@@ -158,8 +158,19 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             if (TryUpdateModel(yacht, new[] { "SeriesName", "ModelName", "StatusText", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest", "IsPublished" }))
             {
+                bool IsDraft = (string.IsNullOrWhiteSpace(yacht.YachtBannerPath) || string.IsNullOrWhiteSpace(yacht.OverviewHtml) || string.IsNullOrWhiteSpace(yacht.PrincipleDimensionHtml) || string.IsNullOrWhiteSpace(yacht.SpecificationHtml)) && yacht.IsPublished;
+                if (IsDraft)
+                {
+                    yacht.IsPublished = false;
+                }
                 yacht.UpdatedAt = DateTime.Now;
                 db.SaveChanges();
+                if (IsDraft)
+                {
+                    TempData["Message"] = "資料已儲存，但尚有欄位未儲存導致無法發布，請退出檢查遊艇封面和本頁欄位是否有缺漏項目";
+                    TempData["MessageType"] = "warning";
+                    return RedirectToAction("Edit", new { id = yacht.Id });
+                }
                 return RedirectToAction("Index");
             }
             return View(yacht);

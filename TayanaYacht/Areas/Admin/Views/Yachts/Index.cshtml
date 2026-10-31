@@ -57,6 +57,10 @@
                         <td>@item.SeriesName @item.ModelName</td>
                         <td>@item.StatusText</td>
                         <td>
+                            @if (string.IsNullOrWhiteSpace(item.YachtBannerPath) || string.IsNullOrWhiteSpace(item.OverviewHtml) || string.IsNullOrWhiteSpace(item.PrincipleDimensionHtml) || string.IsNullOrWhiteSpace(item.SpecificationHtml))
+                            {
+                                <span class="badge bg-danger">草稿</span>
+                            }
                             @if (item.IsPublished)
                             {
                                 <span class="badge bg-success">已發布</span>
