@@ -450,6 +450,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (yacht.IsPublished)
             {
                 TempData["Message"] = "已發布的遊艇無法下架，請先取消發布";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
             return View(yacht);
@@ -471,12 +472,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (yacht.IsPublished)
             {
                 TempData["Message"] = "已發布的遊艇無法下架，請先取消發布";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
 
             yacht.DeletedAt = DateTime.Now;
             db.SaveChanges();
             TempData["Message"] = "遊艇已下架";
+            TempData["MessageType"] = "susscess";
             return RedirectToAction("Index");
         }
         #endregion

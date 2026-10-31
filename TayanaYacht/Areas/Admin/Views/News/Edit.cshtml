@@ -57,9 +57,7 @@
 </div>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["Message"]
-    </div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
 
 @using (Html.BeginForm())
@@ -75,7 +73,7 @@
                 <div class="cover-preview">
                     <img src="@(Model.NewsCoverPath ?? ImageDefaults.Picture)" id="coverPreview" />
                 </div>
-                <button type="button" class="btn btn-primary"onclick="openPicturePicker('NewsCoverPicture', 'bannerImagePath')">選擇Cover圖片</button>
+                <button type="button" class="btn btn-primary" onclick="openPicturePicker('NewsCoverPicture', 'bannerImagePath')">選擇Cover圖片</button>
             </div>
         </div>
     </div>

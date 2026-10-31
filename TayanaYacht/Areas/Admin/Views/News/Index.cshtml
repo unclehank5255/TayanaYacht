@@ -67,7 +67,7 @@
 
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">@TempData["Message"]</div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
 
 <div class="card mb-3">
@@ -78,6 +78,7 @@
                     <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
                     <th>@Html.DisplayNameFor(model => model.NewsCoverPath)</th>
                     <th>@Html.DisplayNameFor(model => model.Title)</th>
+                    <th>@Html.DisplayNameFor(model => model.PublishDate)</th>
                     <th>下架/上架</th>
                     <th>狀態</th>
                     <th>@Html.DisplayNameFor(model => model.UnpublishedAt)</th>
@@ -97,6 +98,7 @@
                         <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
                         <td><img class="banner-thumb" src="@(item.NewsCoverPath ?? ImageDefaults.Picture)" /></td>
                         <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PublishDate)</td>
                         <td>
                             @using (Html.BeginForm("TogglePublish", "News", FormMethod.Post))
                             {

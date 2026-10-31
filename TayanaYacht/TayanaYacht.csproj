@@ -285,6 +285,14 @@
     <Compile Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.Designer.cs">
       <DependentUpon>202610301526095_RenameFileOriginNametoFileDisplayName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610310759033_AddPublishDate.cs" />
+    <Compile Include="Migrations\202610310759033_AddPublishDate.Designer.cs">
+      <DependentUpon>202610310759033_AddPublishDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610310805564_UpadatePublishDateNullAble.cs" />
+    <Compile Include="Migrations\202610310805564_UpadatePublishDateNullAble.Designer.cs">
+      <DependentUpon>202610310805564_UpadatePublishDateNullAble.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
@@ -1035,10 +1043,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Yachts\Index.cshtml" />
-    <Content Include="Views\News\Create.cshtml" />
-    <Content Include="Views\News\Delete.cshtml" />
     <Content Include="Views\News\Details.cshtml" />
-    <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\Dealers\Create.cshtml" />
     <Content Include="Views\Dealers\Delete.cshtml" />
@@ -1155,6 +1160,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.resx">
       <DependentUpon>202610301526095_RenameFileOriginNametoFileDisplayName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610310759033_AddPublishDate.resx">
+      <DependentUpon>202610310759033_AddPublishDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610310805564_UpadatePublishDateNullAble.resx">
+      <DependentUpon>202610310805564_UpadatePublishDateNullAble.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
