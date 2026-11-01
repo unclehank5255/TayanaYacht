@@ -8,8 +8,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using TayanaYacht.Models;
 using TayanaYacht.Models.News;
+using TayanaYacht.Models.ViewModels;
 using TayanaYacht.Models.Yacht;
 
 namespace TayanaYacht.Areas.Admin.Controllers
@@ -19,10 +21,57 @@ namespace TayanaYacht.Areas.Admin.Controllers
         private TayanaDbContext db = new TayanaDbContext();
 
         // GET: News
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            ViewBag.NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
-            return View(db.News.Where(n => n.DeletedAt == null).OrderByDescending(n => n.CreatedAt).ToList());
+            const int pageSize = 5;
+            const string sessionKey = "AdminNewsPage";
+
+            int currentPage;
+
+            if (page.HasValue)
+            {
+                currentPage = page.Value;
+            }
+            else if (Session[sessionKey] != null)
+            {
+                currentPage = (int)Session[sessionKey];
+            }
+            else
+            {
+                currentPage = 1;
+            }
+            if (currentPage < 1)
+            {
+                currentPage = 1;
+            }
+            var query = db.News.Where(n => n.DeletedAt == null);
+
+            int totalCount = query.Count();
+            int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            if (totalPages > 0 && currentPage > totalPages)
+            {
+                currentPage = totalPages;
+            }
+
+            Session[sessionKey] = currentPage;
+
+            var vm = new NewsVM
+            {
+                TotalCount = totalCount,
+                PublishedCount = query.Count(n => n.UnpublishedAt == null),
+                LastPostedAt = query.Max(n => (DateTime?)n.PublishDate),
+                NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath,
+                CurrentPage = currentPage,
+                TotalPages = totalPages,
+                NewsList = query
+                    .OrderByDescending(n => n.CreatedAt)
+                    .ThenByDescending(n => n.Id)
+                    .Skip((currentPage - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList()
+            };
+
+            return View(vm);
         }
         // POST: Publish/Unpublish News
         [HttpPost]
@@ -136,7 +185,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 TempData["Message"] = "編輯成功";
                 TempData["MessageType"] = "success";
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = existingNews.Id });
+                return RedirectToAction("Index");
             }
             return View(news);
         }

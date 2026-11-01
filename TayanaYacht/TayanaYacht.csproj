@@ -307,6 +307,7 @@
     <Compile Include="Models\News\NewsFile.cs" />
     <Compile Include="Models\News\NewsPage.cs" />
     <Compile Include="Models\TayanaDbContext.cs" />
+    <Compile Include="Models\ViewModels\NewsVM.cs" />
     <Compile Include="Models\ViewModels\YachtPageVM.cs" />
     <Compile Include="Models\Yacht\Yacht.cs" />
     <Compile Include="Models\Yacht\YachtFile.cs" />
