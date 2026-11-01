@@ -44,7 +44,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 currentPage = 1;
             }
-            var query = db.News.Where(n => n.DeletedAt == null);
+            var query = db.News.Where(n => n.DeletedAt == null );
 
             int totalCount = query.Count();
             int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);

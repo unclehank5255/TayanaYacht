@@ -293,6 +293,10 @@
     <Compile Include="Migrations\202610310805564_UpadatePublishDateNullAble.Designer.cs">
       <DependentUpon>202610310805564_UpadatePublishDateNullAble.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202611011916075_NewsTitleto50Summaryto100.cs" />
+    <Compile Include="Migrations\202611011916075_NewsTitleto50Summaryto100.Designer.cs">
+      <DependentUpon>202611011916075_NewsTitleto50Summaryto100.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
@@ -1166,6 +1170,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610310805564_UpadatePublishDateNullAble.resx">
       <DependentUpon>202610310805564_UpadatePublishDateNullAble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202611011916075_NewsTitleto50Summaryto100.resx">
+      <DependentUpon>202611011916075_NewsTitleto50Summaryto100.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

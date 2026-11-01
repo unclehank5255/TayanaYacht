@@ -22,12 +22,12 @@ namespace TayanaYacht.Models.News
         public int Id { get; set; }
 
         [Required]
-        [StringLength(25, ErrorMessage = "{0}不能超過 {1} 個字元")]
+        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "標題")]
         public string Title { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
+        [StringLength(100, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "摘要")]
         public string Summary { get; set; }
 

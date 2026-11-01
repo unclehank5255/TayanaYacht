@@ -61,6 +61,19 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .news02p1img {
+            width: 97px;
+            height: 97px;
+            overflow: hidden;
+        }
+
+            .news02p1img img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center center;
+            }
     </style>
 }
 
@@ -87,25 +100,6 @@
                         }
                     </li>
                 }
-                <!--<li class="info on"><a href="#"><img src="@Url.Content("~/Content/front/images/banner001b.jpg")" /></a>--><!--文字開始--><!--<div class="wordtitle">TAYANA <span>48</span><br /><p>SPECIFICATION SHEET</p></div>--><!--文字結束-->
-                <!--</li>
-                <li class="info">
-                    <a href="#"><img src="@Url.Content("~/Content/front/images/banner002b.jpg")" /></a>-->
-                <!--文字開始--><!--<div class="wordtitle">TAYANA <span>54</span><br /><p>SPECIFICATION SHEET</p></div>--><!--文字結束--><!--新船型開始  54型才出現其於隱藏 -->
-                <!--<div class="new"><img src="@Url.Content("~/Content/front/images/new01.png")" alt="new" /></div>-->
-                <!--新船型結束-->
-                <!--</li>
-                <li class="info"><a href="#"><img src="images/banner003b.jpg" /></a>-->
-                <!--文字開始--><!--<div class="wordtitle">TAYANA <span>37</span><br /><p>SPECIFICATION SHEET</p></div>--><!--文字結束-->
-                <!--</li>
-                <li class="info"><a href="#"><img src="images/banner004b.jpg" /></a>-->
-                <!--文字開始--><!--<div class="wordtitle">TAYANA <span>64</span><br /><p>SPECIFICATION SHEET</p></div>--><!--文字結束-->
-                <!--</li>
-                <li class="info"><a href="#"><img src="images/banner005b.jpg" /></a>-->
-                <!--文字開始--><!--<div class="wordtitle">TAYANA <span>58</span><br /><p>SPECIFICATION SHEET</p></div>--><!--文字結束-->
-                <!--</li>
-                <li class="info"><a href="#"><img src="images/banner006b.jpg" /></a>-->
-                <!--文字開始--><!--<div class="wordtitle">TAYANA <span>55</span><br /><p>SPECIFICATION SHEET</p></div>--><!--文字結束--><!--</li>-->
             </ul>
 
 
@@ -118,13 +112,6 @@
                             <div><p class="bannerimg_p"><img src="@Url.Content("~"+Model.Yachts[i].YachtBannerPath)" /></p></div>
                         </li>
                     }
-
-                    @*<li class="on"><div><p class="bannerimg_p"><img src="images/i001.jpg" alt="&quot;&quot;" /></p></div></li>
-                        <li><div><p class="bannerimg_p"><img src="images/i002.jpg" alt="&quot;&quot;" /></p></div></li>
-                        <li><div><p class="bannerimg_p"><img src="images/i003.jpg" alt="&quot;&quot;" /></p></div></li>
-                        <li><div><p class="bannerimg_p"><img src="images/i004.jpg" alt="&quot;&quot;" /></p></div></li>
-                        <li><div><p class="bannerimg_p"><img src="images/i005.jpg" alt="&quot;&quot;" /></p></div></li>
-                        <li><div><p class="bannerimg_p"><img src="images/i006.jpg" alt="&quot;&quot;" /></p></div></li>*@
                 </ul>
             </div>
             <!--小圖結束-->
@@ -135,32 +122,49 @@
 <!--------------------------------最新消息---------------------------------------------------->
 <div class="news">
     <div class="newstitle">
-        <p class="newstitlep1"><img src="@Url.Content("~/Content/front/images/news.gif")" alt="news" /></p><p class="newstitlep2"><a href="#">More>></a></p>
+        <p class="newstitlep1"><img src="@Url.Content("~/Content/front/images/news.gif")" alt="news" /></p>
+        <p class="newstitlep2">
+            <a href="@Url.Action("Index","News")">More>></a>
+        </p>
     </div>
 
     <ul>
         <!--TOP第一則最新消息-->
-        <li>
+        @for (int i = 0; i < Model.NewsList.Count(); i++)
+        {
+            <li>
+                <div class="@(i == 2 ? "news02" : "news01")">
+                    <!--TOP標籤-->
+                    <div class="newstop"><img src="@Url.Content("~/Content/front/images/new_top01.png")" alt="&quot;&quot;" /></div>
+                    <!--TOP標籤結束-->
+                    <div class="news02p1">
+                        <p class="news02p1img"><img src="@Url.Content(Model.NewsList[i].NewsCoverPath)" alt="&quot;&quot;" /></p>
+                    </div>
+                    <p class="news02p2"><span>@Model.NewsList[i].Title</span> <a href="@Url.Action("Details", "News", new {@id=Model.NewsList[i].Id})">@Model.NewsList[i].Summary</a></p>
+                </div>
+            </li>
+        }
+        <!--<li>
 
-            <div class="news01">
-                <!--TOP標籤-->
-                <div class="newstop"><img src="@Url.Content("~/Content/front/images/new_top01.png")" alt="&quot;&quot;" /></div>
-                <!--TOP標籤結束-->
-                <div class="news02p1">
+            <div class="news01">-->
+        <!--TOP標籤-->
+        <!--<div class="newstop"><img src="@Url.Content("~/Content/front/images/new_top01.png")" alt="&quot;&quot;" /></div>-->
+        <!--TOP標籤結束-->
+        <!--<div class="news02p1">
                     <p class="news02p1img"><img src="@Url.Content("~/Content/front/images/pit002.jpg")" alt="&quot;&quot;" /></p>
                 </div>
                 <p class="news02p2"><span>Tayana 54 CE Certifica..</span> <a href="#">For Tayana 54 entering the EU, CE Certificates are AVAILABLE to ensure conformity to all applicable European ...</a></p>
             </div>
-        </li>
+        </li>-->
         <!--TOP第一則最新消息結束-->
         <!--第二則-->
-        <li>
+        <!--<li>
 
-            <div class="news01">
-                <!--TOP標籤-->
-                <div class="newstop"><img src="@Url.Content("~/Content/front/images/new_top01.png")" alt="&quot;&quot;" /></div>
-                <!--TOP標籤結束-->
-                <div class="news02p1">
+            <div class="news01">-->
+        <!--TOP標籤-->
+        <!--<div class="newstop"><img src="@Url.Content("~/Content/front/images/new_top01.png")" alt="&quot;&quot;" /></div>-->
+        <!--TOP標籤結束-->
+        <!--<div class="news02p1">
                     <p class="news02p1img"><img src="@Url.Content("~/Content/front/images/pit001.jpg")" alt="&quot;&quot;" /></p>
                 </div>
                 <p class="news02p2">
@@ -168,15 +172,14 @@
                     <a href="#">For Tayana 58 entering the EU, CE Certificates are AVAILABLE to ensure conformity to all applicable European ...</a>
                 </p>
             </div>
-        </li>
+        </li>-->
         <!--第二則結束-->
-
-        <li>
-            <div class="news02">
-                <!--TOP標籤-->
-                <div class="newstop"><img src="@Url.Content("~/Content/front/images/new_top01.png")" alt="&quot;&quot;" /></div>
-                <!--TOP標籤結束-->
-                <div class="news02p1">
+        <!--<li>
+            <div class="news02">-->
+        <!--TOP標籤-->
+        <!--<div class="newstop"><img src="@Url.Content("~/Content/front/images/new_top01.png")" alt="&quot;&quot;" /></div>-->
+        <!--TOP標籤結束-->
+        <!--<div class="news02p1">
                     <p class="news02p1img"><img src="@Url.Content("~/Content/front/images/pit001.jpg")" alt="&quot;&quot;" /></p>
                 </div>
                 <p class="news02p2">
@@ -184,7 +187,7 @@
                     <a href="#">Tayana 37 is our classical product and full of skilful craftsmanship. We only plan to build TWO units in a year.</a>
                 </p>
             </div>
-        </li>
+        </li>-->
     </ul>
 </div>
 <!--------------------------------最新消息結束---------------------------------------------------->
