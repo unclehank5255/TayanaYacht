@@ -178,6 +178,7 @@
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PrivacyVersionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\YachtsController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\DealersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -473,6 +474,7 @@
     <Content Include="Content\front\css\js.css" />
     <Content Include="Content\front\css\reset.css" />
     <Content Include="Content\front\css\style.css" />
+    <Content Include="Content\front\images\about.jpg" />
     <Content Include="Content\front\images\ad_next.png" />
     <Content Include="Content\front\images\ad_prev.png" />
     <Content Include="Content\front\images\ad_scroll_back.png" />
@@ -501,6 +503,7 @@
     <Content Include="Content\front\images\buttom02.gif" />
     <Content Include="Content\front\images\buttom03.gif" />
     <Content Include="Content\front\images\buttright.gif" />
+    <Content Include="Content\front\images\certificat.jpg" />
     <Content Include="Content\front\images\changbg.gif" />
     <Content Include="Content\front\images\changbg.png" />
     <Content Include="Content\front\images\changbg1.gif" />
@@ -1055,6 +1058,8 @@
     <Content Include="Views\Dealers\Edit.cshtml" />
     <Content Include="Views\Dealers\Index.cshtml" />
     <Content Include="Views\Shared\_FrontLayout.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\Certificat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
