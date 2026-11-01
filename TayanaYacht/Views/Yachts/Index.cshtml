@@ -2,6 +2,25 @@
 @{
     ViewBag.Title = "Yacht";
 }
+@section styles {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/front/css/jquery.ad-gallery.css")" />
+    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" type="text/css" />
+}
+@section scripts
+    {
+    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.ad-gallery.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var galleries = $('.ad-gallery').adGallery();
+            galleries[0].settings.effect = 'slide-hori';
+
+
+
+        });
+    </script>
+
+}
 <div class="bannermasks"><img src="@Url.Content("~/Content/front/images/banner01_masks.png")" alt="" /></div>
 
 <div class="banner">
@@ -94,12 +113,12 @@
                     </div>
                     break;
                 case TayanaYacht.Models.ViewModels.YachtTab.Specification:
-        <div class="box5">
-            <h4>DETAIL SPECIFICATION</h4>
+                    <div class="box5">
+                        <h4>DETAIL SPECIFICATION</h4>
 
-            @Html.Raw(Model.CurrentYacht.SpecificationHtml)
+                        @Html.Raw(Model.CurrentYacht.SpecificationHtml)
 
-        </div>
+                    </div>
                     break;
                 default:
                     <div class="box1">

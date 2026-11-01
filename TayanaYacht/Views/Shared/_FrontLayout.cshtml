@@ -3,25 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>TtayanaWorld (DEMO)</title>
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/front/css/jquery.ad-gallery.css")" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.ad-gallery.js")"></script>
-
-    @*<script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.min.js")"></script>*@
-    @*<script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.cycle.all.2.74.js")"></script>*@
-    <script type="text/javascript">
-        $(function () {
-
-            var galleries = $('.ad-gallery').adGallery();
-            galleries[0].settings.effect = 'slide-hori';
-
-
-
-        });
-    </script>
-
-    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.cycle.all.2.74.js")"></script>
     <link href="@Url.Content("~/Content/front/css/reset.css")" rel="stylesheet" type="text/css" />
+    @RenderSection("styles", required: false)
 </head>
 
 <body>
@@ -44,14 +29,22 @@
         @RenderBody()
 
         <!--------------------------------落款開始---------------------------------------------------->
-        <div class="footer">
-            <p class="footerp01">© 1973-2011 Tayana Yachts, Inc. All Rights Reserved</p>
-            <div class="footer01">
-                <span>No. 60, Hai Chien Road, Chung Men Li, Lin Yuan District, Kaohsiung City, Taiwan, R.O.C.</span><br />
-                <span>TEL：+886(7)641-2721</span> <span>FAX：+886(7)642-3193</span><span><a href="mailto:tayangco@ms15.hinet.net">E-mail：tayangco@ms15.hinet.net</a>.</span>
+        @if (IsSectionDefined("HomeFooter"))
+        {
+            @RenderSection("HomeFooter")
+        }
+        else
+        {
+            <div class="footer">
+                <p class="footerp01">© 1973-2011 Tayana Yachts, Inc. All Rights Reserved</p>
+                <div class="footer01">
+                    <span>No. 60, Hai Chien Road, Chung Men Li, Lin Yuan District, Kaohsiung City, Taiwan, R.O.C.</span><br />
+                    <span>TEL：+886(7)641-2721</span> <span>FAX：+886(7)642-3193</span><span><a href="mailto:tayangco@ms15.hinet.net">E-mail：tayangco@ms15.hinet.net</a>.</span>
+                </div>
             </div>
-        </div>
+        }
         <!--------------------------------落款結束---------------------------------------------------->
     </div>
+    @RenderSection("scripts", required: false)
 </body>
 </html>

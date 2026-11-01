@@ -17,6 +17,7 @@ namespace TayanaYacht.Controllers
         private TayanaDbContext db = new TayanaDbContext();
 
         // GET: News
+        [AllowAnonymous]
         public ActionResult Index(int page = 1)
         {
             const int pageSize = 5;
@@ -64,6 +65,7 @@ namespace TayanaYacht.Controllers
         }
 
         // GET: News/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

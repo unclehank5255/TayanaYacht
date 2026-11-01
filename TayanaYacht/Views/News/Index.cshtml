@@ -1,27 +1,30 @@
 ﻿@model TayanaYacht.Models.ViewModels.NewsVM
 
-<style>
-    .news-thumbnail-frame {
-        width: 150px;
-        height: 100px;
-        margin: 0;
-        overflow: hidden;
-    }
+@section styles{
+    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" />
 
-    .news-thumbnail {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
+    <style>
+        .news-thumbnail-frame {
+            width: 150px;
+            height: 100px;
+            margin: 0;
+            overflow: hidden;
+        }
 
-    .page-banner {
-        width: 100%;
-        object-fit: cover;
-        display: block;
-    }
-</style>
+        .news-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
+        .page-banner {
+            width: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+}
 <!--遮罩-->
 <div class="bannermasks"><img src="@Url.Content("~/Content/front/images/banner02_masks.png")" alt="&quot;&quot;" /></div>
 <!--遮罩結束-->
