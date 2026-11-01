@@ -76,6 +76,9 @@
                     <th> @Html.DisplayNameFor(model => model.Name)</th>
                     <th>@Html.DisplayNameFor(model => model.Country.Name)</th>
                     <th>@Html.DisplayNameFor(model => model.City)</th>
+                    <th>下架/上架</th>
+                    <th>狀態</th>
+                    <th>@Html.DisplayNameFor(model => model.UnpublishedAt)</th>
                     <th class="text-end">操作</th>
                 </tr>
             </thead>
@@ -88,6 +91,27 @@
                         <td> @Html.DisplayFor(modelItem => item.Name)</td>
                         <td>@Html.DisplayFor(modelItem => item.Country.Name)</td>
                         <td>@Html.DisplayFor(modelItem => item.City)</td>
+                        <td>
+                            @using (Html.BeginForm("TogglePublish", "Dealers", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-secondary" onclick="return confirm('確定要切換發布狀態嗎？');">
+                                    @(item.UnpublishedAt == null ? "下架" : "上架")
+                                </button>
+                            }
+                        </td>
+                        <td>
+                            @if (item.UnpublishedAt == null)
+                            {
+                                <span class="badge bg-success">上架中</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">未上架</span>
+                            }
+                        </td>
+                        <td>@(item.UnpublishedAt?.ToString("yyyy-MM-dd HH:mm") )</td>
                         <td class="text-end text-nowrap">
                             @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-primary " })
                             @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-sm btn-outline-danger" })

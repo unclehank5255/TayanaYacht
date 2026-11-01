@@ -10,6 +10,7 @@ using TayanaYacht.Models;
 using TayanaYacht.Models.Dealer;
 using TayanaYacht.Models.News;
 using TayanaYacht.Models.Yacht;
+using TayanaYacht.Models.ViewModels;
 
 
 namespace TayanaYacht.Areas.Admin.Controllers
@@ -22,7 +23,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         public ActionResult Index()
         {
             ViewBag.BannerPath = db.DealerPages.Find(1)?.DealerBannerPath;
-            return View(db.Dealers.Include(d => d.Country).ToList());
+            return View(db.Dealers.Include(d => d.Country).OrderBy(d=>d.DisplayOrder).ThenBy(d=>d.Id).ToList());
         }
 
         // GET: Dealers/Create
@@ -44,6 +45,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (ModelState.IsValid)
             {
+                dealer.UnpublishedAt = DateTime.Now;
                 db.Dealers.Add(dealer);
                 db.SaveChanges();
                 TempData["Message"] = "經銷商已建立，請繼續填寫內容、上傳圖片";
@@ -57,7 +59,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Dealers/Edit/5
         public ActionResult Edit(int? id)
         {
-            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -67,7 +68,19 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(dealer);
+            var dealerEditVM = new DealerEditVM
+            {
+                Id = dealer.Id,
+                CountryId = dealer.CountryId,
+                Name = dealer.Name,
+                City = dealer.City,
+                CountryName = dealer.Country.Name,
+                DealerCoverPath = dealer.DealerCoverPath,
+                ContentHtml = dealer.ContentHtml,
+                DisplayOrder = dealer.DisplayOrder,
+                CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name")
+            };
+            return View(dealerEditVM);
         }
 
         // POST: Dealers/Edit/5
@@ -75,18 +88,66 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CountryId,Name,City,DealerCoverPath,ContentHtml,DisplayOrder")] Dealer dealer)
+        public ActionResult Edit(DealerEditVM vm)
         {
-            ViewBag.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Entry(dealer).State = EntityState.Modified;
-                db.SaveChanges();
-                TempData["Message"] = "編輯成功";
-                TempData["MessageType"] = "success";
-                return RedirectToAction("Index");
+                vm.CountryList = new SelectList(db.Countries.OrderBy(c => c.DisplayOrder), "Id", "Name");
+                vm.CountryName = db.Countries.Find(vm.CountryId)?.Name;
+                return View(vm);
             }
-            return View(dealer);
+
+            Dealer dealer = db.Dealers.Find(vm.Id);
+            if (dealer == null)
+            {
+                return HttpNotFound();
+            }
+
+            dealer.CountryId = vm.CountryId;
+            dealer.Name = vm.Name;
+            dealer.City = vm.City;
+            dealer.DealerCoverPath = vm.DealerCoverPath;
+            dealer.ContentHtml = vm.ContentHtml;
+            dealer.DisplayOrder = vm.DisplayOrder;
+
+            db.SaveChanges();
+            TempData["Message"] = "編輯成功";
+            TempData["MessageType"] = "success";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TogglePublish(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var dealer = db.Dealers.Find(id);
+            if (dealer == null)
+            {
+                return HttpNotFound();
+            }
+            if (dealer.UnpublishedAt != null)
+            {
+                if (string.IsNullOrWhiteSpace(dealer.DealerCoverPath))
+                {
+                    TempData["Message"] = "無法上架，請先設定封面圖片";
+                    TempData["MessageType"] = "warning";
+                    return RedirectToAction("Index");
+                }
+                dealer.UnpublishedAt = null;
+            }
+            else
+            {
+                dealer.UnpublishedAt = DateTime.Now;
+            }
+
+            TempData["Message"] = "狀態更新成功";
+            TempData["MessageType"] = "success";
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
         //POST: Admin/News/UpdatePageBanner/5
         [HttpPost]

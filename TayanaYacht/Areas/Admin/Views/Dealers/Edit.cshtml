@@ -1,5 +1,5 @@
-﻿@model TayanaYacht.Models.Dealer.Dealer
-@using TayanaYacht.Models;
+﻿@model TayanaYacht.Models.ViewModels.DealerEditVM 
+    @using TayanaYacht.Models;
 
 @{
     ViewBag.Title = "供應商編輯";
@@ -40,7 +40,7 @@
 
 <h2 class="my-2">@ViewBag.Title</h2>
 <p class="text-muted ">
-    正在編輯供應商「@Model.Name」的文本，國家 <span class="badge bg-secondary"> @Model.Country.Name </span> ，城區 <span class="badge bg-secondary "> @Model.City </span>
+    正在編輯供應商「@Model.Name」的文本，國家 <span class="badge bg-secondary"> @Model.CountryName  </span> ，城區 <span class="badge bg-secondary "> @Model.City </span>
 </p>
 @if (TempData["Message"] != null)
 {
@@ -71,7 +71,7 @@
         <div class="card-body">
             <div class="mb-3">
                 @Html.LabelFor(model => model.CountryId, htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.DropDownListFor(model => model.CountryId, (SelectList)ViewBag.CountryList, "請選擇國家", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.CountryId, Model.CountryList, "請選擇國家", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
             </div>
             <div class="mb-3">

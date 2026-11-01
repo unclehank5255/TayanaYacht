@@ -38,6 +38,9 @@ namespace TayanaYacht.Models.Dealer
         [Display(Name = "內容")]
         public string ContentHtml { get; set; }
 
+        [Display(Name = "下架日期")]
+        public DateTime? UnpublishedAt { get; set; }
+
         [Required]
         [Display(Name = "顯示順序")]
         public int DisplayOrder { get; set; }
