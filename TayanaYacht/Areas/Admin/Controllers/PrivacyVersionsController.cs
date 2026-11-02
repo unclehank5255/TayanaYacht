@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ganss.Xss;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -60,10 +61,16 @@ namespace TayanaYacht.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                privacyVersion.ContentHtml = new HtmlSanitizer().Sanitize(privacyVersion.ContentHtml);
                 db.PrivacyVersions.Add(privacyVersion);
+                if (string.IsNullOrEmpty(privacyVersion.ContentHtml))
+                {
+                    ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
+                    return View(privacyVersion);
+                }
                 db.SaveChanges();
                 TempData["Message"] = "創建成功";
-                TempData["MessageType"] = "susscess";
+                TempData["MessageType"] = "success";
                 return RedirectToAction("Index");
             }
 
@@ -89,7 +96,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             versionToPublish.PublishedAt = DateTime.Now;
             db.SaveChanges();
             TempData["Message"] = "發佈成功";
-            TempData["MessageType"] = "susscess";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
 
@@ -138,11 +145,19 @@ namespace TayanaYacht.Areas.Admin.Controllers
 
             if (TryUpdateModel(existing, new[] { "Title", "ContentHtml" }))
             {
+                existing.ContentHtml = new HtmlSanitizer().Sanitize(existing.ContentHtml);
+                if (string.IsNullOrEmpty(existing.ContentHtml))
+                {
+                    ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
+                    return View(existing);
+                }
                 db.SaveChanges();
+                TempData["Message"] = "編輯成功";
+                TempData["MessageType"] = "success";
                 return RedirectToAction("Index");
             }
-            TempData["Message"] = "編輯成功";
-            TempData["MessageType"] = "susscess";
+            TempData["Message"] = "編輯失敗";
+            TempData["MessageType"] = "warning";
             return View(existing);
         }
 
@@ -188,7 +203,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             db.PrivacyVersions.Remove(privacyVersion);
             db.SaveChanges();
             TempData["Message"] = "刪除成功";
-            TempData["MessageType"] = "susscess";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
 

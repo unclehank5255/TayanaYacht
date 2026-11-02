@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ganss.Xss;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,10 +8,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TayanaYacht.Models;
+using TayanaYacht.Models.Contact;
 using TayanaYacht.Models.Dealer;
 using TayanaYacht.Models.News;
-using TayanaYacht.Models.Yacht;
 using TayanaYacht.Models.ViewModels;
+using TayanaYacht.Models.Yacht;
 
 
 namespace TayanaYacht.Areas.Admin.Controllers
@@ -102,12 +104,17 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-
+            dealer.ContentHtml = new HtmlSanitizer().Sanitize(dealer.ContentHtml);
+            db.Dealers.Add(dealer);
+            if (string.IsNullOrEmpty(dealer.ContentHtml))
+            {
+                ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
+                return View(dealer);
+            }
             dealer.CountryId = vm.CountryId;
             dealer.Name = vm.Name;
             dealer.City = vm.City;
             dealer.DealerCoverPath = vm.DealerCoverPath;
-            dealer.ContentHtml = vm.ContentHtml;
             dealer.DisplayOrder = vm.DisplayOrder;
 
             db.SaveChanges();

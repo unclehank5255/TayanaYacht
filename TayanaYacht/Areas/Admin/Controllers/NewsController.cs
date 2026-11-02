@@ -1,4 +1,5 @@
-﻿using Microsoft.Ajax.Utilities;
+﻿using Ganss.Xss;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using TayanaYacht.Models;
+using TayanaYacht.Models.Contact;
 using TayanaYacht.Models.News;
 using TayanaYacht.Models.ViewModels;
 using TayanaYacht.Models.Yacht;
@@ -179,7 +181,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 }
                 existingNews.Title = news.Title;
                 existingNews.Summary = news.Summary;
-                existingNews.ContentHtml = news.ContentHtml;
+                existingNews.ContentHtml = new HtmlSanitizer().Sanitize(existingNews.ContentHtml);
+                db.News.Add(existingNews);
+                if (string.IsNullOrEmpty(existingNews.ContentHtml))
+                {
+                    ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
+                    return View(existingNews);
+                }
                 existingNews.NewsCoverPath = news.NewsCoverPath;
                 existingNews.UpdatedAt = DateTime.Now;
                 TempData["Message"] = "編輯成功";

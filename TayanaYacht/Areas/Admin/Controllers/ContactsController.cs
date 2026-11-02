@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Ganss.Xss;
+using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Contact;
 
@@ -34,6 +35,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (isNew)
             {
                 db.Contacts.Add(contact);
+            }
+            contact.ContentHtml = new HtmlSanitizer().Sanitize(contact.ContentHtml);
+            db.Contacts.Add(contact);
+            if (string.IsNullOrEmpty(contact.ContentHtml))
+            {
+                ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
+                return View(contact);
             }
             db.SaveChanges();
 
