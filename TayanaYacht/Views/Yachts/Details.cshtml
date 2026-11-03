@@ -1,0 +1,98 @@
+﻿@model TayanaYacht.Models.Yacht.Yacht
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Yacht</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SeriesName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeriesName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StatusText)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.YachtBannerPath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.YachtBannerPath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OverviewHtml)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OverviewHtml)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrincipleDimensionHtml)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrincipleDimensionHtml)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpecificationHtml)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpecificationHtml)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisplayOrder)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLatest)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsLatest)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
