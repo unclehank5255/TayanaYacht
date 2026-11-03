@@ -1,98 +1,65 @@
 ﻿@model TayanaYacht.Models.Contact.ContactMessage
-
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "留言內容";
 }
 
-<h2>Details</h2>
+<h2 class="my-2">@ViewBag.Title</h2>
 
-<div>
-    <h4>ContactMessage</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PrivacyVersion.Version)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PrivacyVersion.Version)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Yacht.SeriesName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Yacht.SeriesName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.YachtNameSnapshot)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.YachtNameSnapshot)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AcceptedPrivacy)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AcceptedPrivacy)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SubmittedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SubmittedAt)
-        </dd>
-
-    </dl>
+<div class="my-2">
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="card mb-3">
+    <div class="card-header d-flex align-items-center">
+        <span>@Model.Name 的留言</span>
+        @if (Model.HandledAt == null)
+        {
+            <span class="badge bg-danger mx-auto">未處理</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary mx-auto">已處理 @Model.HandledAt.Value.ToString("yyyy-MM-dd HH:mm")</span>
+        }
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-2">@Html.DisplayNameFor(m => m.SubmittedAt)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(m => m.SubmittedAt)</dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Email)</dt>
+            <dd class="col-sm-10"><a href="mailto:@Model.Email">@Model.Email</a></dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Phone)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(m => m.Phone)</dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(m => m.Country)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(m => m.Country)</dd>
+
+            <dt class="col-sm-2">@Html.DisplayNameFor(m => m.YachtNameSnapshot)</dt>
+            <dd class="col-sm-10">@Html.DisplayFor(m => m.YachtNameSnapshot)</dd>
+
+            <dt class="col-sm-2">同意的隱私條款</dt>
+            <dd class="col-sm-10">
+                @Html.ActionLink(Model.PrivacyVersion.Title, "Details", "PrivacyVersions", new { id = Model.PrivacyVersionId }, null)
+                （發布於 @Model.PrivacyVersion.PublishedAt.Value.ToString("yyyy-MM-dd")）
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">@Html.DisplayNameFor(m => m.Comment)</div>
+    <div class="card-body" style="white-space: pre-wrap;">@Model.Comment</div>
+</div>
+
+<div class="d-flex gap-2">
+    @if (Model.HandledAt == null)
+    {
+        using (Html.BeginForm("MarkHandled", "ContactMessages", new { id = Model.Id }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success" onclick="return confirm('確定要標記為已處理嗎？')">標記已處理</button>
+        }
+    }
+    @Html.ActionLink("刪除", "Delete", new { id = Model.Id }, new { @class = "btn btn-outline-danger" })
+</div>

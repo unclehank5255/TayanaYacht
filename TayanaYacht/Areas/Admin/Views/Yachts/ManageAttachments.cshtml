@@ -1,0 +1,238 @@
+﻿@model List<TayanaYacht.Models.Yacht.YachtPicture>
+@using TayanaYacht.Models
+@using TayanaYacht.Models.Yacht
+@{
+    ViewBag.Title = "附件管理";
+    var yacht = (Yacht)ViewBag.Yacht;
+    const int maxPicturesGallery = 10;
+    const int maxPicturesLayout = 3;
+
+    var galleryPictures = Model.Where(p => p.PictureType == YachtPictureTypeEnum.Gallery).ToList();
+    var layoutPictures = Model.Where(p => p.PictureType == YachtPictureTypeEnum.Layout).ToList();
+}
+
+@section scripts {
+    @Scripts.Render("~/Scripts/admin-yacht")
+    <script>
+        var targetInputId;
+
+        function openPicturePicker(tag, inputId) {
+            targetInputId = inputId;
+            var url = '/Admin/FileManager'
+                + '?type=Yacht'
+                + '&id=@yacht.Id'
+                + '&tag=' + tag;
+
+            window.open(url, 'fileManager', 'width=1100,height=700');
+        }
+
+        function onFilePicked(path) {
+            var input = document.getElementById(targetInputId);
+            input.value = path;
+            input.form.submit();
+        }
+    </script>
+}
+
+<h2 class="my-2">@ViewBag.Title</h2>
+<p class="text-muted ">
+    正在管理 @yacht.SeriesName @yacht.ModelName 遊艇附件，創建時間 <span class="badge bg-secondary ">@yacht.CreatedAt</span> ，上次更新時間 <span class="badge bg-info ">@yacht.UpdatedAt</span>
+</p>
+<div class="my-2">
+    @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">橫幅</div>
+    <div class="card-body">
+        <div class="picture-item mb-3">
+            <img src="@(yacht.YachtBannerPath ?? ImageDefaults.Picture)" />
+        </div>
+        @using (Html.BeginForm("UpdateBanner", "Yachts", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="yachtId" value="@yacht.Id" />
+            <input type="hidden" name="bannerPath" value="@yacht.YachtBannerPath" id="bannerImagePath" />
+            <button type="button" class="btn btn-outline-primary"
+                    onclick="openPicturePicker('YachtBannerPicture', 'bannerImagePath')">
+                選擇橫幅圖片
+            </button>
+        }
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header d-flex align-items-center">
+        <span>Gallery（輪播圖）</span>
+        <span class="badge bg-secondary ms-auto">@galleryPictures.Count / @maxPicturesGallery</span>
+    </div>
+    <div class="card-body">
+        @if (!galleryPictures.Any())
+        {
+            <p class="text-muted mb-0">尚無圖片</p>
+        }
+        <div class="picture-list">
+            @for (int i = 0; i < galleryPictures.Count; i++)
+            {
+                var item = galleryPictures[i];
+                <div class="picture-item">
+                    <img src="@item.ImagePath" />
+                    <div class="small text-muted my-1">第 @(i + 1) 張</div>
+                    <div class="d-flex gap-1">
+                        @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" name="direction" value="up"
+                                    class="btn btn-sm btn-outline-secondary" disabled="@(i == 0)">
+                                往前
+                            </button>
+                            <button type="submit" name="direction" value="down"
+                                    class="btn btn-sm btn-outline-secondary" disabled="@(i == galleryPictures.Count - 1)">
+                                往後
+                            </button>
+                        }
+                        @using (Html.BeginForm("DeletePicture", "Yachts", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('確定要刪除這張圖片嗎？');">
+                                刪除
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card-footer">
+        @if (galleryPictures.Count < maxPicturesGallery)
+        {
+            using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="YachtId" value="@yacht.Id" />
+                <input type="hidden" name="PictureType" value="Gallery" />
+                <input type="hidden" name="ImagePath" id="galleryImagePath" />
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                        onclick="openPicturePicker('YachtGalleryPicture', 'galleryImagePath')">
+                    新增 Gallery 圖片
+                </button>
+            }
+        }
+        else
+        {
+            <span class="text-muted small">已達上限，請先刪除再新增</span>
+        }
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header d-flex align-items-center">
+        <span>Layout（平面圖）</span>
+        <span class="badge bg-secondary ms-auto">@layoutPictures.Count / @maxPicturesLayout</span>
+    </div>
+    <div class="card-body">
+        @if (!layoutPictures.Any())
+        {
+            <p class="text-muted mb-0">尚無圖片</p>
+        }
+        <div class="picture-list">
+            @for (int i = 0; i < layoutPictures.Count; i++)
+            {
+                var item = layoutPictures[i];
+                <div class="picture-item">
+                    <img src="@item.ImagePath" />
+                    <div class="small text-muted my-1">第 @(i + 1) 張</div>
+                    <div class="d-flex gap-1">
+                        @using (Html.BeginForm("MovePicture", "Yachts", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" name="direction" value="up"
+                                    class="btn btn-sm btn-outline-secondary" disabled="@(i == 0)">
+                                往前
+                            </button>
+                            <button type="submit" name="direction" value="down"
+                                    class="btn btn-sm btn-outline-secondary" disabled="@(i == layoutPictures.Count - 1)">
+                                往後
+                            </button>
+                        }
+                        @using (Html.BeginForm("DeletePicture", "Yachts", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('確定要刪除這張圖片嗎？');">
+                                刪除
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card-footer">
+        @if (layoutPictures.Count < maxPicturesGallery)
+        {
+            using (Html.BeginForm("AddPicture", "Yachts", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="YachtId" value="@yacht.Id" />
+                <input type="hidden" name="PictureType" value="Layout" />
+                <input type="hidden" name="ImagePath" id="layoutImagePath" />
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                        onclick="openPicturePicker('YachtLayoutPicture', 'layoutImagePath')">
+                    新增 Layout 圖片
+                </button>
+            }
+        }
+        else
+        {
+            <span class="text-muted small">已達上限，請先刪除再新增</span>
+        }
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">下載檔案（PDF）</div>
+    <div class="card-body">
+        @if (ViewBag.Files.Count == 0)
+        {
+            <p class="text-muted mb-0">尚無檔案</p>
+        }
+        @foreach (var file in ViewBag.Files)
+        {
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <a href="@file.FilePath" target="_blank">@file.FileDisplayName</a>
+                @using (Html.BeginForm("DeleteFile", "Yachts", FormMethod.Post, new { @class = "ms-auto" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@file.Id" />
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('確定要刪除檔案嗎？');">
+                        刪除
+                    </button>
+                }
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        @using (Html.BeginForm("UploadFile", "Yachts", FormMethod.Post, new { enctype = "multipart/form-data", @class = "d-flex gap-2" }))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="yachtId" value="@yacht.Id" />
+            <input type="text" name="displayName" class="form-control" placeholder="顯示名稱（可留空）" />
+            <input type="file" name="upload" class="form-control" accept=".pdf" />
+            <button type="submit" class="btn btn-primary text-nowrap">上傳</button>
+            @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" }) 
+        }
+    </div>
+</div>

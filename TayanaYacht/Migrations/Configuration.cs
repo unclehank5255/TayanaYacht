@@ -18,6 +18,14 @@
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
+            if (!context.AdminUsers.Any())
+            {
+                context.AdminUsers.Add(new Models.AdminUser
+                {
+                    Username = "admin",
+                    PasswordHash = System.Web.Helpers.Crypto.HashPassword("1234")
+                });
+            }
         }
     }
 }

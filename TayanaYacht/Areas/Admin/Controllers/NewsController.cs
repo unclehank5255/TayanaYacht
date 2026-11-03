@@ -1,13 +1,20 @@
-﻿using System;
+﻿using Ganss.Xss;
+using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using TayanaYacht.Models;
+using TayanaYacht.Models.Contact;
 using TayanaYacht.Models.News;
+using TayanaYacht.Models.ViewModels;
+using TayanaYacht.Models.Yacht;
 
 namespace TayanaYacht.Areas.Admin.Controllers
 {
@@ -16,29 +23,108 @@ namespace TayanaYacht.Areas.Admin.Controllers
         private TayanaDbContext db = new TayanaDbContext();
 
         // GET: News
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View(db.News.ToList());
-        }
+            const int pageSize = 5;
+            const string sessionKey = "AdminNewsPage";
 
-        // GET: News/Details/5
-        public ActionResult Details(int? id)
+            int currentPage;
+
+            if (page.HasValue)
+            {
+                currentPage = page.Value;
+            }
+            else if (Session[sessionKey] != null)
+            {
+                currentPage = (int)Session[sessionKey];
+            }
+            else
+            {
+                currentPage = 1;
+            }
+            if (currentPage < 1)
+            {
+                currentPage = 1;
+            }
+            var query = db.News.Where(n => n.DeletedAt == null );
+
+            int totalCount = query.Count();
+            int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            if (totalPages > 0 && currentPage > totalPages)
+            {
+                currentPage = totalPages;
+            }
+
+            Session[sessionKey] = currentPage;
+
+            var vm = new NewsVM
+            {
+                TotalCount = totalCount,
+                PublishedCount = query.Count(n => n.UnpublishedAt == null),
+                LastPostedAt = query.Max(n => (DateTime?)n.PublishDate),
+                NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath,
+                CurrentPage = currentPage,
+                TotalPages = totalPages,
+                NewsList = query
+                    .OrderByDescending(n => n.CreatedAt)
+                    .ThenByDescending(n => n.Id)
+                    .Skip((currentPage - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList()
+            };
+
+            return View(vm);
+        }
+        // POST: Publish/Unpublish News
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TogglePublish(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            News news = db.News.Find(id);
-            if (news == null)
+            var news = db.News.Find(id);
+            if (news == null || news.DeletedAt != null)
             {
                 return HttpNotFound();
             }
-            return View(news);
+
+            if (news.UnpublishedAt != null)
+            {
+                if (string.IsNullOrWhiteSpace(news.ContentHtml))
+                {
+                    TempData["Message"] = "無法上架，請先編輯內容";
+                    TempData["MessageType"] = "warning";
+                    return RedirectToAction("Index");
+                }
+                if (string.IsNullOrWhiteSpace(news.NewsCoverPath))
+                {
+                    TempData["Message"] = "無法上架，請先設定封面圖片";
+                    TempData["MessageType"] = "warning";
+                    return RedirectToAction("Index");
+                }
+                news.UnpublishedAt = null;
+                if (news.PublishDate == null)
+                {
+                    news.PublishDate = DateTime.Now;
+                }
+            }
+            else
+            {
+                news.UnpublishedAt = DateTime.Now;
+            }
+            TempData["Message"] = "狀態更新成功";
+            TempData["MessageType"] = "success";
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: News/Create
         public ActionResult Create()
         {
+            TempData["Message"] = "先填基本資訊，建立後會進入編輯頁，再填寫內容、上傳圖片。新遊艇預設為<strong>未發布</strong>。";
+            TempData["MessageType"] = "info";
             return View();
         }
 
@@ -47,13 +133,17 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml,PublishDate,DeletedAt")] News news)
+        public ActionResult Create([Bind(Include = "Id,Title,Summary,ContentHtml")] News news)
         {
             if (ModelState.IsValid)
             {
+                news.UpdatedAt = DateTime.Now;
+                news.UnpublishedAt = DateTime.Now;
                 db.News.Add(news);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["Message"] = "新聞已建立，請繼續填寫內容、上傳圖片";
+                TempData["MessageType"] = "success";
+                return RedirectToAction("Edit", new { id = news.Id });
             }
 
             return View(news);
@@ -67,7 +157,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             News news = db.News.Find(id);
-            if (news == null)
+            if (news == null || news.DeletedAt != null)
             {
                 return HttpNotFound();
             }
@@ -80,16 +170,145 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml,PublishDate,DeletedAt")] News news)
+        public ActionResult Edit([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml")] News news)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(news).State = EntityState.Modified;
+                News existingNews = db.News.Find(news.Id);
+                if (existingNews == null || existingNews.DeletedAt != null)
+                {
+                    return HttpNotFound();
+                }
+                existingNews.Title = news.Title;
+                existingNews.Summary = news.Summary;
+                existingNews.ContentHtml = news.ContentHtml;
+                existingNews.NewsCoverPath = news.NewsCoverPath;
+                existingNews.UpdatedAt = DateTime.Now;
+                TempData["Message"] = "編輯成功";
+                TempData["MessageType"] = "success";
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(news);
         }
+
+        //POST: Admin/News/UpdatePageBanner/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePageBanner(string bannerPath)
+        {
+
+            NewsPage newsPage = db.NewsPages.Find(1);
+            if (newsPage == null)
+            {
+                newsPage = new NewsPage { Id = 1 };
+                db.NewsPages.Add(newsPage);
+            }
+            newsPage.NewsBannerPath = bannerPath;
+            TempData["Message"] = "封面更新成功";
+            TempData["MessageType"] = "success";
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult ManageFiles(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            News news = db.News.Find(id);
+            if (news == null || news.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            return View(news);
+
+        }
+
+        // POST: Admin/News/Upload/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadFile(int? id, string displayName, HttpPostedFileBase upload)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            News news = db.News.Find(id);
+            if (news == null || news.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            if (upload == null || upload.ContentLength <= 0)
+            {
+                TempData["Message"] = "請選擇要上傳的檔案";
+                TempData["MessageType"] = "warning";
+                return RedirectToAction("ManageFiles", new { id = news.Id });
+            }
+            string extension = Path.GetExtension(upload.FileName).ToLower();
+            if (extension != ".pdf")
+            {
+                TempData["Message"] = "只能上傳 PDF 檔案";
+                TempData["MessageType"] = "warning";
+                return RedirectToAction("ManageFiles", new { id = news.Id });
+            }
+            string displayFileName = string.IsNullOrWhiteSpace(displayName) ? Path.GetFileName(upload.FileName) : displayName.Trim();
+            if (displayFileName.Length > 50)
+            {
+                TempData["Message"] = "檔案名稱不能超過 50 個字";
+                TempData["MessageType"] = "warning";
+                return RedirectToAction("ManageFiles", new { id = news.Id });
+            }
+            string storedFileName = Guid.NewGuid().ToString("N") + extension;
+            string folder = Server.MapPath("~/Files/News/" + news.Id + "/File/");
+            Directory.CreateDirectory(folder);
+
+            upload.SaveAs(Path.Combine(folder, storedFileName));
+            var newsFile = new NewsFile
+            {
+                NewsId = news.Id,
+                DisplayFileName = displayFileName,
+                StoredFileName = storedFileName,
+                FilePath = "/Files/News/" + news.Id + "/File/" + storedFileName
+            };
+            TempData["Message"] = "上傳成功";
+            TempData["MessageType"] = "success";
+            db.NewsFiles.Add(newsFile);
+            db.SaveChanges();
+            return RedirectToAction("ManageFiles", new { id = news.Id });
+        }
+        // POST: Admin/News/DeleteFile/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteFile(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            NewsFile newsFile = db.NewsFiles.Find(id);
+            if (newsFile == null)
+            {
+                return HttpNotFound();
+            }
+
+            string physicalPath = Server.MapPath("~" + newsFile.FilePath);
+
+            TempData["Message"] = "刪除成功";
+            TempData["MessageType"] = "success";
+            db.NewsFiles.Remove(newsFile);
+            db.SaveChanges();
+
+            if (System.IO.File.Exists(physicalPath))
+            {
+                System.IO.File.Delete(physicalPath);
+            }
+
+            return Redirect(Url.Action("ManageFiles", new { id = newsFile.NewsId }) + "#files");
+        }
+
 
         // GET: News/Delete/5
         public ActionResult Delete(int? id)
@@ -99,20 +318,32 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             News news = db.News.Find(id);
-            if (news == null)
+            if (news == null || news.DeletedAt != null)
             {
                 return HttpNotFound();
             }
+            TempData["Message"] = "確定要刪除這則新聞嗎？刪除後前台不會顯示，後台列表也看不到。\r\n";
+            TempData["MessageType"] = "warning";
             return View(news);
         }
 
         // POST: News/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             News news = db.News.Find(id);
-            db.News.Remove(news);
+            if (news == null || news.DeletedAt != null)
+            {
+                return HttpNotFound();
+            }
+            news.DeletedAt = DateTime.Now;
+            TempData["Message"] = "刪除成功";
+            TempData["MessageType"] = "success";
             db.SaveChanges();
             return RedirectToAction("Index");
         }

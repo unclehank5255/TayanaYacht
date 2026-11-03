@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.News;
+using TayanaYacht.Models.ViewModels;
 
 namespace TayanaYacht.Controllers
 {
@@ -16,105 +17,70 @@ namespace TayanaYacht.Controllers
         private TayanaDbContext db = new TayanaDbContext();
 
         // GET: News
-        public ActionResult Index()
+        [AllowAnonymous]
+        public ActionResult Index(int page = 1)
         {
-            return View(db.News.ToList());
+            const int pageSize = 5;
+            page = (page < 1) ? 1 : page;
+            var query = db.News.Where(n => n.DeletedAt == null && n.UnpublishedAt == null);
+
+            int totalCount = query.Count();
+            int totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            int startPage;
+            int endPage;
+            if(totalPages <= 5)
+            {
+                startPage = 1;
+                endPage = totalPages;
+            }
+            else
+            {
+                startPage = page - 2;
+                if (startPage < 1)
+                {
+                    startPage = 1;
+                }
+                endPage = startPage + 4;
+                if (endPage > totalPages)
+                {
+                    endPage = totalPages;
+                    startPage = endPage - 4;
+                }
+            }
+            var vm = new NewsVM()
+            {
+                NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath,
+                CurrentPage = page,
+                TotalCount = totalCount,
+                TotalPages = totalPages,
+                StartPage = startPage,
+                EndPage = endPage,
+                NewsList = query.
+                OrderByDescending(n => n.PublishDate).
+                ThenByDescending(n => n.Id).Skip((page - 1)*pageSize)
+                .Take(pageSize).ToList()
+            };
+            
+            return View(vm);
         }
 
         // GET: News/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.NewsBannerPath = db.NewsPages.Find(1)?.NewsBannerPath;
             News news = db.News.Find(id);
-            if (news == null)
+            if (news == null || news.DeletedAt != null || news.UnpublishedAt != null)
             {
                 return HttpNotFound();
             }
             return View(news);
         }
 
-        // GET: News/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: News/Create
-        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml,PublishDate,DeletedAt")] News news)
-        {
-            if (ModelState.IsValid)
-            {
-                db.News.Add(news);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(news);
-        }
-
-        // GET: News/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            News news = db.News.Find(id);
-            if (news == null)
-            {
-                return HttpNotFound();
-            }
-            return View(news);
-        }
-
-        // POST: News/Edit/5
-        // 若要避免過量張貼攻擊，請啟用您要繫結的特定屬性。
-        // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Summary,NewsCoverPath,ContentHtml,PublishDate,DeletedAt")] News news)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(news).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(news);
-        }
-
-        // GET: News/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            News news = db.News.Find(id);
-            if (news == null)
-            {
-                return HttpNotFound();
-            }
-            return View(news);
-        }
-
-        // POST: News/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            News news = db.News.Find(id);
-            db.News.Remove(news);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

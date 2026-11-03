@@ -1,0 +1,35 @@
+﻿@model TayanaYacht.Models.Contact.PrivacyVersion
+
+@{
+    ViewBag.Title = "刪除隱私版本";
+}
+
+
+
+<h2 class="my-2">@ViewBag.Title</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
+}
+
+<div class="card mb-3">
+    <div class="card-body d-flex align-items-center gap-3">
+        <div>
+            <div class="fw-semibold">@Model.Title</div>
+            <div class="text-muted small mb-1">@Model.ContentHtml</div>
+            <div class="text-muted small mb-1">@Model.CreatedAt</div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="刪除" class="btn btn-danger" />
+        @Html.ActionLink("取消", "Index", null, new { @class = "btn btn-outline-secondary" })
+    </div>
+}
+

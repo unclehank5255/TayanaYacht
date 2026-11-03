@@ -1,66 +1,85 @@
 ﻿@model TayanaYacht.Models.News.News
 
-@{
-    ViewBag.Title = "Details";
-}
+@section styles{
+    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" />
 
-<h2>Details</h2>
+    <style>
+        .page-banner {
+            width: 100%;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+    }
+    <!--------------------------------換圖開始---------------------------------------------------->
 
-<div>
-    <h4>News</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+    <div class="banner">
+        <ul>
+            <li><img class="banner" src="@Url.Content("~"+ViewBag.NewsBannerPath)" alt="Tayana Yachts" /></li>
+        </ul>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+    </div>
+    <!--------------------------------換圖結束---------------------------------------------------->
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Summary)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NewsCoverPath)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NewsCoverPath)
-        </dd>
+    <div class="conbg">
+        <!--------------------------------左邊選單開始---------------------------------------------------->
+        <div class="left">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ContentHtml)
-        </dt>
+            <div class="left1">
+                <p><span>NEWS</span></p>
+                <ul>
+                    <li><a href="@Url.Action("Index", "News")">News & Events</a></li>
 
-        <dd>
-            @Html.DisplayFor(model => model.ContentHtml)
-        </dd>
+                </ul>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PublishDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PublishDate)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </dt>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DeletedAt)
-        </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+        </div>
+
+
+
+
+
+
+
+        <!--------------------------------左邊選單結束---------------------------------------------------->
+        <!--------------------------------右邊選單開始---------------------------------------------------->
+        <div id="crumb"><a href="#">Home</a> >> <a href="#">News </a> >> <a href="#"><span class="on1">News & Events</span></a></div>
+        <div class="right">
+            <div class="right1">
+                <div class="title"> <span>News & Events</span></div>
+
+                <!--------------------------------內容開始---------------------------------------------------->
+                <div class="box3">
+                    <h4>@Model.Title</h4>
+                    @Html.Raw(Model.ContentHtml)
+                </div>
+
+                <!--下載開始-->
+                <div class="downloads">
+                    <p><img src="@Url.Content("~/Content/front/images/downloads.gif")" alt="&quot;&quot;" /></p>
+                    <ul>
+                        @foreach (var item in Model.NewsFiles)
+                        {
+                            <li><a href="@Url.Content("~"+item.FilePath)">@item.DisplayFileName</a></li>
+                        }
+                    </ul>
+                </div>
+                <!--下載結束-->
+
+                <div class="buttom001"><a href="@Url.Action("Index","News")"><img src="@Url.Content("~/Content/front/images/back.gif")" alt="&quot;&quot;" width="55" height="28" /></a></div>
+
+                <!--------------------------------內容結束------------------------------------------------------>
+            </div>
+        </div>
+
+        <!--------------------------------右邊選單結束---------------------------------------------------->
+    </div>

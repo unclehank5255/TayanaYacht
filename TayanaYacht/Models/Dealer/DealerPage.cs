@@ -19,7 +19,7 @@ namespace TayanaYacht.Models.Dealer
         public int Id { get; set; }
 
         [Required]
-        [StringLength(255, ErrorMessage = "經銷商橫幅路徑不能超過 255 個字元")]
+        [StringLength(255, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "經銷商橫幅路徑")]
         public string DealerBannerPath { get; set; }
     }

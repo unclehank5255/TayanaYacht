@@ -1,87 +1,156 @@
-﻿@model IEnumerable<TayanaYacht.Models.Yacht.Yacht>
-
+﻿@model TayanaYacht.Models.ViewModels.YachtPageVM
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Yacht";
 }
-
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.SeriesName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ModelName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StatusText)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.YachtBannerPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OverviewHtml)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PrincipleDimensionHtml)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SpecificationHtml)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayOrder)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeletedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsLatest)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.SeriesName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ModelName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StatusText)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.YachtBannerPath)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OverviewHtml)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrincipleDimensionHtml)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SpecificationHtml)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DisplayOrder)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeletedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsLatest)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+@section styles {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/front/css/jquery.ad-gallery.css")" />
+    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" type="text/css" />
 }
+@section scripts
+    {
+    <script type="text/javascript" src="@Url.Content("~/Content/front/js/jquery.ad-gallery.js")"></script>
+    <script type="text/javascript">
+        $(function () {
 
-</table>
+            var galleries = $('.ad-gallery').adGallery();
+            galleries[0].settings.effect = 'slide-hori';
+
+
+
+        });
+    </script>
+
+}
+<div class="bannermasks"><img src="@Url.Content("~/Content/front/images/banner01_masks.png")" alt="" /></div>
+
+<div class="banner">
+    <div id="gallery" class="ad-gallery">
+        <div class="ad-image-wrapper">
+        </div>
+        <div class="ad-controls" style="display:none">
+        </div>
+        <div class="ad-nav">
+            <div class="ad-thumbs">
+                <ul class="ad-thumb-list">
+                    @foreach (var picture in Model.GalleryPictures)
+                    {
+                        var imageUrl = Url.Content("~" + picture.ImagePath);
+                        <li>
+                            <a href="@imageUrl">
+                                <img src="@imageUrl" />
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="buttom02"> <a href="#"><img src="@Url.Content("~/Content/front/images/buttom02.gif")" alt="next" /></a></div>
+
+
+
+<div class="conbg">
+    <!--------------------------------左邊選單開始---------------------------------------------------->
+    <div class="left">
+
+        <div class="left1">
+            <p><span>YACHTS</span></p>
+            <ul>
+                @foreach (var yacht in Model.Yachts)
+                {
+                    <li><a href="@Url.Action("Index", "Yachts", new { id = yacht.Id })">@yacht.SeriesName @yacht.ModelName</a></li>
+                }
+            </ul>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!--------------------------------左邊選單結束---------------------------------------------------->
+    <!--------------------------------右邊選單開始---------------------------------------------------->
+    <div id="crumb"><a href="#">Home</a> >> <a href="#">Yachts</a> >> <a href="#"><span class="on1">@Model.CurrentYacht.SeriesName @Model.CurrentYacht.ModelName</span></a></div>
+    <div class="right">
+        <div class="right1">
+            <div class="title"> <span>@Model.CurrentYacht.SeriesName @Model.CurrentYacht.ModelName</span></div>
+
+            <!--------------------------------內容開始---------------------------------------------------->
+            <!--次選單-->
+            <div class="menu_y">
+                <ul>
+                    <li class="menu_y00">YACHTS</li>
+                    <li><a class="menu_yli01" href="@Url.Action("Index", "Yachts", new { id = Model.CurrentYacht.Id})">Overview</a></li>
+                    <li><a class="menu_yli02" href="@Url.Action("Index", "Yachts", new { id = Model.CurrentYacht.Id, tab = "layout"})">Layout & deck plan</a></li>
+                    <li><a class="menu_yli03" href="@Url.Action("Index", "Yachts", new { id = Model.CurrentYacht.Id, tab = "specification"})">Specification</a></li>
+                </ul>
+            </div>
+            <!--次選單-->
+            @switch (Model.ActiveTab)
+            {
+                case TayanaYacht.Models.ViewModels.YachtTab.Layout:
+                    <div class="box6">
+                        <p>Layout & deck plan</p>
+                        <ul>
+                            @foreach (var picture in Model.LayoutPictures)
+                            {
+                                <li><img src="@Url.Content("~"+picture.ImagePath)" alt="&quot;&quot;"></li>
+
+                            }
+                        </ul>
+                    </div>
+                    break;
+                case TayanaYacht.Models.ViewModels.YachtTab.Specification:
+                    <div class="box5">
+                        <h4>DETAIL SPECIFICATION</h4>
+
+                        @Html.Raw(Model.CurrentYacht.SpecificationHtml)
+
+                    </div>
+                    break;
+                default:
+                    <div class="box1">
+                        @Html.Raw(Model.CurrentYacht.OverviewHtml)<br /><br />
+
+                    </div>
+
+                    <div class="box3">
+                        <h4>PRINCIPAL DIMENSION</h4>
+                        @Html.Raw(Model.CurrentYacht.PrincipleDimensionHtml)
+
+
+                    </div>
+                    break;
+            }
+
+            <p class="topbuttom"><img src="@Url.Content("~/Content/front/images/top.gif")" alt="top" /></p>
+
+            <!--下載開始-->
+            <div class="downloads">
+                <p><img src="@Url.Content("~/Content/front/images/downloads.gif")" alt="&quot;&quot;" /></p>
+                <ul>
+                    @foreach (var file in Model.CurrentYacht.YachtFiles)
+                    {
+                        <li><a href="@Url.Content("~"+file.FilePath)">@Path.GetFileNameWithoutExtension(@file.FileDisplayName)</a></li>
+                    }
+                </ul>
+            </div>
+            <!--下載結束-->
+            <!--------------------------------內容結束------------------------------------------------------>
+        </div>
+    </div>
+
+    <!--------------------------------右邊選單結束---------------------------------------------------->
+</div>
