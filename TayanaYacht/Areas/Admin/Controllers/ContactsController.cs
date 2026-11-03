@@ -36,13 +36,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 db.Contacts.Add(contact);
             }
-            contact.ContentHtml = new HtmlSanitizer().Sanitize(contact.ContentHtml);
-            db.Contacts.Add(contact);
-            if (string.IsNullOrEmpty(contact.ContentHtml))
-            {
-                ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
-                return View(contact);
-            }
             db.SaveChanges();
 
             TempData["Message"] = "聯絡頁設定已儲存";

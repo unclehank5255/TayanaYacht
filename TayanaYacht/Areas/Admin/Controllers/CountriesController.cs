@@ -97,6 +97,12 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            if (db.ContactMessages.Any(m => m.CountryId == id))
+            {
+                TempData["Message"] = "此國家已有聯絡訊息，無法刪除";
+                TempData["MessageType"] = "warning";
+                return RedirectToAction("Index");
+            }
             if (db.Dealers.Any(d => d.CountryId == id))
             {
                 TempData["Message"] = "這個國家底下還有經銷商，請先移除或移動經銷商";

@@ -61,13 +61,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                privacyVersion.ContentHtml = new HtmlSanitizer().Sanitize(privacyVersion.ContentHtml);
-                db.PrivacyVersions.Add(privacyVersion);
-                if (string.IsNullOrEmpty(privacyVersion.ContentHtml))
-                {
-                    ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
-                    return View(privacyVersion);
-                }
                 db.SaveChanges();
                 TempData["Message"] = "創建成功";
                 TempData["MessageType"] = "success";

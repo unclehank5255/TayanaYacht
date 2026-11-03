@@ -104,13 +104,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            dealer.ContentHtml = new HtmlSanitizer().Sanitize(dealer.ContentHtml);
-            db.Dealers.Add(dealer);
-            if (string.IsNullOrEmpty(dealer.ContentHtml))
-            {
-                ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
-                return View(dealer);
-            }
+            dealer.ContentHtml = vm.ContentHtml;
             dealer.CountryId = vm.CountryId;
             dealer.Name = vm.Name;
             dealer.City = vm.City;

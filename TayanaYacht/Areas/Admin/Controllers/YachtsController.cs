@@ -171,18 +171,6 @@ namespace TayanaYacht.Areas.Admin.Controllers
                     yacht.IsPublished = false;
                 }
                 yacht.UpdatedAt = DateTime.Now;
-                yacht.PrincipleDimensionHtml = new HtmlSanitizer().Sanitize(yacht.PrincipleDimensionHtml);
-                db.Yachts.Add(yacht);
-                if (string.IsNullOrEmpty(yacht.PrincipleDimensionHtml))
-                {
-                    ModelState.AddModelError("PrincipleDimensionHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
-                    return View(yacht);
-                }
-                if (string.IsNullOrEmpty(yacht.SpecificationHtml))
-                {
-                    ModelState.AddModelError("SpecificationHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
-                    return View(yacht);
-                }
                 TempData["Message"] = "編輯成功";
                 TempData["MessageType"] = "success";
                 db.SaveChanges();
