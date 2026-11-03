@@ -30,11 +30,16 @@ namespace TayanaYacht.Models.Contact
         [Display(Name = "電話")]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "{0}是必填項")]
-        [StringLength(60, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "國家")]
-        public string Country { get; set; }
+        public int CountryId { get; set; }
 
+        [Display(Name = "國家名稱快照")]
+        [Required]
+        [StringLength(60, ErrorMessage = "{0}不能超過 {1} 個字元")]
+        public string CountryNameSnapshot { get; set; }
+
+        [ForeignKey("CountryId")]
+        public virtual TayanaYacht.Models.Dealer.Country Country { get; set; }
         [Display(Name = "游艇編號")]
         [Required(ErrorMessage = "{0}是必填項")]
         public int YachtId { get; set; } // viewModel 設計可null下拉選單這邊不改變資料庫

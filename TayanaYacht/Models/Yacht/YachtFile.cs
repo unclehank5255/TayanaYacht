@@ -21,12 +21,12 @@ namespace TayanaYacht.Models.Yacht
 
         [Required]
         [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
-        [Display(Name = "原始文件名")]
-        public string FileOriginalName { get; set; }
+        [Display(Name = "文件顯示名")]
+        public string FileDisplayName { get; set; }
 
         [Required]
         [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
-        [Display(Name = "實際文件名")]
+        [Display(Name = "文件儲存名")]
         public string StoredFileName { get; set; }
 
         [Required]

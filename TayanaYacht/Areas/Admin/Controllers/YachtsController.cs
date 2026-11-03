@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ganss.Xss;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -35,9 +36,15 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Yacht yacht = db.Yachts.Find(id);
-            if (yacht == null || yacht.DeletedAt != null)
+            if (yacht == null)
             {
                 return HttpNotFound();
+            }
+            if (yacht.DeletedAt != null)
+            {
+                TempData["Message"] = "遊艇已下架";
+                TempData["MessageType"] = "warning";
+                return RedirectToAction("Index");
             }
             IQueryable<Yacht> neighborQuery = db.Yachts.Where(y => y.DeletedAt == null);
             Yacht neighbor = null;
@@ -65,7 +72,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         }
 
         // GET: Admin/Yachts/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id)//給下架遊艇查看
         {
             if (id == null)
             {
@@ -82,6 +89,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Admin/Yachts/Create
         public ActionResult Create()
         {
+            TempData["Message"] = "先填基本資訊，建立後會進入編輯頁，再填寫內容、上傳圖片。新遊艇預設為<strong>未發布</strong>。";
+            TempData["MessageType"] = "info";
             return View();
         }
 
@@ -102,6 +111,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 db.SaveChanges();
 
                 TempData["Message"] = "遊艇已建立，請繼續填寫內容、上傳圖片";
+                TempData["MessageType"] = "success";
                 return RedirectToAction("Edit", new { id = yacht.Id });
             }
 
@@ -124,6 +134,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (yacht.DeletedAt != null)
             {
                 TempData["Message"] = "已下架的遊艇不能修改";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
             return View(yacht);
@@ -149,12 +160,26 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (yacht.DeletedAt != null)
             {
                 TempData["Message"] = "已下架的遊艇不能修改";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
             if (TryUpdateModel(yacht, new[] { "SeriesName", "ModelName", "StatusText", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest", "IsPublished" }))
             {
+                bool IsDraft = (string.IsNullOrWhiteSpace(yacht.YachtBannerPath) || string.IsNullOrWhiteSpace(yacht.OverviewHtml) || string.IsNullOrWhiteSpace(yacht.PrincipleDimensionHtml) || string.IsNullOrWhiteSpace(yacht.SpecificationHtml)) && yacht.IsPublished;
+                if (IsDraft)
+                {
+                    yacht.IsPublished = false;
+                }
                 yacht.UpdatedAt = DateTime.Now;
+                TempData["Message"] = "編輯成功";
+                TempData["MessageType"] = "success";
                 db.SaveChanges();
+                if (IsDraft)
+                {
+                    TempData["Message"] = "資料已儲存，但尚有欄位未儲存導致無法發布，請退出檢查遊艇封面和本頁欄位是否有缺漏項目";
+                    TempData["MessageType"] = "warning";
+                    return RedirectToAction("Edit", new { id = yacht.Id });
+                }
                 return RedirectToAction("Index");
             }
             return View(yacht);
@@ -197,6 +222,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
 
             yacht.YachtBannerPath = bannerPath;
             TouchYacht(yachtId.Value);
+            TempData["Message"] = "上傳成功";
+            TempData["MessageType"] = "success";
             db.SaveChanges();
             return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
@@ -210,13 +237,18 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 int maxOrder = db.YachtPictures.Where(y => y.YachtId == yachtpicture.YachtId && y.PictureType == yachtpicture.PictureType).Select(p => p.DisplayOrder).DefaultIfEmpty(0).Max();
                 int nextOrder = maxOrder + 1;
                 yachtpicture.DisplayOrder = nextOrder;
-                //限制只能抓三張
+                //限制Layout只能抓三張
+                int temp = (yachtpicture.PictureType.ToString() == "Layout") ? 3 : 10;
+                string temps = (yachtpicture.PictureType.ToString() == "Layout") ? "三" : "十";
                 if (db.YachtPictures.Where(y => y.YachtId == yachtpicture.YachtId
-                && y.PictureType == yachtpicture.PictureType).Count() >= 3)
+                && y.PictureType == yachtpicture.PictureType).Count() >= temp)
                 {
-                    TempData["Message"] = "每種類型最多只能新增三張圖片";
+                    TempData["Message"] = $"每種類型最多只能新增{temps}張圖片";
+                    TempData["MessageType"] = "warning";
                     return RedirectToAction("ManageAttachments", new { id = yachtpicture.YachtId });
                 }
+                TempData["Message"] = "上傳成功";
+                TempData["MessageType"] = "success";
                 db.YachtPictures.Add(yachtpicture);
                 TouchYacht(yachtpicture.YachtId);
                 db.SaveChanges();
@@ -241,6 +273,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             int yachtId = yachtpicture.YachtId;
             db.YachtPictures.Remove(yachtpicture);
             TouchYacht(yachtId);
+            TempData["Message"] = "刪除成功";
+            TempData["MessageType"] = "success";
             db.SaveChanges();
             return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
@@ -306,18 +340,21 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (upload == null || upload.ContentLength <= 0)
             {
                 TempData["Message"] = "請選擇要上傳的檔案";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("ManageAttachments", new { id = yachtId });
             }
             string extension = Path.GetExtension(upload.FileName).ToLower();
             if (extension != ".pdf")
             {
                 TempData["Message"] = "只能上傳 PDF 檔案";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("ManageAttachments", new { id = yachtId });
             }
-            string fileOriginalName = string.IsNullOrWhiteSpace(displayName) ? Path.GetFileName(upload.FileName) : displayName.Trim();
-            if (fileOriginalName.Length > 50)
+            string fileDisplayName = string.IsNullOrWhiteSpace(displayName) ? Path.GetFileName(upload.FileName) : displayName.Trim();
+            if (fileDisplayName.Length > 50)
             {
                 TempData["Message"] = "檔案名稱不能超過 50 個字";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("ManageAttachments", new { id = yachtId });
             }
             string storedFileName = Guid.NewGuid().ToString("N") + extension;
@@ -328,12 +365,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
             var yachtFile = new YachtFile
             {
                 YachtId = yachtId.Value,
-                FileOriginalName = fileOriginalName,
+                FileDisplayName = fileDisplayName,
                 StoredFileName = storedFileName,
                 FilePath = "/Files/Yacht/" + yachtId + "/File/" + storedFileName
             };
             db.YachtFiles.Add(yachtFile);
             TouchYacht(yachtFile.YachtId);
+            TempData["Message"] = "上傳成功";
+            TempData["MessageType"] = "success";
             db.SaveChanges();
             return RedirectToAction("ManageAttachments", new { id = yachtId });
         }
@@ -356,6 +395,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
 
             db.YachtFiles.Remove(yachtFile);
             TouchYacht(yachtFile.YachtId);
+            TempData["Message"] = "刪除成功";
+            TempData["MessageType"] = "success";
             db.SaveChanges();
 
             if (System.IO.File.Exists(physicalPath))
@@ -410,6 +451,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (yacht.IsPublished)
             {
                 TempData["Message"] = "已發布的遊艇無法下架，請先取消發布";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
             return View(yacht);
@@ -431,12 +473,14 @@ namespace TayanaYacht.Areas.Admin.Controllers
             if (yacht.IsPublished)
             {
                 TempData["Message"] = "已發布的遊艇無法下架，請先取消發布";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
 
             yacht.DeletedAt = DateTime.Now;
             db.SaveChanges();
             TempData["Message"] = "遊艇已下架";
+            TempData["MessageType"] = "susscess";
             return RedirectToAction("Index");
         }
         #endregion

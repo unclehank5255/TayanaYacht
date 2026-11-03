@@ -1,51 +1,69 @@
-﻿@model IEnumerable<TayanaYacht.Models.Dealer.Dealer>
+﻿@model TayanaYacht.Models.ViewModels.DealerPageVM
+@using TayanaYacht.Models;
 
-@{
-    ViewBag.Title = "Index";
+@section styles {
+    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" type="text/css" />
 }
 
-<h2>Index</h2>
+<div class="bannermasks"><img src="@Url.Content(Model.DealerBannerPath)" alt="" width="967" height="371" /></div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DealerCoverPath)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContentHtml)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayOrder)
-        </th>
-        <th></th>
-    </tr>
+<div class="banner">
+    <ul>
+        <li><img src="@Url.Content("~/Content/front/images/newbanner.jpg")" alt="Tayana Yachts" /></li>
+    </ul>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Country)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DealerCoverPath)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContentHtml)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DisplayOrder)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+<div class="conbg">
+    <div class="left">
+        <div class="left1">
+            <p><span>DEALERS</span></p>
+            <ul>
+                @foreach (var country in Model.Countries)
+                {
+                    <li><a href="@Url.Action("Index", "Dealers", new { id = country.Id })">@country.Name</a></li>
+                }
+            </ul>
+        </div>
+    </div>
 
-</table>
+    <div id="crumb">
+        <a href="@Url.Action("Index", "Home")">Home</a> >>
+        <a href="@Url.Action("Index", "Dealers")">Dealers</a> >>
+        <a href="#"><span class="on1">@(Model.CurrentCountry?.Name)</span></a>
+    </div>
+
+    <div class="right">
+        <div class="right1">
+            <div class="title"><span>@(Model.CurrentCountry?.Name)</span></div>
+
+            <div class="box2_list">
+                @if (Model.Dealers.Any())
+                {
+                    <ul>
+                        @foreach (var dealer in Model.Dealers)
+                        {
+                            <li>
+                                <div class="list02">
+                                    <ul>
+                                        <li class="list02li">
+                                            <div><p><img src="@Url.Content(dealer.DealerCoverPath)" alt="" /></p></div>
+                                        </li>
+                                        <li>
+                                            <span>@dealer.City</span><br />
+                                            @dealer.Name<br />
+                                            @Html.Raw(dealer.ContentHtml)
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>No dealers available.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

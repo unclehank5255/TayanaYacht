@@ -1,0 +1,195 @@
+﻿@model TayanaYacht.Models.ViewModels.ContactPageVM
+
+@section styles {
+    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" type="text/css" />
+    <style>
+        #privacyDialog {
+            width: 600px;
+            max-width: 90%;
+        }
+
+            #privacyDialog .privacy-content {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            #privacyDialog::backdrop {
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+        .contact-message {
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            background: #e6f4ea;
+            color: #1e6b35;
+            border: 1px solid #b7dfc2;
+        }
+    </style>
+}
+
+@section scripts {
+    <script>
+        var dialog = document.getElementById('privacyDialog');
+        var agree = document.getElementById('AgreePrivacy');
+        var confirmBtn = document.getElementById('confirmSubmit');
+
+        document.getElementById('openPrivacy').addEventListener('click', function (e) {
+            e.preventDefault();
+            dialog.showModal();
+        });
+
+        document.getElementById('cancelPrivacy').addEventListener('click', function () {
+            dialog.close();
+        });
+
+        agree.addEventListener('change', function () {
+            confirmBtn.disabled = !agree.checked;
+        });</script>
+}
+
+<!--遮罩-->
+<div class="bannermasks"><img src="@Url.Content("~/Content/front/images/contact.jpg")" alt="&quot;&quot;" width="967" height="371" /></div>
+<!--遮罩結束-->
+<!--------------------------------換圖開始---------------------------------------------------->
+
+<div class="banner">
+    <ul>
+        <li><img src="@Url.Content("~/Content/front/images/newbanner.jpg")" alt="Tayana Yachts" /></li>
+    </ul>
+
+</div>
+<!--------------------------------換圖結束---------------------------------------------------->
+
+
+
+
+<div class="conbg">
+    <!--------------------------------左邊選單開始---------------------------------------------------->
+    <div class="left">
+
+        <div class="left1">
+            <p><span>CONTACT</span></p>
+            <ul>
+                <li><a href="#">contacts</a></li>
+            </ul>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!--------------------------------左邊選單結束---------------------------------------------------->
+    <!--------------------------------右邊選單開始---------------------------------------------------->
+    <div id="crumb"><a href="@Url.Action("Index", "Home")">Home</a> >> <a href="#"><span class="on1">Contact</span></a></div>
+    <div class="right">
+        <div class="right1">
+            <div class="title"> <span>Contact</span></div>
+
+            <!--------------------------------內容開始---------------------------------------------------->
+
+            <!--表單-->
+            <div class="from01">
+                @if (TempData["Message"] != null)
+                {
+                <div class="contact-message">@TempData["Message"]</div>
+                }
+                <p>
+                    Please Enter your contact information<span class="span01">*Required</span>
+                </p><br />
+                @using (Html.BeginForm("Index", "Contact", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+
+                    <table>
+                        <tr>
+                            <td class="from01td01">Name :</td>
+                            <td><span>*</span>@Html.TextBoxFor(m => m.Name) @Html.ValidationMessageFor(m => m.Name)</td>
+                        </tr>
+                        <tr>
+                            <td class="from01td01">Email :</td>
+                            <td><span>*</span>@Html.TextBoxFor(m => m.Email) @Html.ValidationMessageFor(m => m.Email)</td>
+                        </tr>
+                        <tr>
+                            <td class="from01td01">Phone :</td>
+                            <td><span>*</span>@Html.TextBoxFor(m => m.Phone) @Html.ValidationMessageFor(m => m.Phone)</td>
+                        </tr>
+                        <tr>
+                            <td class="from01td01">Country :</td>
+                            <td>
+                                <span>*</span>
+                                @Html.DropDownListFor(m => m.CountryId, Model.CountryList, "-- Select Country --")
+                                @Html.ValidationMessageFor(m => m.CountryId)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><span>*</span>Brochure of interest  *Which Brochure would you like to view?</td>
+                        </tr>
+                        <tr>
+                            <td class="from01td01">&nbsp;</td>
+                            <td>
+                                @Html.DropDownListFor(m => m.YachtId, Model.YachtList, "-- Select Yacht --")
+                                @Html.ValidationMessageFor(m => m.YachtId)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="from01td01">Comments:</td>
+                            <td>
+                                @Html.TextAreaFor(m => m.Comment, new { cols = "45", rows = "5" })
+                                @Html.ValidationMessageFor(m => m.Comment)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="from01td01">&nbsp;</td>
+                            <td class="f_right">@Html.ValidationMessageFor(m => m.AgreePrivacy)<a href="#" id="openPrivacy"><img src="@Url.Content("~/Content/front/images/buttom03.gif")" alt="submit" width="59" height="25" /></a></td>
+                        </tr>
+
+
+                    </table>
+                    <!--表單-->
+
+                    <!--隱私-->
+                    <dialog id="privacyDialog">
+                        <h3>@(Model.Privacy?.Title)</h3>
+                        <div class="privacy-content">@Html.Raw(Model.Privacy?.ContentHtml)</div>
+                        <label>
+                            @Html.CheckBoxFor(m => m.AgreePrivacy)
+                            I have read and agree to the Privacy Policy
+                        </label>
+                        <div>
+                            <button type="button" id="cancelPrivacy">Cancel</button>
+                            <button type="submit" id="confirmSubmit" disabled>Agree & Submit</button>
+                        </div>
+                    </dialog>
+                }
+            </div>
+
+            @Html.Raw(Model.ContactPage.ContentHtml)
+
+            <div class="box4">
+                <h4>Location</h4>
+                <p>
+                    <iframe width="695" height="518" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="@Url.Content(Model.ContactPage.MapEmbedUrl)"></iframe>
+                </p>
+
+            </div>
+
+
+
+
+            <!--------------------------------內容結束------------------------------------------------------>
+        </div>
+    </div>
+
+    <!--------------------------------右邊選單結束---------------------------------------------------->
+</div>

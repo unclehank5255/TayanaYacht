@@ -1,0 +1,74 @@
+﻿@section styles {
+    <link href="@Url.Content("~/Content/front/css/homestyle.css")" rel="stylesheet" type="text/css" />
+}
+
+
+
+<div class="bannermasks"><img src="@Url.Content("~/Content/front/images/company.jpg")" alt="&quot;&quot;" width="967" height="371" /></div>
+
+<div class="banner">
+    <ul>
+        <li><img src="@Url.Content("~/Content/front/images/newbanner.jpg")" alt="Tayana Yachts" /></li>
+    </ul>
+
+</div>
+<!--------------------------------換圖結束---------------------------------------------------->
+
+
+
+
+<div class="conbg">
+    <!--------------------------------左邊選單開始---------------------------------------------------->
+    <div class="left">
+
+        <div class="left1">
+            <p><span>COMPANY </span></p>
+            <ul>
+                <li><a href="@Url.Action("Index","Company")">About Us</a></li>
+                <li><a href="@Url.Action("Certificat","Company")">Certificat</a></li>
+
+            </ul>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!--------------------------------左邊選單結束---------------------------------------------------->
+    <!--------------------------------右邊選單開始---------------------------------------------------->
+    <div id="crumb"><a href="@Url.Action("Index","Home")">Home</a> >> <a href="@Url.Action("Index","Company")">Company  </a> >> <a href="@Url.Action("Index","Company")"><span class="on1">About Us</span></a></div>
+    <div class="right">
+        <div class="right1">
+            <div class="title"> <span>About Us</span></div>
+
+            <!--------------------------------內容開始---------------------------------------------------->
+            <div class="box3">
+                <h4>Certified Quality. Built to Last.</h4>
+                <p><img src="@Url.Content("~/Content/front/images/certificat.jpg")" alt="Certificate" width="274" height="192" /></p>
+                Every Tayana yacht is built to recognized international standards. We follow clear rules for design, materials and construction, so each boat leaves our yard ready for the open sea.<br />
+                <br />
+                Every hull, every deck and every fitting is checked before delivery. Nothing is left to chance. <br />
+                <br />Our certificates are proof of one simple thing: we build safe, strong and reliable yachts.
+                <br />
+                <br />
+                Quality you can check. Safety you can trust. Comfort you can feel.<br />
+            </div>
+
+
+
+            <!--------------------------------內容結束------------------------------------------------------>
+        </div>
+    </div>
+
+    <!--------------------------------右邊選單結束---------------------------------------------------->
+</div>

@@ -26,6 +26,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
         // GET: Admin/Countries/Create
         public ActionResult Create()
         {
+            TempData["Message"] = "填入國家和順序即可新增。";
+            TempData["MessageType"] = "info";
             return View();
         }
 
@@ -72,6 +74,8 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 db.Entry(country).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["Message"] = "編輯成功";
+                TempData["MessageType"] = "success";
                 return RedirectToAction("Index");
             }
             return View(country);
@@ -93,13 +97,22 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            if (db.ContactMessages.Any(m => m.CountryId == id))
+            {
+                TempData["Message"] = "此國家已有聯絡訊息，無法刪除";
+                TempData["MessageType"] = "warning";
+                return RedirectToAction("Index");
+            }
             if (db.Dealers.Any(d => d.CountryId == id))
             {
                 TempData["Message"] = "這個國家底下還有經銷商，請先移除或移動經銷商";
+                TempData["MessageType"] = "warning";
                 return RedirectToAction("Index");
             }
             db.Countries.Remove(country);
             db.SaveChanges();
+            TempData["Message"] = "刪除成功";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Index");
         }
 

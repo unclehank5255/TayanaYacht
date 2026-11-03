@@ -22,12 +22,12 @@ namespace TayanaYacht.Models.News
         public int Id { get; set; }
 
         [Required]
-        [StringLength(25, ErrorMessage = "{0}不能超過 {1} 個字元")]
+        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "標題")]
         public string Title { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
+        [StringLength(100, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "摘要")]
         public string Summary { get; set; }
 
@@ -47,7 +47,12 @@ namespace TayanaYacht.Models.News
         public DateTime CreatedAt { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd }", ApplyFormatInEditMode = true)]
+        [Display(Name = "發佈日期")]
+        public DateTime? PublishDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "更新時間")]
         public DateTime UpdatedAt { get; set; }
 

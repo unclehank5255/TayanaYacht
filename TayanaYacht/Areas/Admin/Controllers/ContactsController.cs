@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Ganss.Xss;
+using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Contact;
 
@@ -38,6 +39,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             db.SaveChanges();
 
             TempData["Message"] = "聯絡頁設定已儲存";
+            TempData["MessageType"] = "success";
             return RedirectToAction("Edit");
         }
 

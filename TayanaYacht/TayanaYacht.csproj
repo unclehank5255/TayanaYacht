@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AngleSharp, Version=1.7.2.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.1.7.2\lib\net472\AngleSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="AngleSharp.Css, Version=1.0.2.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
+      <HintPath>..\packages\AngleSharp.Css.1.0.2\lib\net472\AngleSharp.Css.dll</HintPath>
+    </Reference>
     <Reference Include="elFinder.AspNet, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\elFinder.AspNet.1.1.1\lib\netstandard2.0\elFinder.AspNet.dll</HintPath>
     </Reference>
@@ -55,6 +61,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlSanitizer, Version=9.0.0.0, Culture=neutral, PublicKeyToken=61c49a1a9e79cc28, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlSanitizer.9.2.1039\lib\net47\HtmlSanitizer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -63,26 +72,32 @@
       <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.6\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=10.0.0.11, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.10.0.11\lib\net462\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.8.0.0\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -178,6 +193,8 @@
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PrivacyVersionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\YachtsController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\DealersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -281,6 +298,30 @@
     <Compile Include="Migrations\202610291033150_AddAdminUser.Designer.cs">
       <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.cs" />
+    <Compile Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.Designer.cs">
+      <DependentUpon>202610301526095_RenameFileOriginNametoFileDisplayName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610310759033_AddPublishDate.cs" />
+    <Compile Include="Migrations\202610310759033_AddPublishDate.Designer.cs">
+      <DependentUpon>202610310759033_AddPublishDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610310805564_UpadatePublishDateNullAble.cs" />
+    <Compile Include="Migrations\202610310805564_UpadatePublishDateNullAble.Designer.cs">
+      <DependentUpon>202610310805564_UpadatePublishDateNullAble.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202611011916075_NewsTitleto50Summaryto100.cs" />
+    <Compile Include="Migrations\202611011916075_NewsTitleto50Summaryto100.Designer.cs">
+      <DependentUpon>202611011916075_NewsTitleto50Summaryto100.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202611012245374_AddDealerUnpublishedAt.cs" />
+    <Compile Include="Migrations\202611012245374_AddDealerUnpublishedAt.Designer.cs">
+      <DependentUpon>202611012245374_AddDealerUnpublishedAt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202611020956599_AddColumnContactMessage.cs" />
+    <Compile Include="Migrations\202611020956599_AddColumnContactMessage.Designer.cs">
+      <DependentUpon>202611020956599_AddColumnContactMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AdminUser.cs" />
     <Compile Include="Models\Contact\Contact.cs" />
@@ -295,6 +336,12 @@
     <Compile Include="Models\News\NewsFile.cs" />
     <Compile Include="Models\News\NewsPage.cs" />
     <Compile Include="Models\TayanaDbContext.cs" />
+    <Compile Include="Models\ViewModels\ContactPageVM.cs" />
+    <Compile Include="Models\ViewModels\DealerEditVM.cs" />
+    <Compile Include="Models\ViewModels\DealerPageVM.cs" />
+    <Compile Include="Models\ViewModels\HomeVM.cs" />
+    <Compile Include="Models\ViewModels\NewsVM.cs" />
+    <Compile Include="Models\ViewModels\YachtPageVM.cs" />
     <Compile Include="Models\Yacht\Yacht.cs" />
     <Compile Include="Models\Yacht\YachtFile.cs" />
     <Compile Include="Models\Yacht\YachtPicture.cs" />
@@ -447,6 +494,125 @@
     <Content Include="Content\elfinder\php\resources\image.png" />
     <Content Include="Content\elfinder\php\resources\video.png" />
     <Content Include="Content\elfinder\sounds\rm.wav" />
+    <Content Include="Content\front\css\csshover.htc" />
+    <Content Include="Content\front\css\homestyle.css" />
+    <Content Include="Content\front\css\iepngfix.htc" />
+    <Content Include="Content\front\css\jquery.ad-gallery.css" />
+    <Content Include="Content\front\css\js.css" />
+    <Content Include="Content\front\css\reset.css" />
+    <Content Include="Content\front\css\style.css" />
+    <Content Include="Content\front\images\about.jpg" />
+    <Content Include="Content\front\images\ad_next.png" />
+    <Content Include="Content\front\images\ad_prev.png" />
+    <Content Include="Content\front\images\ad_scroll_back.png" />
+    <Content Include="Content\front\images\ad_scroll_forward.png" />
+    <Content Include="Content\front\images\back.gif" />
+    <Content Include="Content\front\images\banner001.jpg" />
+    <Content Include="Content\front\images\banner001b.jpg" />
+    <Content Include="Content\front\images\banner002.jpg" />
+    <Content Include="Content\front\images\banner002b.jpg" />
+    <Content Include="Content\front\images\banner003.jpg" />
+    <Content Include="Content\front\images\banner003b.jpg" />
+    <Content Include="Content\front\images\banner004.jpg" />
+    <Content Include="Content\front\images\banner004b.jpg" />
+    <Content Include="Content\front\images\banner005.jpg" />
+    <Content Include="Content\front\images\banner005b.jpg" />
+    <Content Include="Content\front\images\banner006.jpg" />
+    <Content Include="Content\front\images\banner006b.jpg" />
+    <Content Include="Content\front\images\banner00_masks.png" />
+    <Content Include="Content\front\images\banner01_masks.png" />
+    <Content Include="Content\front\images\banner02_masks.png" />
+    <Content Include="Content\front\images\banner_masks.png" />
+    <Content Include="Content\front\images\bg1.jpg" />
+    <Content Include="Content\front\images\buttbg.gif" />
+    <Content Include="Content\front\images\buttleft.gif" />
+    <Content Include="Content\front\images\buttom01.gif" />
+    <Content Include="Content\front\images\buttom02.gif" />
+    <Content Include="Content\front\images\buttom03.gif" />
+    <Content Include="Content\front\images\buttright.gif" />
+    <Content Include="Content\front\images\certificat.jpg" />
+    <Content Include="Content\front\images\changbg.gif" />
+    <Content Include="Content\front\images\changbg.png" />
+    <Content Include="Content\front\images\changbg1.gif" />
+    <Content Include="Content\front\images\changbg1.png" />
+    <Content Include="Content\front\images\company.jpg" />
+    <Content Include="Content\front\images\contact.jpg" />
+    <Content Include="Content\front\images\con_bg.gif" />
+    <Content Include="Content\front\images\DEALERS.jpg" />
+    <Content Include="Content\front\images\dealers001.jpg" />
+    <Content Include="Content\front\images\dealers002.jpg" />
+    <Content Include="Content\front\images\dealers003.jpg" />
+    <Content Include="Content\front\images\dealers004.jpg" />
+    <Content Include="Content\front\images\deckplan01.jpg" />
+    <Content Include="Content\front\images\default1.jpg" />
+    <Content Include="Content\front\images\default2.jpg" />
+    <Content Include="Content\front\images\downloads.gif" />
+    <Content Include="Content\front\images\footer.jpg" />
+    <Content Include="Content\front\images\i001.jpg" />
+    <Content Include="Content\front\images\i002.jpg" />
+    <Content Include="Content\front\images\i003.jpg" />
+    <Content Include="Content\front\images\i004.jpg" />
+    <Content Include="Content\front\images\i005.jpg" />
+    <Content Include="Content\front\images\i006.jpg" />
+    <Content Include="Content\front\images\icon001.gif" />
+    <Content Include="Content\front\images\icon002.gif" />
+    <Content Include="Content\front\images\icon003.gif" />
+    <Content Include="Content\front\images\icon004.gif" />
+    <Content Include="Content\front\images\icon005.gif" />
+    <Content Include="Content\front\images\icon006.gif" />
+    <Content Include="Content\front\images\icon007.gif" />
+    <Content Include="Content\front\images\icon008.gif" />
+    <Content Include="Content\front\images\images\menu_y1_04.jpg" />
+    <Content Include="Content\front\images\images\menu_y1_05.jpg" />
+    <Content Include="Content\front\images\images\menu_y1_06.jpg" />
+    <Content Include="Content\front\images\images\menu_y2_04.jpg" />
+    <Content Include="Content\front\images\images\menu_y2_05.jpg" />
+    <Content Include="Content\front\images\images\menu_y2_06.jpg" />
+    <Content Include="Content\front\images\lefttop.gif" />
+    <Content Include="Content\front\images\loader.gif" />
+    <Content Include="Content\front\images\menu.gif" />
+    <Content Include="Content\front\images\menu1_03.gif" />
+    <Content Include="Content\front\images\menu1_04.gif" />
+    <Content Include="Content\front\images\menu1_05.gif" />
+    <Content Include="Content\front\images\menu1_06.gif" />
+    <Content Include="Content\front\images\menu1_07.gif" />
+    <Content Include="Content\front\images\menu2_03.gif" />
+    <Content Include="Content\front\images\menu2_04.gif" />
+    <Content Include="Content\front\images\menu2_05.gif" />
+    <Content Include="Content\front\images\menu2_06.gif" />
+    <Content Include="Content\front\images\menu2_07.gif" />
+    <Content Include="Content\front\images\menu_y1_03.jpg" />
+    <Content Include="Content\front\images\menu_y1_04.jpg" />
+    <Content Include="Content\front\images\menu_y1_05.jpg" />
+    <Content Include="Content\front\images\menu_y1_06.jpg" />
+    <Content Include="Content\front\images\menu_y2_03.jpg" />
+    <Content Include="Content\front\images\menu_y2_04.jpg" />
+    <Content Include="Content\front\images\menu_y2_05.jpg" />
+    <Content Include="Content\front\images\menu_y2_06.jpg" />
+    <Content Include="Content\front\images\new01.png" />
+    <Content Include="Content\front\images\newbanner.jpg" />
+    <Content Include="Content\front\images\news.gif" />
+    <Content Include="Content\front\images\new_top01.png" />
+    <Content Include="Content\front\images\opa75.png" />
+    <Content Include="Content\front\images\pit001.jpg" />
+    <Content Include="Content\front\images\pit002.jpg" />
+    <Content Include="Content\front\images\pit003.jpg" />
+    <Content Include="Content\front\images\pit004.jpg" />
+    <Content Include="Content\front\images\pit006.jpg" />
+    <Content Include="Content\front\images\pit007.jpg" />
+    <Content Include="Content\front\images\pit008.jpg" />
+    <Content Include="Content\front\images\pit009.jpg" />
+    <Content Include="Content\front\images\pit010.jpg" />
+    <Content Include="Content\front\images\sub_bg.gif" />
+    <Content Include="Content\front\images\test002.jpg" />
+    <Content Include="Content\front\images\test1.jpg" />
+    <Content Include="Content\front\images\tog.jpg" />
+    <Content Include="Content\front\images\top.gif" />
+    <Content Include="Content\front\images\transparent.gif" />
+    <Content Include="Content\front\images\ya01.jpg" />
+    <Content Include="Content\front\js\jquery.ad-gallery.js" />
+    <Content Include="Content\front\js\jquery.cycle.all.2.74.js" />
+    <Content Include="Content\front\js\jquery.min.js" />
     <Content Include="Content\images\DEFAULT.png" />
     <Content Include="Content\jquery-ui-1.14.2\AUTHORS.txt" />
     <Content Include="Content\jquery-ui-1.14.2\external\jquery\jquery.js" />
@@ -574,6 +740,8 @@
     <Content Include="Areas\Admin\Views\PrivacyVersions\Index.cshtml" />
     <Content Include="Areas\Admin\Views\News\ManageFiles.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
+    <Content Include="Content\front\images\images\Thumbs.db" />
+    <Content Include="Content\front\images\Thumbs.db" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -907,28 +1075,20 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Yachts\Create.cshtml" />
-    <Content Include="Views\Yachts\Delete.cshtml" />
-    <Content Include="Views\Yachts\Details.cshtml" />
-    <Content Include="Views\Yachts\Edit.cshtml" />
     <Content Include="Views\Yachts\Index.cshtml" />
-    <Content Include="Views\News\Create.cshtml" />
-    <Content Include="Views\News\Delete.cshtml" />
     <Content Include="Views\News\Details.cshtml" />
-    <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
-    <Content Include="Views\Dealers\Create.cshtml" />
-    <Content Include="Views\Dealers\Delete.cshtml" />
-    <Content Include="Views\Dealers\Details.cshtml" />
-    <Content Include="Views\Dealers\Edit.cshtml" />
     <Content Include="Views\Dealers\Index.cshtml" />
+    <Content Include="Views\Shared\_FrontLayout.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\Certificat.cshtml" />
+    <Content Include="Views\Contact\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Content\front\images\新增資料夾\" />
     <Folder Include="Files\" />
   </ItemGroup>
   <ItemGroup>
@@ -1030,6 +1190,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202610291033150_AddAdminUser.resx">
       <DependentUpon>202610291033150_AddAdminUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610301526095_RenameFileOriginNametoFileDisplayName.resx">
+      <DependentUpon>202610301526095_RenameFileOriginNametoFileDisplayName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610310759033_AddPublishDate.resx">
+      <DependentUpon>202610310759033_AddPublishDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610310805564_UpadatePublishDateNullAble.resx">
+      <DependentUpon>202610310805564_UpadatePublishDateNullAble.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202611011916075_NewsTitleto50Summaryto100.resx">
+      <DependentUpon>202611011916075_NewsTitleto50Summaryto100.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202611012245374_AddDealerUnpublishedAt.resx">
+      <DependentUpon>202611012245374_AddDealerUnpublishedAt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202611020956599_AddColumnContactMessage.resx">
+      <DependentUpon>202611020956599_AddColumnContactMessage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

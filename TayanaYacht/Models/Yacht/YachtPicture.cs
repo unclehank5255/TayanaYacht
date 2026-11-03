@@ -13,7 +13,7 @@ namespace TayanaYacht.Models.Yacht
         //如果未來新增欄位需要同步維護
         Gallery,
         Layout,
-        Dimension
+        Dimension 
     }
     public class YachtPicture
     {

@@ -45,9 +45,7 @@
 </p>
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-success">
-        @TempData["Message"]
-    </div>
+    <div class="alert alert-@(TempData["MessageType"])">@TempData["Message"]</div>
 }
 <div class="my-2">
     @Html.ActionLink("返回列表", "Index", null, new { @class = "btn btn-outline-secondary" })
@@ -57,6 +55,20 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(false, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
+
+    <div class="card mb-3">
+        <div class="card-header">發布設定 (要送出表單才會儲存狀態)</div>
+        <div class="card-body">
+            <div class="form-check mb-2">
+                @Html.CheckBoxFor(model => model.IsLatest, new { @class = "form-check-input" })
+                @Html.LabelFor(model => model.IsLatest, new { @class = "form-check-label" })
+            </div>
+            <div class="form-check">
+                @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-check-input" })
+                @Html.LabelFor(model => model.IsPublished, new { @class = "form-check-label" })
+            </div>
+        </div>
+    </div>
 
     <div class="card mb-3">
         <div class="card-header">基本資訊</div>
@@ -75,20 +87,6 @@
                 @Html.LabelFor(model => model.StatusText, new { @class = "form-label" })
                 @Html.EditorFor(model => model.StatusText, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.StatusText, "", new { @class = "text-danger" })
-            </div>
-        </div>
-    </div>
-
-    <div class="card mb-3">
-        <div class="card-header">發布設定</div>
-        <div class="card-body">
-            <div class="form-check mb-2">
-                @Html.CheckBoxFor(model => model.IsLatest, new { @class = "form-check-input" })
-                @Html.LabelFor(model => model.IsLatest, new { @class = "form-check-label" })
-            </div>
-            <div class="form-check">
-                @Html.CheckBoxFor(model => model.IsPublished, new { @class = "form-check-input" })
-                @Html.LabelFor(model => model.IsPublished, new { @class = "form-check-label" })
             </div>
         </div>
     </div>
