@@ -1,4 +1,4 @@
-﻿using Ganss.Xss;
+﻿using TayanaYacht.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -165,6 +165,9 @@ namespace TayanaYacht.Areas.Admin.Controllers
             }
             if (TryUpdateModel(yacht, new[] { "SeriesName", "ModelName", "StatusText", "OverviewHtml", "PrincipleDimensionHtml", "SpecificationHtml", "IsLatest", "IsPublished" }))
             {
+                yacht.OverviewHtml = HtmlContentSanitizer.Sanitize(yacht.OverviewHtml);
+                yacht.PrincipleDimensionHtml = HtmlContentSanitizer.Sanitize(yacht.PrincipleDimensionHtml);
+                yacht.SpecificationHtml = HtmlContentSanitizer.Sanitize(yacht.SpecificationHtml);
                 bool IsDraft = (string.IsNullOrWhiteSpace(yacht.YachtBannerPath) || string.IsNullOrWhiteSpace(yacht.OverviewHtml) || string.IsNullOrWhiteSpace(yacht.PrincipleDimensionHtml) || string.IsNullOrWhiteSpace(yacht.SpecificationHtml)) && yacht.IsPublished;
                 if (IsDraft)
                 {

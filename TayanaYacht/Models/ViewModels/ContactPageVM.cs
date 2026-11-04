@@ -10,17 +10,21 @@ namespace TayanaYacht.Models.ViewModels
         [Required(ErrorMessage = "{0}是必填項")]
         [StringLength(50, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "姓名")]
+        [AllowHtml]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "{0}是必填項")]
         [EmailAddress]
         [StringLength(254, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "電子郵件")]
+        [AllowHtml]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "{0}是必填項")]
         [StringLength(30, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "電話")]
+        [RegularExpression(@"^[0-9+\-() ]*$", ErrorMessage = "{0}格式不正確")]
+        [AllowHtml]
         public string Phone { get; set; }
 
         [Required(ErrorMessage = "請選擇{0}")]
@@ -32,6 +36,7 @@ namespace TayanaYacht.Models.ViewModels
         [Required(ErrorMessage = "{0}是必填項")]
         [StringLength(100, ErrorMessage = "{0}不能超過 {1} 個字元")]
         [Display(Name = "評論")]
+        [AllowHtml]
         public string Comment { get; set; }
 
         [Required(ErrorMessage = "請選擇{0}")]

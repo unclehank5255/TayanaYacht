@@ -1,4 +1,4 @@
-﻿using Ganss.Xss;
+﻿using TayanaYacht.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -61,6 +61,13 @@ namespace TayanaYacht.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                privacyVersion.ContentHtml = HtmlContentSanitizer.Sanitize(privacyVersion.ContentHtml);
+                if (string.IsNullOrWhiteSpace(privacyVersion.ContentHtml))
+                {
+                    ModelState.AddModelError("ContentHtml", "內容被安全過濾後為空，請重新輸入");
+                    return View(privacyVersion);
+                }
+                db.PrivacyVersions.Add(privacyVersion);
                 db.SaveChanges();
                 TempData["Message"] = "創建成功";
                 TempData["MessageType"] = "success";
@@ -138,10 +145,10 @@ namespace TayanaYacht.Areas.Admin.Controllers
 
             if (TryUpdateModel(existing, new[] { "Title", "ContentHtml" }))
             {
-                existing.ContentHtml = new HtmlSanitizer().Sanitize(existing.ContentHtml);
-                if (string.IsNullOrEmpty(existing.ContentHtml))
+                existing.ContentHtml = HtmlContentSanitizer.Sanitize(existing.ContentHtml);
+                if (string.IsNullOrWhiteSpace(existing.ContentHtml))
                 {
-                    ModelState.AddModelError("ContentHtml", "<scripts>等字體會讓內容被吃掉，內容不能為空");
+                    ModelState.AddModelError("ContentHtml", "內容被安全過濾後為空，請重新輸入");
                     return View(existing);
                 }
                 db.SaveChanges();
