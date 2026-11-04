@@ -46,6 +46,7 @@ developer: unclehank5255
 - 驗證：Forms Authentication（後台）、Anti-forgery token
 - 密碼雜湊：System.Web.Helpers Crypto（HashPassword / VerifyHashedPassword）
 - 分頁：沒有使用套件，用 LINQ 的 Skip / Take 寫
+- HTML 內容過濾：HtmlSanitizer（Ganss.Xss），以白名單清理後台輸入的 HTML
 
 ## 功能
 
