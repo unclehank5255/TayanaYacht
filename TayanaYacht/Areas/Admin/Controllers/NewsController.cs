@@ -1,4 +1,4 @@
-﻿using Ganss.Xss;
+﻿using TayanaYacht.Helpers;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
@@ -137,6 +137,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                news.ContentHtml = HtmlContentSanitizer.Sanitize(news.ContentHtml);
                 news.UpdatedAt = DateTime.Now;
                 news.UnpublishedAt = DateTime.Now;
                 db.News.Add(news);
@@ -181,7 +182,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
                 }
                 existingNews.Title = news.Title;
                 existingNews.Summary = news.Summary;
-                existingNews.ContentHtml = news.ContentHtml;
+                existingNews.ContentHtml = HtmlContentSanitizer.Sanitize(news.ContentHtml);
                 existingNews.NewsCoverPath = news.NewsCoverPath;
                 existingNews.UpdatedAt = DateTime.Now;
                 TempData["Message"] = "編輯成功";

@@ -1,4 +1,4 @@
-﻿using Ganss.Xss;
+﻿using TayanaYacht.Helpers;
 using System.Web.Mvc;
 using TayanaYacht.Models;
 using TayanaYacht.Models.Contact;
@@ -36,6 +36,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 db.Contacts.Add(contact);
             }
+            contact.ContentHtml = HtmlContentSanitizer.Sanitize(contact.ContentHtml);
             db.SaveChanges();
 
             TempData["Message"] = "聯絡頁設定已儲存";

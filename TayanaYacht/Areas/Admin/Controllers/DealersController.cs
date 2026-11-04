@@ -1,4 +1,4 @@
-﻿using Ganss.Xss;
+﻿using TayanaYacht.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -104,7 +104,7 @@ namespace TayanaYacht.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            dealer.ContentHtml = vm.ContentHtml;
+            dealer.ContentHtml = HtmlContentSanitizer.Sanitize(vm.ContentHtml);
             dealer.CountryId = vm.CountryId;
             dealer.Name = vm.Name;
             dealer.City = vm.City;
