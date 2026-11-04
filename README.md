@@ -1,7 +1,7 @@
 ---
 project: Tayana Yacht
 category: Portfolio Project (Back-end)
-version: 1.0.0
+version: 1.0.1
 summary: A yacht brand website with an admin system for managing yachts, news, dealers and contact messages.
 features: Soft delete, publish rules, privacy policy versioning
 developer: unclehank5255
